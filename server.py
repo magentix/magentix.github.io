@@ -1,10 +1,11 @@
 """
 StaPy (c) Magentix
 This code is licensed under simplified BSD license license (see LICENSE for details)
-Version 1.1.2
+Version 1.1.3
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
+from socketserver import ThreadingMixIn
 import shutil
 import ssl
 import argparse
@@ -149,6 +150,10 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         return get_root_dir() + 'build/json' + path + '.json'
 
 
+class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
+    """Handle requests in a separate thread."""
+
+
 def main():
     parser = argparse.ArgumentParser(
         prog="Stapy",
@@ -162,7 +167,7 @@ def main():
     group.add_argument("--tls-keyfile", dest="keyfile", help="Server TLS private key file", metavar="FILE")
     args = parser.parse_args()
 
-    httpd = HTTPServer((args.hostname, args.port), SimpleHTTPRequestHandler)
+    httpd = ThreadedHTTPServer((args.hostname, args.port), SimpleHTTPRequestHandler)
 
     protocol = 'http'
     if args.certfile is not None and args.keyfile is not None:
