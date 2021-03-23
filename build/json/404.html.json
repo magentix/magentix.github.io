@@ -1,0 +1,8 @@
+{
+  "title": "Page introuvable",
+  "description": "La page recherchée n'existe pas",
+  "robots": "NOINDEX,NOFOLLOW",
+  "highlight": "",
+  "template": "build/template/error.html",
+  "content": "build/page/404.html"
+}

@@ -1,0 +1,190 @@
+<p><a href="/blog.html">Billets</a> : Les PWA sont-elles adaptées au e-commerce ?</p>
+
+<hr/>
+
+<h2>Les PWA sont-elles adaptées au e-commerce ?</h2>
+
+<p class="intro">
+    Annoncée initialement comme la technologie du futur, y a-t-il un intérêt à implémenter une Progressive Web App pour un site de vente en ligne ?
+</p>
+
+<p>
+    L'idée de ce billet m'est venue à la suite d'un Tweet de <strong>Willem Wigman</strong>, développeur Magento.
+    Sur ce Tweet <strong>Willem</strong> expose les résultats <strong>Google Page Speed</strong> assez médiocres de plusieurs sites Magento en PWA :
+</p>
+
+<p>
+    <a href="https://twitter.com/willemwigman/status/1270804325057597440">willem wigman (@willemwigman) a tweeté à 9:45 PM on mer., juin 10, 2020</a>
+</p>
+
+<p>
+    Soyons honnêtes, l'analyse et la conclusion tirée par Willem n'ont aucun intérêt. <strong>Google Page Speed</strong> ne révèle en rien la qualité d'une PWA. Le front de Magento a nativement un score tout aussi mauvais.
+</p>
+
+<p>
+    La réponse de <strong>Sergii Shymko</strong> (ingénieur et architecte chez Magento) est cependant plutôt intéressante :
+</p>
+
+<blockquote>
+    As years pass by after the initial #PWA hype, "it's the future" sounds less and less convincing. It may become an outdated over-engineered technology that never delivered on its promise before the future comes. Headless is the future (or present), but not necessarily PWA.
+    <br /><br />
+    - Sergii Shymko
+</blockquote>
+
+<p>
+    Alors les <strong>Progressive Web App</strong> ont-elles un avenir pour le e-commerce ?
+</p>
+
+<h3>Origine</h3>
+
+<p>En 2015, Frances Berriman (designer) et Alex Russell (ingénieur pour Google Chrome) introduisent pour la première fois le concept de <strong>Progressive Web App</strong>.</p>
+
+<p>Evidemment lorsque quelque chose vient de chez Google, cela ne passe pas inaperçu.</p>
+
+<p>L'idée de base est de proposer aux internautes une application Web qui fonctionne de la même manière qu'une application native.</p>
+
+<h3>Mise en oeuvre</h3>
+
+<p>Les PWA reposent principalement sur les <strong>Services Workers</strong>, un proxy placé entre l'application et le navigateur.</p>
+
+<p>Avec l'interface de cache, il est possible de naviguer sur le site sans connexion, à condition de l'avoir visité au préalable en mode connecté.</p>
+
+<p>Le principe fait rêver : on décide de placer dans le cache les ressources de notre choix (js, css, contenus, images...) et celles-ci restent accessibles hors connexion.</p>
+
+<p>
+    Ainsi, je pourrai imaginer transformer très rapidement mon site en PWA. Plutôt facile, il est entièrement statique.
+    Je place les JS et CSS, mais également les 5 derniers billets dans le cache. Vous pourriez donc naviguer sur le site très rapidement (instantanément) et lire certains articles sans connexion.
+</p>
+
+<p>
+    Sur iOS le cache est limité à 50mb. Ce n'est que personnel mais je pense qu'il est préférable d'éviter de saturer la mémoire des téléphones des utilisateurs. Le choix d'iOS est une bonne chose.
+</p>
+
+<p>
+    Je pourrai également vous proposer d'ajouter l'application à l'écran d'accueil et vous envoyer des pushs.
+</p>
+
+<p>
+    Une <strong>Progressive Web App</strong> n'est pas plus compliquée que ça. Un très bon exemple basique de PWA est proposé par <strong>James Johnson</strong> : <a href="https://github.com/jamesjohnson280/hello-pwa">Hello PWA</a>.
+</p>
+
+<h3>Navigateurs</h3>
+
+<p>
+    Entre l'annonce de Google en 2015 et 2018, il ne se passe concrètement pas grand-chose. Les bases sont posées, et bien que <strong>Chrome</strong> implémente les Services Workers dès janvier 2015, ce n'est pas le cas des concurrents.
+</p>
+
+<p>
+    Certains "<strong>Early Adopters</strong>" l'utilisent, mais de manière générale le coût d'implémentation n'est pas justifié par rapport au marché.
+</p>
+
+<p>
+    Il faudra donc attendre 2018 pour que ça bouge avec l'arrivée des Services Workers dans <strong>Edge</strong> et <strong>Safari</strong>.
+</p>
+
+<p>
+    C'est d'ailleurs en 2018 qu'émergent les premières applications PWA pour Magento : Deity Falcon, Vue Storefront, Front-Commerce, PWA Studio... C'est aussi la réponse à un front natif peu populaire et inutilement complexe.
+</p>
+
+<h3>Application</h3>
+
+<p>
+    Placer l'intégralité d'une page en cache pour une consultation hors ligne implique les mêmes problématiques qu'avec les solutions de cache serveur : Varnish et les ESI ou un FPC avec de l'Ajax.
+</p>
+
+<p>
+    Comment rafraîchir les zones dynamiques d'une page si tout le contenu est en cache ? Pour cela les frameworks tels que <strong>React</strong>, <strong>Vue.js</strong> ou <strong>Angular</strong> sont parfaitement adaptées.
+    L'idée est de créer un <strong>shell</strong> (l'emballage de l'application placée en cache) contenant tous les éléments statiques et de servir le contenu via des APIs (REST, GraphQL...).
+</p>
+
+<p>
+    Nous obtenons alors ce que certains appellent une application Web "<strong>moderne</strong>". Cela a également l'avantage de proposer un front complètement isolé et indépendant d'un CMS / ERP.
+</p>
+
+<p>
+    Si vous utilisez <strong>Firefox</strong> et que vous indiquez la commande suivante :
+</p>
+
+<pre>about:debugging#workers</pre>
+
+<p>
+    Vous obtenez un apperçu des sites sur lequels vous naviguez et qui implémentent les Services Workers. J'ai pour ma part majoritairement de gros acteurs :
+    Slack, Banggood, Invision, Pinterest, Le Monde, Spotify, Reddit...
+</p>
+
+<h3>Limites</h3>
+
+<p>
+    Les PWA sont, je pense, parfaitement adaptées à un intranet, une interface d'administration, un compte client, un service (streaming, réseau social...) mais pas pour du e-commerce.
+</p>
+
+<p>
+    Essayez de passer en mode hors connexion une PWA e-commerce.
+    Vous aurez au mieux un message indiquant que vous êtes déconnecté et la possibilité de parcourir les pages déjà visitées, c'est tout.
+    Il n'y aura rien d'autre à faire qu'attendre le retour du réseau pour continuer.
+</p>
+
+<blockquote>
+    You are offline, some of the functionalities are limited.
+</blockquote>
+
+<blockquote>
+    The product, category or CMS page is not available in Offline mode. Redirecting to Home.
+</blockquote>
+
+<p>
+    L'énergie dépensée à la mise en place de la Progressive Web App ne vaut peut-être pas la peine pour si peu.
+</p>
+
+<p>
+    La question du SEO est également très souvent abordée sur les PWA à base de JS (surtout les SPA, Single Page Application), car l'impact est important.
+    Google est conscient que de référencer une telle application lui demande une énergie considérable,
+    et propose le <strong>prerender</strong> (prerender.io, rendertron) pour une alternative HTML. Une sorte de cloaking autorisé.
+    On ajoute une difficulté supplémentaire sur un sujet primordial.
+</p>
+
+<p>
+    Une PWA est un hybride entre un site et une application, il ne faut pas que cela soit au détriement des bonnes
+    pratiques acquises sur nos sites depuis de nombreuses années : sémantique, accessibilité et interopérabilité.
+</p>
+
+<p>
+    Les arguments avancés en faveur des PWA sont discutables :
+</p>
+
+<ul>
+    <li>
+        <strong>la vitesse ?</strong> Certes, un site classique n'a pas un affichage instantané (grâce au shell), mais un TTFB inférieur à 200ms est largement acceptable,
+        avec l'effet de chargement à 2 vitesses en moins (certains éléments dynamiques qui apparaissent au fur à mesure).
+    </li>
+    <li>
+        <strong>un meilleur ROI ?</strong> Une PWA s'accompagne inévitablement d'une refonte totale. C'est l'occasion de faire mieux qu'avant mais cela aurait été certainement
+        le cas sur un site traditionnel.
+    </li>
+    <li>
+        <strong>une présence hors ligne ?</strong> Non, personne ne parviendra à naviguer correctement et à passer une commande sans connexion.
+    </li>
+    <li>
+        <strong>un site du furur ?</strong> On ne peut prédire l'avenir, une technologie peut disparaître aussi vite qu'elle est apparue. C'est un choix stratégique mais en rien une avance sur la concurence.
+    </li>
+</ul>
+
+<p>
+    Il faut également noter que de nombreuses fonctionnalités d'une application native ne sont pas disponibles sur une PWA : GPS, caméra, capteur d'empreintes...
+    Il est fort à parier que cela ne soit jamais le cas (iOS ne supporte pas les pushs).
+</p>
+
+<p>
+    Les PWA sont portées principalement par <strong>Alex Russell</strong> (Chrome). Les autres navigateurs n'ont, à juste titre, aucune obligation d'implémenter les outils nécessaires à leur mise en oeuvre.
+</p>
+
+<blockquote>
+    Un point important du Web c'est qu'Apple n'a aucune obligation de jouer au jeu de Google et suivre leur calendrier. Aucun navigateur ne devrait se sentir forcé de jouer le jeu de Google. Personne ne devrait avoir à jouer le jeu de Google.
+    <br /><br />
+    - <a href="https://twitter.com/HTeuMeuLeu/status/1235499647612997632">@HTeuMeuLeu</a>
+</blockquote>
+
+<p>
+    L'usage des PWA doit rester dans le cadre de projets bien spécifiques dont l'intérêt est réél.
+    Pour un site e-commerce la <strong>Progressive Web App</strong> n'est, je pense, tout simplement pas utile. Investissez dans l'UI, l'accessibilité, le SEO, le SEA, la sécurité, mais pas dans une PWA.
+</p>
