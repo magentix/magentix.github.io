@@ -117,25 +117,25 @@ article a {
     background-position: 0 10px
 }
 .cubes {
-    background-image: url(../icons/cubes.png)
+    background-image: url(../images/icons/cubes.png)
 }
 .code {
-    background-image: url(../icons/code.png)
+    background-image: url(../images/icons/code.png)
 }
 .heartbeat {
-    background-image: url(../icons/heartbeat.png)
+    background-image: url(../images/icons/heartbeat.png)
 }
 .paper-plane-o {
-    background-image: url(../icons/paper-plane-o.png)
+    background-image: url(../images/icons/paper-plane-o.png)
 }
 .book {
-    background-image: url(../icons/book.png)
+    background-image: url(../images/icons/book.png)
 }
 .balance-scale {
-    background-image: url(../icons/balance-scale.png)
+    background-image: url(../images/icons/balance-scale.png)
 }
 .user-secret {
-    background-image: url(../icons/user-secret.png)
+    background-image: url(../images/icons/user-secret.png)
 }
 
 .rss a {
