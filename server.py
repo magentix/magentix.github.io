@@ -68,13 +68,10 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 except OSError:
                     result = self.get_error()
 
-        try:
-            self.send_response(result['status'])
-            self.send_header('Content-type', result['type'])
-            self.end_headers()
-            self.wfile.write(result['content'])
-        except BrokenPipeError:
-            pass
+        self.send_response(result['status'])
+        self.send_header('Content-type', result['type'])
+        self.end_headers()
+        self.wfile.write(result['content'])
 
     def send_response(self, code, message=None):
         self.send_response_only(code, message)
@@ -108,7 +105,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                             get_file_content(get_root_dir() + value) if value else ''
                         )
                     else:
-                        content = content.replace('{{ ' + key + ' }}', value)
+                        content = content.replace('{{ ' + key + ' }}', value if value else '')
                 self.save_html(content)
                 status = 200
             except Exception as e:
