@@ -86,15 +86,16 @@ The template file is the skeleton of the page:
         <meta charset="utf-8">
         <title>{{ title }}</title>
         <meta name="description" content="{{ description }}" />
-        <link rel="stylesheet" href="/static/css/style.css" />
+        <link rel="stylesheet" href="/css/style.css" />
     </head>
     <body>
-        {{ content }}
+        {% content %}
     </body>
 </html>
 ```
 
-All variables in braces will be replaced with the data from the json file.
+* All variables in double curly braces {{ }} will be replaced with the text declared in the json file for the var.
+* All variables in curly brace percent {% %} will be replaced with the content of the file declared in the json file for the var.
 
 The **content** variable will be replaced with the content of the file defined in the json.
 
@@ -127,6 +128,8 @@ sh crawler.sh https://localhost.stapy:4443
 200 https://localhost.stapy:4443/hello.html
 ...
 ```
+
+Feel free to delete the `web` directory and launch the crawler.
 
 ## Netlify
 

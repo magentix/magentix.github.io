@@ -1,7 +1,7 @@
 """
 StaPy (c) Magentix
 This code is licensed under simplified BSD license license (see LICENSE for details)
-Version 1.1.3
+Version 1.2.0
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -11,10 +11,6 @@ import ssl
 import argparse
 import os
 import json
-
-
-def get_content_keys():
-    return ['content', 'highlight']
 
 
 def get_content_types():
@@ -32,6 +28,10 @@ def get_content_types():
 
 def get_root_dir():
     return os.path.dirname(os.path.abspath(__file__)) + '/'
+
+
+def get_web_dir():
+    return get_root_dir() + 'web'
 
 
 def get_file_content(path, mode='r'):
@@ -82,7 +82,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def copy_resources(self):
         try:
-            copy_tree(get_root_dir() + 'build/web', get_root_dir() + 'web')
+            copy_tree(get_root_dir() + 'build/web', get_web_dir())
         except Exception as e:
             return {'status': 500, 'type': 'text/html; charset=utf-8', 'content': str(e).encode()}
 
@@ -90,7 +90,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         return {'status': 404, 'type': 'text/html; charset=utf-8', 'content': b'404 not found'}
 
     def get_file(self):
-        content = get_file_content(get_root_dir() + 'web' + self.path, 'rb')
+        content = get_file_content(get_web_dir() + self.path, 'rb')
 
         return {'status': 200, 'type': self.get_content_type(), 'content': content}
 
@@ -100,20 +100,24 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             try:
                 data = json.load(file)
                 file.close()
-                page_content = get_file_content(get_root_dir() + data['template'])
+                content = get_file_content(get_root_dir() + data['template'])
                 for (key, value) in data.items():
-                    if value and key in get_content_keys():
-                        value = get_file_content(get_root_dir() + value)
-                    page_content = page_content.replace('{{ ' + key + ' }}', value)
-                self.save_html(page_content)
+                    if '{% ' + key + ' %}' in content:
+                        content = content.replace(
+                            '{% ' + key + ' %}',
+                            get_file_content(get_root_dir() + value) if value else ''
+                        )
+                    else:
+                        content = content.replace('{{ ' + key + ' }}', value)
+                self.save_html(content)
                 status = 200
             except Exception as e:
-                page_content = str(e)
+                content = str(e)
 
-        return {'status': status, 'type': 'text/html; charset=utf-8', 'content': page_content.encode()}
+        return {'status': status, 'type': 'text/html; charset=utf-8', 'content': content.encode()}
 
     def save_html(self, content):
-        file = get_root_dir() + 'web' + self.get_page_path()
+        file = get_web_dir() + self.get_page_path()
         Path(os.path.dirname(file)).mkdir(parents=True, exist_ok=True)
         html = open(file, "w")
         html.write(content)
