@@ -1,7 +1,7 @@
 """
-StaPy (c) Magentix
+Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license license (see LICENSE for details)
-Version 1.2.0
+Version 1.2.1
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -98,14 +98,15 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 data = json.load(file)
                 file.close()
                 content = get_file_content(get_root_dir() + data['template'])
-                for (key, value) in data.items():
+                for (key, value) in list(data.items()):
                     if '{% ' + key + ' %}' in content:
                         content = content.replace(
                             '{% ' + key + ' %}',
                             get_file_content(get_root_dir() + value) if value else ''
                         )
-                    else:
-                        content = content.replace('{{ ' + key + ' }}', value if value else '')
+                        del data[key]
+                for (key, value) in data.items():
+                    content = content.replace('{{ ' + key + ' }}', value if value else '')
                 self.save_html(content)
                 status = 200
             except Exception as e:

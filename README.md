@@ -97,7 +97,7 @@ The template file is the skeleton of the page:
 * All variables in double curly braces {{ }} will be replaced with the text declared in the json file for the var.
 * All variables in curly brace percent {% %} will be replaced with the content of the file declared in the json file for the var.
 
-The **content** variable will be replaced with the content of the file defined in the json.
+**Tip:** set **false** for the variable in the json file to replace it with empty text.
 
 ## Resources
 
