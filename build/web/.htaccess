@@ -1,0 +1,29 @@
+# Avoid directory listing
+Options -Indexes
+
+# Prevent character encoding issues from server overrides
+AddDefaultCharset UTF-8
+
+# Add default Expires header
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    <FilesMatch "\.(jpg|jpeg|png|gif|js|css|ico)$">
+        ExpiresDefault "access plus 5 years"
+        Header set Cache-Control "public"
+        FileETag MTime Size
+    </FilesMatch>
+</IfModule>
+
+# Enable apache served files compression
+<ifmodule mod_deflate.c>
+    <FilesMatch "\.(css|js|x?html?|php)$">
+        SetOutputFilter DEFLATE
+    </FilesMatch>
+</ifmodule>
+
+# Update header
+<IfModule mod_headers.c>
+    Header set X-Frame-Options DENY
+    Header set X-UA-Compatible "IE=Edge"
+</IfModule>
