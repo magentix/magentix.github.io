@@ -1,7 +1,7 @@
 """
 Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license license (see LICENSE for details)
-Version 1.2.1
+Version 1.2.2
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -55,6 +55,24 @@ def copy_tree(src, dst):
                 shutil.copy2(s, d)
 
 
+def template_tags(data, content, parent=''):
+    for (key, value) in list(data.items()):
+        if key != parent and '{% ' + key + ' %}' in content:
+            content = content.replace(
+                '{% ' + key + ' %}',
+                template_tags(data, get_file_content(get_root_dir() + value), key) if value else ''
+            )
+
+    return content
+
+
+def content_tags(data, content):
+    for (key, value) in data.items():
+        content = content.replace('{{ ' + key + ' }}', value if value else '')
+
+    return content
+
+
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         result = self.copy_resources()
@@ -98,15 +116,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 data = json.load(file)
                 file.close()
                 content = get_file_content(get_root_dir() + data['template'])
-                for (key, value) in list(data.items()):
-                    if '{% ' + key + ' %}' in content:
-                        content = content.replace(
-                            '{% ' + key + ' %}',
-                            get_file_content(get_root_dir() + value) if value else ''
-                        )
-                        del data[key]
-                for (key, value) in data.items():
-                    content = content.replace('{{ ' + key + ' }}', value if value else '')
+                content = template_tags(data, content)
+                content = content_tags(data, content)
                 self.save_html(content)
                 status = 200
             except Exception as e:
