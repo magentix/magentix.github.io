@@ -17,21 +17,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Les billets de Magentix - Développeur Magento indépendant</title>
         <meta name="description" content="Articles en relation avec la performance des sites, le développement Web, la sécurité ou l'administration serveur" />
-        <link rel="stylesheet" href="/css/new.css" />
-        <link rel="stylesheet" href="/css/custom.css" />
+        <link rel="stylesheet" href="/css/style.css" />
         <meta name="robots" content="INDEX,FOLLOW" />
     </head>
     <body>
         <header>
-            <h1><a href="/"><img src="/media/magentix.png" alt="Magentix" /></a></h1>
-            <p>Développeur Magento indépendant depuis 2009</p>
-            <nav>
-                <a href="/" class="first">Accueil</a> &bull;
-                <a href="/blog.html">Billets</a>
-            </nav>
+            <div id="header-content">
+                <h1>
+                    <a href="/"><img src="/media/magentix.png" alt="Magentix" /></a>
+                </h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="/" class="first">Accueil</a> &bull;
+                    <a href="/blog.html">Billets</a>
+                </nav>
+            </div>
         </header>
         <main>
-            <h2 class="icon book rss">Billets <a href="/rss.xml"><img src="/media/rss.png" alt="Flux Rss" /></a></h2>
+            <div id="main-content">
+                <h2 class="icon book rss">Billets <a href="/rss.xml"><img src="/media/rss.png" alt="Flux Rss" /></a></h2>
 
 <article>
     <p><a href="/blog/magento-projet-open-source-histoire.html">Magento, le projet Open Source qui a transformé le commerce électronique</a></p>
@@ -55,8 +59,6 @@
     </p>
 </article>
 
-<hr/>
-
 <article>
     <p><a href="/blog/securiser-un-site-sous-magento-1.html">Sécuriser un site sous Magento 1</a></p>
     <p class="intro">
@@ -64,8 +66,6 @@
         Cela ne couvre évidemment pas les risques à 100% mais est recommandé pour pérenniser le site e-commerce au delà de la date de fin de vie annoncée pour juin 2020.
     </p>
 </article>
-
-<hr/>
 
 <article>
     <p><a href="/blog/strategie-de-securite-du-contenu-content-security-policy.html">Utiliser une stratégie de sécurité du contenu (Content Security Policy)</a></p>
@@ -76,8 +76,6 @@
     </p>
 </article>
 
-<hr/>
-
 <article>
     <p><a href="/blog/les-regles-iptables-pour-securiser-au-maximum-un-serveur-web.html">Les règles iptables pour sécuriser au maximum un serveur Web</a></p>
     <p class="intro">
@@ -85,8 +83,6 @@
         Seuls quelques IPs sont autorisés à accéder au reste. Voici comment le mettre en place avec iptables.
     </p>
 </article>
-
-<hr/>
 
 <article>
     <p><a href="/blog/analyser-les-requetes-sql-avec-les-logs-mysql.html">Analyser les requêtes SQL avec les logs MySQL</a></p>
@@ -96,8 +92,6 @@
     </p>
 </article>
 
-<hr/>
-
 <article>
     <p><a href="/blog/performance-du-code-php-avec-xhprof.html">Contrôler la performance du code PHP avec l'outil de profiling XHProf</a></p>
     <p class="intro">
@@ -105,16 +99,14 @@
         Bien qu'aujourd'hui l'extension ne soit plus maintenue par Facebook, des forks assurent les évolutions (compatibilité avec les dernières versions de PHP).
     </p>
 </article>
+            </div>
         </main>
         <footer>
-            <p>Magentix © 2009 / 2021 &bull; Made with <a href="https://stapy.magentix.fr">StaPy</a></p>
-            <p><a href="/mentions.html">Mentions légales et confidentialité</a></p>
-            <dl>
-                <dt>Adresse :</dt>
-                <dd>38 rue de la blanchisserie - 59450 SIN-LE-NOBLE - FRANCE</dd>
-                <dt>SIRET :</dt>
-                <dd>80529846000033</dd>
-            </dl>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2021</p>
+                <p class="made">Réalisé avec <a href="https://stapy.magentix.fr">StaPy</a></p>
+                <nav><a href="/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
         </footer>
         
     </body>

@@ -2,6 +2,6 @@
   "title": "Page introuvable",
   "description": "La page recherchée n'existe pas",
   "robots": "NOINDEX,NOFOLLOW",
-  "template": "build/template/error.html",
+  "template": "build/template/default.html",
   "content": "build/page/404.html"
 }

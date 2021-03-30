@@ -17,21 +17,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CSP : utiliser une stratégie de sécurité du contenu (Content Security Policy)</title>
         <meta name="description" content="Comment améliorer la sécurité du site avec les CSP Content Security Policy dont les attaques XSS et les injections de contenu. Apprenez par un exemple à définir une stratégie de sécurité." />
-        <link rel="stylesheet" href="/css/new.css" />
-        <link rel="stylesheet" href="/css/custom.css" />
+        <link rel="stylesheet" href="/css/style.css" />
         <meta name="robots" content="INDEX,FOLLOW" />
     </head>
     <body>
         <header>
-            <h1><a href="/"><img src="/media/magentix.png" alt="Magentix" /></a></h1>
-            <p>Développeur Magento indépendant depuis 2009</p>
-            <nav>
-                <a href="/" class="first">Accueil</a> &bull;
-                <a href="/blog.html">Billets</a>
-            </nav>
+            <div id="header-content">
+                <h1>
+                    <a href="/"><img src="/media/magentix.png" alt="Magentix" /></a>
+                </h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="/" class="first">Accueil</a> &bull;
+                    <a href="/blog.html">Billets</a>
+                </nav>
+            </div>
         </header>
         <main>
-            <p><a href="/blog.html">Billets</a> : Utiliser une stratégie de sécurité du contenu (Content Security Policy)</p>
+            <div id="main-content">
+                <p><a href="/blog.html">Billets</a> : Utiliser une stratégie de sécurité du contenu (Content Security Policy)</p>
 
 <hr/>
 
@@ -250,16 +254,14 @@
 <p>Si comme une grande majorité de sites vous implémentez Google Analytics, vous pouvez appliquer la stratégie de base suivante :</p>
 
 <pre>default-src 'self'; script-src 'self' 'unsafe-inline' www.googletagmanager.com www.google-analytics.com; img-src 'self' www.google-analytics.com</pre>
+            </div>
         </main>
         <footer>
-            <p>Magentix © 2009 / 2021 &bull; Made with <a href="https://stapy.magentix.fr">StaPy</a></p>
-            <p><a href="/mentions.html">Mentions légales et confidentialité</a></p>
-            <dl>
-                <dt>Adresse :</dt>
-                <dd>38 rue de la blanchisserie - 59450 SIN-LE-NOBLE - FRANCE</dd>
-                <dt>SIRET :</dt>
-                <dd>80529846000033</dd>
-            </dl>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2021</p>
+                <p class="made">Réalisé avec <a href="https://stapy.magentix.fr">StaPy</a></p>
+                <nav><a href="/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
         </footer>
         <script type="text/javascript" src="/js/highlight.min.js"></script>
 <script type="text/javascript" src="/js/app.js"></script>

@@ -17,21 +17,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Nettoyage de printemps d'un système Ubuntu / Debian</title>
         <meta name="description" content="Les caches, les logs ou encore des fichiers obsolètes peuvent alourdir inutilement les disques durs : un nettoyage complet s'impose." />
-        <link rel="stylesheet" href="/css/new.css" />
-        <link rel="stylesheet" href="/css/custom.css" />
+        <link rel="stylesheet" href="/css/style.css" />
         <meta name="robots" content="INDEX,FOLLOW" />
     </head>
     <body>
         <header>
-            <h1><a href="/"><img src="/media/magentix.png" alt="Magentix" /></a></h1>
-            <p>Développeur Magento indépendant depuis 2009</p>
-            <nav>
-                <a href="/" class="first">Accueil</a> &bull;
-                <a href="/blog.html">Billets</a>
-            </nav>
+            <div id="header-content">
+                <h1>
+                    <a href="/"><img src="/media/magentix.png" alt="Magentix" /></a>
+                </h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="/" class="first">Accueil</a> &bull;
+                    <a href="/blog.html">Billets</a>
+                </nav>
+            </div>
         </header>
         <main>
-            <p><a href="/blog.html">Billets</a> : Nettoyage de printemps d'un système Ubuntu / Debian</p>
+            <div id="main-content">
+                <p><a href="/blog.html">Billets</a> : Nettoyage de printemps d'un système Ubuntu / Debian</p>
 
 <hr/>
 
@@ -162,16 +166,14 @@
 <pre>1       10      log.flush       find /var/log/ -type f -regex '.*\.[0-9]+\.gz$' -delete
 1       20      journal.flush   journalctl --vacuum-time=1d > /dev/null 2>&1
 1       30      thumb.flush     find ~/.thumbnails -type f -ctime +7 -delete</pre>
+            </div>
         </main>
         <footer>
-            <p>Magentix © 2009 / 2021 &bull; Made with <a href="https://stapy.magentix.fr">StaPy</a></p>
-            <p><a href="/mentions.html">Mentions légales et confidentialité</a></p>
-            <dl>
-                <dt>Adresse :</dt>
-                <dd>38 rue de la blanchisserie - 59450 SIN-LE-NOBLE - FRANCE</dd>
-                <dt>SIRET :</dt>
-                <dd>80529846000033</dd>
-            </dl>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2021</p>
+                <p class="made">Réalisé avec <a href="https://stapy.magentix.fr">StaPy</a></p>
+                <nav><a href="/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
         </footer>
         <script type="text/javascript" src="/js/highlight.min.js"></script>
 <script type="text/javascript" src="/js/app.js"></script>
