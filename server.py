@@ -56,7 +56,7 @@ def copy_tree(src, dst):
 
 
 def template_tags(data, content, parent=''):
-    for (key, value) in list(data.items()):
+    for (key, value) in data.items():
         if key != parent and '{% ' + key + ' %}' in content:
             content = content.replace(
                 '{% ' + key + ' %}',
