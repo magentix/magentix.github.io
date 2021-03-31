@@ -13,6 +13,5 @@ do
   path=$(echo $file | sed -e "s/\.json//g;s/$base//g;s/index\.html//g")
   url="$host$path"
 
-  curl -s -o /dev/null -w "%{http_code}" "$url"
-  echo " $url"
+  echo $(curl -s -o /dev/null -w "%{http_code} %{time_total} $url" "$url")
 done
