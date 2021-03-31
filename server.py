@@ -11,6 +11,7 @@ import ssl
 import argparse
 import os
 import json
+import re
 
 
 def get_content_types():
@@ -55,6 +56,12 @@ def copy_tree(src, dst):
                 shutil.copy2(s, d)
 
 
+def clean_page(content):
+    content = re.sub(r'\n+', '\n', content)
+
+    return content
+
+
 def template_tags(data, content, parent=''):
     for (key, value) in data.items():
         if key != parent and '{% ' + key + ' %}' in content:
@@ -70,7 +77,7 @@ def content_tags(data, content):
     for (key, value) in data.items():
         content = content.replace('{{ ' + key + ' }}', value if value else '')
 
-    return content
+    return clean_page(content)
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
