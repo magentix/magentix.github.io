@@ -1,7 +1,7 @@
 """
 Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license license (see LICENSE for details)
-Version 1.2.2
+Version 1.3.0
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -14,73 +14,83 @@ import json
 import re
 
 
-def get_content_types():
-    return {
-        'html': 'text/html; charset=utf-8',
-        'xml': 'text/xml; charset=utf-8',
-        'css': 'text/css; charset=utf-8',
-        'js': 'application/javascript; charset=utf-8',
-        'png': 'image/png',
-        'jpg': 'image/jpeg',
-        'gif': 'image/gif',
-        'ico': 'image/x-icon'
-    }
+class StapyFileSystem:
+    @staticmethod
+    def get_content_types():
+        return {
+            'html': 'text/html; charset=utf-8',
+            'xml': 'text/xml; charset=utf-8',
+            'css': 'text/css; charset=utf-8',
+            'js': 'application/javascript; charset=utf-8',
+            'png': 'image/png',
+            'jpg': 'image/jpeg',
+            'gif': 'image/gif',
+            'ico': 'image/x-icon'
+        }
+
+    @staticmethod
+    def get_root_dir():
+        return os.path.dirname(os.path.abspath(__file__)) + '/'
+
+    @staticmethod
+    def get_file_content(path, mode='r'):
+        file = open(path, mode)
+        content = file.read()
+        file.close()
+
+        return content
+
+    def get_web_dir(self):
+        return self.get_root_dir() + 'web'
+
+    def get_build_dir(self):
+        return self.get_root_dir() + 'build'
+
+    def copy_tree(self, src, dst):
+        if not os.path.exists(dst):
+            os.makedirs(dst)
+        for item in os.listdir(src):
+            s = os.path.join(src, item)
+            d = os.path.join(dst, item)
+            if os.path.isdir(s):
+                self.copy_tree(s, d)
+            else:
+                if not os.path.exists(d) or os.stat(s).st_mtime - os.stat(d).st_mtime > 1:
+                    shutil.copy2(s, d)
 
 
-def get_root_dir():
-    return os.path.dirname(os.path.abspath(__file__)) + '/'
+class StapyParser:
+    fs = StapyFileSystem()
+
+    def process(self, data, content):
+        content = self.template_tags(data, content)
+        content = self.content_tags(data, content)
+
+        return content
+
+    @staticmethod
+    def content_tags(data, content):
+        for (key, value) in data.items():
+            content = content.replace('{{ ' + key + ' }}', value if value else '')
+
+        return content
+
+    def template_tags(self, data, content, parent=''):
+        for (key, value) in data.items():
+            if key != parent and '{% ' + key + ' %}' in content:
+                file = self.fs.get_root_dir() + value
+                content = content.replace(
+                    '{% ' + key + ' %}',
+                    self.template_tags(data, self.fs.get_file_content(file), key) if value else ''
+                )
+
+        return content
 
 
-def get_web_dir():
-    return get_root_dir() + 'web'
+class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
+    fs = StapyFileSystem()
+    ps = StapyParser()
 
-
-def get_file_content(path, mode='r'):
-    file = open(path, mode)
-    content = file.read()
-    file.close()
-
-    return content
-
-
-def copy_tree(src, dst):
-    if not os.path.exists(dst):
-        os.makedirs(dst)
-    for item in os.listdir(src):
-        s = os.path.join(src, item)
-        d = os.path.join(dst, item)
-        if os.path.isdir(s):
-            copy_tree(s, d)
-        else:
-            if not os.path.exists(d) or os.stat(s).st_mtime - os.stat(d).st_mtime > 1:
-                shutil.copy2(s, d)
-
-
-def clean_page(content):
-    content = re.sub(r'\n+', '\n', content)
-
-    return content
-
-
-def template_tags(data, content, parent=''):
-    for (key, value) in data.items():
-        if key != parent and '{% ' + key + ' %}' in content:
-            content = content.replace(
-                '{% ' + key + ' %}',
-                template_tags(data, get_file_content(get_root_dir() + value), key) if value else ''
-            )
-
-    return content
-
-
-def content_tags(data, content):
-    for (key, value) in data.items():
-        content = content.replace('{{ ' + key + ' }}', value if value else '')
-
-    return clean_page(content)
-
-
-class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         result = self.copy_resources()
 
@@ -104,15 +114,16 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def copy_resources(self):
         try:
-            copy_tree(get_root_dir() + 'build/web', get_web_dir())
+            self.fs.copy_tree(self.fs.get_build_dir() + '/web', self.fs.get_web_dir())
         except Exception as e:
             return {'status': 500, 'type': 'text/html; charset=utf-8', 'content': str(e).encode()}
 
-    def get_error(self):
+    @staticmethod
+    def get_error():
         return {'status': 404, 'type': 'text/html; charset=utf-8', 'content': b'404 not found'}
 
     def get_file(self):
-        content = get_file_content(get_web_dir() + self.path, 'rb')
+        content = self.fs.get_file_content(self.fs.get_web_dir() + self.path, 'rb')
 
         return {'status': 200, 'type': self.get_content_type(), 'content': content}
 
@@ -122,9 +133,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             try:
                 data = json.load(file)
                 file.close()
-                content = get_file_content(get_root_dir() + data['template'])
-                content = template_tags(data, content)
-                content = content_tags(data, content)
+                content = self.fs.get_file_content(self.fs.get_root_dir() + data['template'])
+                content = self.ps.process(data, content)
                 self.save_html(content)
                 status = 200
             except Exception as e:
@@ -133,7 +143,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         return {'status': status, 'type': 'text/html; charset=utf-8', 'content': content.encode()}
 
     def save_html(self, content):
-        file = get_web_dir() + self.get_page_path()
+        file = self.fs.get_web_dir() + self.get_page_path()
         Path(os.path.dirname(file)).mkdir(parents=True, exist_ok=True)
         html = open(file, "w")
         html.write(content)
@@ -147,7 +157,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         return extension.replace('.', '')
 
     def get_content_type(self):
-        types = get_content_types()
+        types = self.fs.get_content_types()
 
         if self.get_file_extension() in types:
             return types[self.get_file_extension()]
@@ -167,10 +177,10 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def get_page_config(self):
         path = self.get_page_path()
 
-        return get_root_dir() + 'build/json' + path + '.json'
+        return self.fs.get_build_dir() + '/json' + path + '.json'
 
 
-class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
+class StapyHTTPServer(ThreadingMixIn, HTTPServer):
     """Handle requests in a separate thread."""
 
 
@@ -187,7 +197,7 @@ def main():
     group.add_argument("--tls-keyfile", dest="keyfile", help="Server TLS private key file", metavar="FILE")
     args = parser.parse_args()
 
-    httpd = ThreadedHTTPServer((args.hostname, args.port), SimpleHTTPRequestHandler)
+    httpd = StapyHTTPServer((args.hostname, args.port), StapyHTTPRequestHandler)
 
     protocol = 'http'
     if args.certfile is not None and args.keyfile is not None:
