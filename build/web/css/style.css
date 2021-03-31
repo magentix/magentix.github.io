@@ -6,8 +6,8 @@ body {
 
 header,
 footer {
-    background: #F6F8FA;
-    border-bottom: 1px solid #E5E7EB;
+    background: #f6f8fa;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 main {
@@ -15,26 +15,12 @@ main {
     padding-bottom: 0;
 }
 
-#header-content,
-#main-content,
-#footer-content {
-    margin: auto;
-    max-width: 800px;
-    padding: 2rem 1.3rem
-}
-
-#footer-content {
-    text-align: center;
-}
-
-#main-content {
-    min-height: 400px;
-    background: url(../images/tree.png) no-repeat 20px bottom;
-    padding-bottom: 340px;
-}
-
 h1 {
     margin: 0 0 0.5rem 0;
+}
+
+h1 img {
+    margin: 0;
 }
 
 h2 {
@@ -42,7 +28,7 @@ h2 {
     margin: 0 0 1rem 0;
     font-size: 1.85rem;
     font-weight: bold;
-    border-bottom: 1px solid #F6F8FA;
+    border-bottom: 1px solid #f6f8fa;
     color: #0c4047;
     position: relative;
     line-height: 2.5rem;
@@ -53,11 +39,11 @@ h3 {
     margin: 0 0 1rem 0;
     font-size: 1.55rem;
     font-weight: bold;
-    border-bottom: 1px solid #F6F8FA;
+    border-bottom: 1px solid #f6f8fa;
 }
 
 h4 {
-    font-size:1.2rem;
+    font-size: 1.2rem;
     margin: 1.4rem 0 1rem 0;
     font-weight: bold;
 }
@@ -68,7 +54,7 @@ p {
 }
 
 a {
-    color: #0070F3;
+    color: #0070f3;
     text-decoration: underline;
 }
 
@@ -84,7 +70,7 @@ li {
 
 hr {
     border: 0;
-    border-bottom: 1px solid #E5E7EB;
+    border-bottom: 1px solid #e5e7eb;
     margin: 1rem 0;
 }
 
@@ -92,8 +78,8 @@ pre {
     padding: 1rem 1.4rem;
     max-width: 100%;
     overflow: auto;
-    background: #F6F8FA;
-    border: 1px solid #E5E7EB;
+    background: #f6f8fa;
+    border: 1px solid #e5e7eb;
     border-radius: 4px;
     font-family: Consolas, monaco, 'Ubuntu Mono', 'Liberation Mono', 'Courier New', Courier, monospace;
     font-size: 1rem;
@@ -102,8 +88,8 @@ pre {
 
 blockquote {
     padding: 1.5rem;
-    background: #F6F8FA;
-    border-left: 5px solid #E5E7EB;
+    background: #f6f8fa;
+    border-left: 5px solid #e5e7eb;
     font-style: italic;
     margin: 1rem 0;
     line-height: 1.5rem;
@@ -119,10 +105,6 @@ small {
     font-size: 0.9em;
 }
 
-h1 img {
-    margin: 0;
-}
-
 nav a {
     padding: 0 0.3rem;
 }
@@ -131,17 +113,54 @@ nav a:first-child {
     padding-left: 0;
 }
 
+#header-content,
+#main-content,
+#footer-content {
+    margin: auto;
+    max-width: 800px;
+    padding: 2rem 1.3rem;
+}
+
+#footer-content {
+    text-align: center;
+}
+
+#main-content {
+    min-height: 400px;
+    background: url(../images/tree.png) no-repeat 20px bottom;
+    padding-bottom: 340px;
+}
+
 .intro {
-    background: #F6F8FA;
-    border: 1px solid #E5E7EB;
+    background: #f6f8fa;
+    border: 1px solid #e5e7eb;
     border-radius: 4px;
     padding: 15px;
     margin-bottom: 2rem;
 }
 
-.ll-nam{color:#0c4047}
-.ll-num{color:#ec407a}
-.ll-str{color:#43a047}
-.ll-pct{color:#666}
-.ll-key{color:#555;font-weight:bold}
-.ll-com{color:#888;font-style:italic}
+.ll-nam {
+    color: #0c4047;
+}
+
+.ll-num {
+    color: #ec407a;
+}
+
+.ll-str {
+    color: #43a047;
+}
+
+.ll-pct {
+    color: #666;
+}
+
+.ll-key {
+    color: #555;
+    font-weight: bold;
+}
+
+.ll-com {
+    color: #888;
+    font-style: italic;
+}
