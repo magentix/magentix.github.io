@@ -28,7 +28,7 @@
                 </h1>
                 <p>Développeur Magento indépendant depuis 2009</p>
                 <nav>
-                    <a href="/" class="first">Accueil</a> &bull;
+                    <a href="/">Accueil</a> &bull;
                     <a href="/blog.html">Billets</a>
                 </nav>
             </div>
@@ -117,7 +117,7 @@
     &lt;routers&gt;
         &lt;adminhtml&gt;
             &lt;args&gt;
-                &lt;frontName&gt;&lt;![CDATA[<span class="hljs-meta-string">cheminAdminSecure</span>]]&gt;&lt;/frontName&gt;
+                &lt;frontName&gt;&lt;![CDATA[cheminAdminSecure]]&gt;&lt;/frontName&gt;
             &lt;/args&gt;
         &lt;/adminhtml&gt;
     &lt;/routers&gt;
@@ -283,21 +283,21 @@ RewriteRule .* - [F,L]</pre>
                 &lt;use&gt;standard&lt;/use&gt;
                 &lt;args&gt;
                     &lt;module&gt;Mage_Customer&lt;/module&gt;
-                    &lt;frontName&gt;<span class="hljs-meta">ctm</span>&lt;/frontName&gt; &lt;!-- /customer/* &gt;&gt; /cmt/* --&gt;
+                    &lt;frontName&gt;ctm&lt;/frontName&gt; &lt;!-- /customer/* &gt;&gt; /cmt/* --&gt;
                 &lt;/args&gt;
             &lt;/customer&gt;
             &lt;checkout&gt;
                 &lt;use&gt;standard&lt;/use&gt;
                 &lt;args&gt;
                     &lt;module&gt;Mage_Checkout&lt;/module&gt;
-                    &lt;frontName&gt;<span class="hljs-meta">ckt</span>&lt;/frontName&gt; &lt;!-- /checkout/* &gt;&gt; /ckt/* --&gt;
+                    &lt;frontName&gt;ckt&lt;/frontName&gt; &lt;!-- /checkout/* &gt;&gt; /ckt/* --&gt;
                 &lt;/args&gt;
             &lt;/checkout&gt;
             &lt;contacts&gt;
                 &lt;use&gt;standard&lt;/use&gt;
                 &lt;args&gt;
                     &lt;module&gt;Mage_Contacts&lt;/module&gt;
-                    &lt;frontName&gt;<span class="hljs-meta">cts</span>&lt;/frontName&gt; &lt;!-- /contacts/* &gt;&gt; /cts/* --&gt;
+                    &lt;frontName&gt;cts&lt;/frontName&gt; &lt;!-- /contacts/* &gt;&gt; /cts/* --&gt;
                 &lt;/args&gt;
             &lt;/contacts&gt;
         &lt;/routers&gt;
@@ -316,11 +316,11 @@ RewriteRule .* - [F,L]</pre>
 <p>
     Pour changer le nom du cookie, il vous suffit de copier le fichier :
 </p>
-<pre class="nohighlight">app/code/<span class="hljs-meta-string">core</span>/Mage/Core/Controller/Varien/Action.php</pre>
+<pre class="nohighlight">app/code/<strong>core</strong>/Mage/Core/Controller/Varien/Action.php</pre>
 <p>
     Dans :
 </p>
-<pre class="nohighlight">app/code/<span class="hljs-meta-string">local</span>/Mage/Core/Controller/Varien/Action.php</pre>
+<pre class="nohighlight">app/code/<strong>local</strong>/Mage/Core/Controller/Varien/Action.php</pre>
 <p>
     Modifiez le nom du namespace par celui de votre choix :
 </p>
@@ -352,18 +352,18 @@ const SESSION_NAMESPACE = 'frontend'; // Par exemple : navigation
     Avec le dossier de votre choix (ici <strong>pub</strong>) :
 </p>
 
-<pre>&lt;media&gt;{{root_dir}}/<span class="hljs-meta-string">pub</span>/media&lt;/media&gt;
-&lt;upload&gt;{{root_dir}}/<span class="hljs-meta-string">pub</span>/media/upload&lt;/upload&gt;
-&lt;skin&gt;{{root_dir}}/<span class="hljs-meta-string">pub</span>/skin&lt;/skin&gt;</pre>
+<pre class="nohighlight">&lt;media&gt;{{root_dir}}/<strong>pub</strong>/media&lt;/media&gt;
+&lt;upload&gt;{{root_dir}}/<strong>pub</strong>/media/upload&lt;/upload&gt;
+&lt;skin&gt;{{root_dir}}/<strong>pub</strong>/skin&lt;/skin&gt;</pre>
 
 <p>
     Copiez le fichier :
 </p>
-<pre class="nohighlight">app/code/<span class="hljs-meta-string">core</span>/Mage/Core/Model/Config/Options.php</pre>
+<pre class="nohighlight">app/code/<strong>core</strong>/Mage/Core/Model/Config/Options.php</pre>
 <p>
     Dans :
 </p>
-<pre class="nohighlight">app/code/<span class="hljs-meta-string">local</span>/Mage/Core/Model/Config/Options.php</pre>
+<pre class="nohighlight">app/code/<strong>local</strong>/Mage/Core/Model/Config/Options.php</pre>
 <p>
     Ajoutez en bas de la méthode <strong>_construct()</strong> :
 </p>
@@ -373,11 +373,11 @@ $this->_data['skin_dir'] = $this->_data['base_dir'] . DS . 'pub/skin';</pre>
 <p>
     Copiez ensuite le fichier :
 </p>
-<pre class="nohighlight">app/code/<span class="hljs-meta-string">core</span>/Mage/Page/Block/Html/Head.php</pre>
+<pre class="nohighlight">app/code/<strong>core</strong>/Mage/Page/Block/Html/Head.php</pre>
 <p>
     Dans :
 </p>
-<pre class="nohighlight">app/code/<span class="hljs-meta-string">local</span>/Mage/Page/Block/Html/Head.php</pre>
+<pre class="nohighlight">app/code/<strong>local</strong>/Mage/Page/Block/Html/Head.php</pre>
 <p>
     Pour la méthode <strong>&_prepareStaticAndSkinElements</strong>, remplacez la ligne suivante :
 </p>
@@ -409,7 +409,7 @@ $installer->setConfigData('web/secure/base_js_url', '&#x7B;&#x7B;secure_base_url
 <p>
     Avec :
 </p>
-<pre>RewriteCond %{REQUEST_URI} !^/(media|skin|js|<span class="hljs-meta-string">pub</span>)/</pre>
+<pre>RewriteCond %{REQUEST_URI} !^/(media|skin|js|pub)/</pre>
 
 <p>
     Il ne reste plus qu'à déplacer les dossiers <strong>skin</strong>, <strong>media</strong> et <strong>js</strong> dans un nouveau dossier <strong>pub</strong> à la racine :
@@ -520,7 +520,7 @@ class Magentix_SecureCookie_Model_Cookie extends Mage_Core_Model_Cookie
         <footer>
             <div id="footer-content">
                 <p><strong>Magentix</strong> © 2009 / 2021</p>
-                <p class="made">Réalisé avec <a href="https://stapy.magentix.fr">StaPy</a></p>
+                <p><small>Réalisé avec <a href="https://stapy.magentix.fr">StaPy</a></small></p>
                 <nav><a href="/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
             </div>
         </footer>

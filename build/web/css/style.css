@@ -115,6 +115,10 @@ img {
     display: block;
 }
 
+small {
+    font-size: 0.9em;
+}
+
 h1 img {
     margin: 0;
 }
@@ -123,12 +127,8 @@ nav a {
     padding: 0 0.3rem;
 }
 
-nav a.first {
+nav a:first-child {
     padding-left: 0;
-}
-
-footer p.made {
-    font-size: 0.9rem;
 }
 
 .intro {
@@ -137,16 +137,6 @@ footer p.made {
     border-radius: 4px;
     padding: 15px;
     margin-bottom: 2rem;
-}
-
-.rss img {
-    margin: 0;
-}
-
-.rss a {
-    position: absolute;
-    right: 0;
-    top: 25px;
 }
 
 .ll-nam{color:#0c4047}
