@@ -7,7 +7,7 @@ then
   host=${1%/}
 fi
 
-for file in $(find $dir -name \*.json)
+for file in $(find $dir -name \*.json ! -name 'default.json')
 do
   base=$(echo $dir | sed 's/\//\\\//g')
   path=$(echo $file | sed -e "s/\.json//g;s/$base//g;s/index\.html//g")
