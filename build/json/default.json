@@ -1,0 +1,5 @@
+{
+  "robots": "INDEX,FOLLOW",
+  "highlight": "",
+  "template": "build/template/default.html"
+}

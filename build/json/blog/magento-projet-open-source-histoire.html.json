@@ -1,8 +1,5 @@
 {
   "title": "Magento, le projet Open Source qui a transformé le commerce électronique",
   "description": "Magento 1 est depuis le 30 juin 2020 en fin de vie, l'occasion de revenir sur l'histoire de Magento.",
-  "robots": "INDEX,FOLLOW",
-  "highlight": "",
-  "template": "build/template/default.html",
   "content": "build/page/blog/magento-history.html"
 }

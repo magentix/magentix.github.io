@@ -45,6 +45,8 @@ When a page is open in the browser, the server search a json file in `build/json
 
 If the json file does not exist, a **404 error** is sent.
 
+## Configuration
+
 The json file contains all the data required for generate the page:
 
 ```json
@@ -57,6 +59,35 @@ The json file contains all the data required for generate the page:
 ```
 
 **template** and **content** keys are required.
+
+A file named **default.json** in the `build/json` directory is used for the default configuration. It will be merged with the page's json file. This is useful for a global configuration.
+
+**default.json**
+```json
+{
+  "title": "Default title",
+  "template": "build/template/default.html"
+}
+```
+
+**index.html.json**
+```json
+{
+  "title": "Home title",
+  "content": "build/page/index.html"
+}
+```
+
+**default.json + index.html.json**
+```json
+{
+  "title": "Home title",
+  "template": "build/template/default.html",
+  "content": "build/page/index.html"
+}
+```
+
+**Note:** do not delete **default.json** file. This file is required.
 
 ## Template
 

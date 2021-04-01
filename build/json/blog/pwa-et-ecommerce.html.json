@@ -1,8 +1,6 @@
 {
   "title": "Les PWA sont-elles adaptées au e-commerce ?",
   "description": "Annoncée initialement comme la technologie du futur, y a t-il un intérêt d'implémenter une Progressive Web App (PWA) pour un site e-commerce ?",
-  "robots": "INDEX,FOLLOW",
   "highlight": "build/template/block/highlight.html",
-  "template": "build/template/default.html",
   "content": "build/page/blog/pwa.html"
 }

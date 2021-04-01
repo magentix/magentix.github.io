@@ -89,6 +89,18 @@ class StapyFileSystem:
                 if not os.path.exists(d) or os.stat(s).st_mtime - os.stat(d).st_mtime > 1:
                     shutil.copy2(s, d)
 
+    @staticmethod
+    def merge_json(*argv):
+        merged = json.loads('{}')
+        for arg in argv:
+            file = open(arg, encoding='utf-8')
+            data = json.load(file)
+            file.close()
+            for (key, value) in data.items():
+                merged[key] = value
+
+        return merged
+
 
 class StapyParser:
     fs = StapyFileSystem()
@@ -159,16 +171,14 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def get_html(self):
         status = 500
-        with open(self.get_page_config(), encoding='utf-8') as file:
-            try:
-                data = json.load(file)
-                file.close()
-                content = self.fs.get_file_content(self.fs.get_root_dir() + data['template'])
-                content = self.ps.process(data, content)
-                self.save_html(content)
-                status = 200
-            except Exception as e:
-                content = str(e)
+        data = self.fs.merge_json(self.get_default_config(), self.get_page_config())
+        try:
+            content = self.fs.get_file_content(self.fs.get_root_dir() + data['template'])
+            content = self.ps.process(data, content)
+            self.save_html(content)
+            status = 200
+        except Exception as e:
+            content = str(e)
 
         return self.get_response(status, self.fs.get_content_type('html'), content.encode())
 
@@ -187,6 +197,9 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def get_page_config(self):
         return os.path.normpath(self.fs.get_build_dir('json') + self.get_page_path() + '.json')
+
+    def get_default_config(self):
+        return os.path.normpath(self.fs.get_build_dir('json') + os.sep + 'default.json')
 
     @staticmethod
     def get_response(status, file_type, content):

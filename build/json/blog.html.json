@@ -1,8 +1,5 @@
 {
   "title": "Les billets de Magentix - Développeur Magento indépendant",
   "description": "Articles en relation avec la performance des sites, le développement Web, la sécurité ou l'administration serveur",
-  "robots": "INDEX,FOLLOW",
-  "highlight": "",
-  "template": "build/template/default.html",
   "content": "build/page/blog.html"
 }
