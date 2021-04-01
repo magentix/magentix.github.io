@@ -90,12 +90,12 @@ class StapyFileSystem:
                     shutil.copy2(s, d)
 
     @staticmethod
-    def merge_json(*argv):
+    def merge_json(*files):
         merged = json.loads('{}')
-        for arg in argv:
-            file = open(arg, encoding='utf-8')
-            data = json.load(file)
-            file.close()
+        for file in files:
+            f = open(file, encoding='utf-8')
+            data = json.load(f)
+            f.close()
             for (key, value) in data.items():
                 merged[key] = value
 
