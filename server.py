@@ -7,11 +7,8 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from socketserver import ThreadingMixIn
 import shutil
-import ssl
-import argparse
 import os
 import json
-import re
 
 
 class StapyFileSystem:
@@ -30,23 +27,56 @@ class StapyFileSystem:
 
     @staticmethod
     def get_root_dir():
-        return os.path.dirname(os.path.abspath(__file__)) + '/'
+        return os.path.dirname(os.path.abspath(__file__)) + os.sep
+
+    def get_web_dir(self):
+        return self.get_root_dir() + 'web'
+
+    def get_build_dir(self, directory=''):
+        return self.get_root_dir() + 'build' + (os.sep + directory if directory else '')
 
     @staticmethod
     def get_file_content(path, mode='r'):
-        file = open(path, mode)
+        file = open(os.path.normpath(path), mode)
         content = file.read()
         file.close()
 
         return content
 
-    def get_web_dir(self):
-        return self.get_root_dir() + 'web'
+    @staticmethod
+    def get_file_extension(file):
+        name, extension = os.path.splitext(file)
+        if not extension:
+            extension = ''
 
-    def get_build_dir(self):
-        return self.get_root_dir() + 'build'
+        return extension.replace('.', '')
+
+    def get_content_type(self, extension):
+        types = self.get_content_types()
+        if extension in types:
+            return types[extension]
+
+        return 'text/plain; charset=utf-8'
+
+    def get_file_type(self, file):
+        return self.get_content_type(self.get_file_extension(file))
+
+    def create_directory(self, path):
+        if self.get_file_extension(path):
+            path = os.path.dirname(path)
+
+        Path(os.path.normpath(path)).mkdir(parents=True, exist_ok=True)
+
+    def create_file(self, path, content=''):
+        path = os.path.normpath(path)
+        self.create_directory(path)
+        file = open(path, "w")
+        file.write(content)
+        file.close()
 
     def copy_tree(self, src, dst):
+        src = os.path.normpath(src)
+        dst = os.path.normpath(dst)
         if not os.path.exists(dst):
             os.makedirs(dst)
         for item in os.listdir(src):
@@ -78,10 +108,10 @@ class StapyParser:
     def template_tags(self, data, content, parent=''):
         for (key, value) in data.items():
             if key != parent and '{% ' + key + ' %}' in content:
-                file = self.fs.get_root_dir() + value
+                base = self.fs.get_root_dir()
                 content = content.replace(
                     '{% ' + key + ' %}',
-                    self.template_tags(data, self.fs.get_file_content(file), key) if value else ''
+                    self.template_tags(data, self.fs.get_file_content(base + value), key) if value else ''
                 )
 
         return content
@@ -114,18 +144,17 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def copy_resources(self):
         try:
-            self.fs.copy_tree(self.fs.get_build_dir() + '/web', self.fs.get_web_dir())
+            self.fs.copy_tree(self.fs.get_build_dir('web'), self.fs.get_web_dir())
         except Exception as e:
-            return {'status': 500, 'type': 'text/html; charset=utf-8', 'content': str(e).encode()}
+            return self.get_response(500, self.fs.get_content_type('html'), str(e).encode())
 
-    @staticmethod
-    def get_error():
-        return {'status': 404, 'type': 'text/html; charset=utf-8', 'content': b'404 not found'}
+    def get_error(self):
+        return self.get_response(404, self.fs.get_content_type('html'), b'404 not found')
 
     def get_file(self):
         content = self.fs.get_file_content(self.fs.get_web_dir() + self.path, 'rb')
 
-        return {'status': 200, 'type': self.get_content_type(), 'content': content}
+        return self.get_response(200, self.fs.get_file_type(self.path), content)
 
     def get_html(self):
         status = 500
@@ -140,29 +169,10 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
             except Exception as e:
                 content = str(e)
 
-        return {'status': status, 'type': 'text/html; charset=utf-8', 'content': content.encode()}
+        return self.get_response(status, self.fs.get_content_type('html'), content.encode())
 
     def save_html(self, content):
-        file = self.fs.get_web_dir() + self.get_page_path()
-        Path(os.path.dirname(file)).mkdir(parents=True, exist_ok=True)
-        html = open(file, "w")
-        html.write(content)
-        html.close()
-
-    def get_file_extension(self):
-        name, extension = os.path.splitext(self.path)
-        if not extension:
-            extension = ''
-
-        return extension.replace('.', '')
-
-    def get_content_type(self):
-        types = self.fs.get_content_types()
-
-        if self.get_file_extension() in types:
-            return types[self.get_file_extension()]
-
-        return 'text/plain; charset=utf-8'
+        self.fs.create_file(self.fs.get_web_dir() + self.get_page_path(), content)
 
     def get_page_path(self):
         path = self.path
@@ -175,9 +185,11 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         return path
 
     def get_page_config(self):
-        path = self.get_page_path()
+        return os.path.normpath(self.fs.get_build_dir('json') + self.get_page_path() + '.json')
 
-        return self.fs.get_build_dir() + '/json' + path + '.json'
+    @staticmethod
+    def get_response(status, file_type, content):
+        return {'status': status, 'type': file_type, 'content': content}
 
 
 class StapyHTTPServer(ThreadingMixIn, HTTPServer):
@@ -185,27 +197,9 @@ class StapyHTTPServer(ThreadingMixIn, HTTPServer):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        prog="Stapy",
-        description="Real-time static site generator",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
-    group = parser.add_argument_group("server configuration")
-    group.add_argument("--hostname", help="Server hostname", default='localhost')
-    group.add_argument("--port", help="Server port to bind to", type=int, default=1985)
-    group.add_argument("--tls-certfile", dest="certfile", help="Server TLS certificate file", metavar="FILE")
-    group.add_argument("--tls-keyfile", dest="keyfile", help="Server TLS private key file", metavar="FILE")
-    args = parser.parse_args()
-
-    httpd = StapyHTTPServer((args.hostname, args.port), StapyHTTPRequestHandler)
-
-    protocol = 'http'
-    if args.certfile is not None and args.keyfile is not None:
-        httpd.socket = ssl.wrap_socket(httpd.socket, keyfile=args.keyfile, certfile=args.certfile, server_side=True)
-        protocol = 'https'
-
     try:
-        print('Serving under ' + protocol + '://' + httpd.server_name + ':' + str(httpd.server_port))
+        httpd = StapyHTTPServer(('localhost', 1985), StapyHTTPRequestHandler)
+        print('Serving under http://' + httpd.server_name + ':' + str(httpd.server_port))
         httpd.serve_forever()
     except KeyboardInterrupt:
         print("\nGood bye!")

@@ -1,6 +1,6 @@
 # StaPy
 
-StaPy is a real-time static page generator made with Python 3. The code is a file of about 180 lines to modify freely.
+StaPy is a real-time static page generator made with Python 3. The code is a file of about 200 lines to modify freely.
 
 ## Installation
 
@@ -27,27 +27,6 @@ python3 server.py
 ```
 
 Access to `http://localhost:1985`
-
-**Options:**
-
-| Option              | Description                                 |
-| ------------------- | ------------------------------------------- |
-| --port PORT         | Server port to bind to (default: 1985)      |
-| --hostname HOSTNAME | Server hostname (default: localhost)        |
-| --tls-certfile FILE | Server TLS certificate file (default: None) |
-| --tls-keyfile FILE  | Server TLS private key file (default: None) |
-
-Example:
-
-```shell
-openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
-```
-
-```shell
-python3 server.py --port 4443 --hostname localhost.stapy --tls-certfile cert.pem --tls-keyfile key.pem
-```
-
-Access to `https://localhost.stapy:4443`
 
 ## Route
 
@@ -116,16 +95,6 @@ sh crawler.sh
 
 200 http://localhost:1985/
 200 http://localhost:1985/hello.html
-...
-```
-
-Use specific hostname and port if needed:
-
-```
-sh crawler.sh https://localhost.stapy:4443
-
-200 https://localhost.stapy:4443/
-200 https://localhost.stapy:4443/hello.html
 ...
 ```
 
