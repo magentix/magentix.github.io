@@ -37,7 +37,8 @@ class StapyFileSystem:
 
     @staticmethod
     def get_file_content(path, mode='r'):
-        file = open(os.path.normpath(path), mode)
+        encoding = 'utf-8' if mode == 'r' else None
+        file = open(os.path.normpath(path), mode, encoding=encoding)
         content = file.read()
         file.close()
 
@@ -158,7 +159,7 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def get_html(self):
         status = 500
-        with open(self.get_page_config()) as file:
+        with open(self.get_page_config(), encoding='utf-8') as file:
             try:
                 data = json.load(file)
                 file.close()

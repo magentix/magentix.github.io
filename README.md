@@ -2,6 +2,10 @@
 
 StaPy is a real-time static page generator made with Python 3. The code is a file of about 200 lines to modify freely.
 
+## Requirements
+
+Requires Python 3.4 or newer on any operating system.
+
 ## Installation
 
 Create a project directory anywhere and download the last release from the StaPy repository.
