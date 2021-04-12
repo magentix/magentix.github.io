@@ -1,7 +1,7 @@
 """
 Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license license (see LICENSE for details)
-Version 1.3.0
+Version 1.3.1
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -93,11 +93,12 @@ class StapyFileSystem:
     def merge_json(*files):
         merged = json.loads('{}')
         for file in files:
-            f = open(file, encoding='utf-8')
-            data = json.load(f)
-            f.close()
-            for (key, value) in data.items():
-                merged[key] = value
+            if os.path.exists(file):
+                f = open(file, encoding='utf-8')
+                data = json.load(f)
+                f.close()
+                for (key, value) in data.items():
+                    merged[key] = value
 
         return merged
 
@@ -171,8 +172,9 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def get_html(self):
         status = 500
-        data = self.fs.merge_json(self.get_default_config(), self.get_page_config())
+        self.fs.get_file_content(self.get_page_config())
         try:
+            data = self.fs.merge_json(self.get_page_config('/default'), self.get_page_config())
             content = self.fs.get_file_content(self.fs.get_root_dir() + data['template'])
             content = self.ps.process(data, content)
             self.save_html(content)
@@ -195,11 +197,8 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
         return path
 
-    def get_page_config(self):
-        return os.path.normpath(self.fs.get_build_dir('json') + self.get_page_path() + '.json')
-
-    def get_default_config(self):
-        return os.path.normpath(self.fs.get_build_dir('json') + os.sep + 'default.json')
+    def get_page_config(self, path=None):
+        return os.path.normpath(self.fs.get_build_dir('json') + (self.get_page_path() if not path else path) + '.json')
 
     @staticmethod
     def get_response(status, file_type, content):

@@ -12,6 +12,12 @@
             <link>https://www.magentix.fr</link>
         </image>
         <item>
+            <title>Une installation légère de Magento 2</title>
+            <link>https://www.magentix.fr/blog/une-installation-legere-de-magento-2.html</link>
+            <guid>https://www.magentix.fr/blog/une-installation-legere-de-magento-2.html</guid>
+            <description><![CDATA[Magento 2 est proposé de base avec un nombre de modules extrêmement élevé. Beaucoup de ces modules peuvent être supprimés.]]></description>
+        </item>
+        <item>
             <title>Magento, le projet Open Source qui a transformé le commerce électronique</title>
             <link>https://www.magentix.fr/blog/magento-projet-open-source-histoire.html</link>
             <guid>https://www.magentix.fr/blog/magento-projet-open-source-histoire.html</guid>

@@ -6,6 +6,13 @@ StaPy is a real-time static page generator made with Python 3. The code is a fil
 
 Requires Python 3.4 or newer on any operating system.
 
+## Themes
+
+Simple and minimal themes made with StaPy:
+
+* [Dusk](https://dusk.magentix.fr)
+* [Breeze](https://breeze.magentix.fr)
+
 ## Installation
 
 Create a project directory anywhere and download the last release from the StaPy repository.
@@ -87,7 +94,7 @@ A file named **default.json** in the `build/json` directory is used for the defa
 }
 ```
 
-**Note:** do not delete **default.json** file. This file is required.
+**Note:** the **default.json** file is optional.
 
 ## Template
 
