@@ -1,7 +1,7 @@
 """
 Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license license (see LICENSE for details)
-Version 1.3.1
+Version 1.4.0
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -12,6 +12,8 @@ import json
 
 
 class StapyFileSystem:
+    environments = {}
+
     @staticmethod
     def get_content_types():
         return {
@@ -34,6 +36,20 @@ class StapyFileSystem:
 
     def get_build_dir(self, directory=''):
         return self.get_root_dir() + 'build' + (os.sep + directory if directory else '')
+
+    @staticmethod
+    def get_local_environment():
+        return 'local'
+
+    def get_environments(self):
+        if not self.environments:
+            self.environments[self.get_local_environment()] = False
+            for env in os.listdir(self.get_web_dir()):
+                path = os.path.join(self.get_web_dir(), env)
+                if os.path.isdir(path):
+                    self.environments[env] = path
+
+        return self.environments
 
     @staticmethod
     def get_file_content(path, mode='r'):
@@ -106,21 +122,22 @@ class StapyFileSystem:
 class StapyParser:
     fs = StapyFileSystem()
 
-    def process(self, data, content):
-        content = self.template_tags(data, content)
-        content = self.content_tags(data, content)
+    def process(self, data, content, env):
+        content = self.template_tags(data, content, env)
+        content = self.content_tags(data, content, env)
 
         return content
 
     @staticmethod
-    def content_tags(data, content):
-        for (key, value) in data.items():
-            content = content.replace('{{ ' + key + ' }}', value if value else '')
+    def content_tags(data, content, env):
+        for var, value in data.items():
+            content = content.replace('{{ ' + var.replace('.' + env, '') + ' }}', value if value else '')
 
         return content
 
-    def template_tags(self, data, content, parent=''):
-        for (key, value) in data.items():
+    def template_tags(self, data, content, env, parent=''):
+        for var, value in data.items():
+            key = var.replace('.' + env, '')
             if key != parent and '{% ' + key + ' %}' in content:
                 base = self.fs.get_root_dir()
                 content = content.replace(
@@ -158,7 +175,9 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def copy_resources(self):
         try:
-            self.fs.copy_tree(self.fs.get_build_dir('web'), self.fs.get_web_dir())
+            for dir in self.fs.get_environments().values():
+                if dir:
+                    self.fs.copy_tree(self.fs.get_build_dir('web'), dir)
         except Exception as e:
             return self.get_response(500, self.fs.get_content_type('html'), str(e).encode())
 
@@ -166,26 +185,31 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         return self.get_response(404, self.fs.get_content_type('html'), b'404 not found')
 
     def get_file(self):
-        content = self.fs.get_file_content(self.fs.get_web_dir() + self.path, 'rb')
+        content = self.fs.get_file_content(self.fs.get_build_dir('web') + self.path, 'rb')
 
         return self.get_response(200, self.fs.get_file_type(self.path), content)
 
     def get_html(self):
         status = 500
+        content = ''
         self.fs.get_file_content(self.get_page_config())
         try:
             data = self.fs.merge_json(self.get_page_config('/default'), self.get_page_config())
-            content = self.fs.get_file_content(self.fs.get_root_dir() + data['template'])
-            content = self.ps.process(data, content)
-            self.save_html(content)
+            template = self.fs.get_file_content(self.fs.get_root_dir() + data['template'])
+            for env in self.fs.get_environments().keys():
+                result = self.ps.process(data, template, env)
+                if env == self.fs.get_local_environment():
+                    content = result
+                else:
+                    self.save_html(result, env)
             status = 200
         except Exception as e:
             content = str(e)
 
         return self.get_response(status, self.fs.get_content_type('html'), content.encode())
 
-    def save_html(self, content):
-        self.fs.create_file(self.fs.get_web_dir() + self.get_page_path(), content)
+    def save_html(self, content, env):
+        self.fs.create_file(self.fs.get_environments()[env] + self.get_page_path(), content)
 
     def get_page_path(self):
         path = self.path

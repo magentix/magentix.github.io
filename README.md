@@ -1,17 +1,10 @@
 # StaPy
 
-StaPy is a real-time static page generator made with Python 3. The code is a file of about 200 lines to modify freely.
+StaPy is a real-time static page generator made with Python 3.
 
 ## Requirements
 
 Requires Python 3.4 or newer on any operating system.
-
-## Themes
-
-Simple and minimal themes made with StaPy:
-
-* [Dusk](https://dusk.magentix.fr)
-* [Breeze](https://breeze.magentix.fr)
 
 ## Installation
 
@@ -25,10 +18,6 @@ tar zxvf last.tar.gz --strip 1
 rm last.tar.gz
 ```
 
-## Website
-
-Static files are generated in the `web` directory. It contains all pages and files you need to deploy (html, css, js, images...).
-
 ## HTTP server
 
 Run standalone HTTP server:
@@ -38,6 +27,14 @@ python3 server.py
 ```
 
 Access to `http://localhost:1985`
+
+## Environments
+
+Static files are generated in the `web` directory. This directory contains all the necessary environment directories (devel, prod...).
+
+For the production, add a `prod` directory in the `web` directory. It will contain all pages and files you need to deploy (html, css, js, images...), with specific environment variables (like URL or analytic script).
+
+After you add a new environment, you must restart the server.
 
 ## Route
 
@@ -65,7 +62,18 @@ The json file contains all the data required for generate the page:
 }
 ```
 
-**template** and **content** keys are required.
+The **template** key is required.
+
+Set the environment variables with the environment suffix:
+
+```json
+{
+  "url.local": "http://localhost:1985/",
+  "url.prod": "https://www.example.com/"
+}
+```
+
+**The environment suffix must have the same name as your environment directory.** For local rendering, the suffix is always "local".
 
 A file named **default.json** in the `build/json` directory is used for the default configuration. It will be merged with the page's json file. This is useful for a global configuration.
 
@@ -107,7 +115,7 @@ The template file is the skeleton of the page:
         <meta charset="utf-8">
         <title>{{ title }}</title>
         <meta name="description" content="{{ description }}" />
-        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="{{ url }}css/style.css" />
     </head>
     <body>
         {% content %}
@@ -122,11 +130,11 @@ The template file is the skeleton of the page:
 
 ## Resources
 
-All necessary resources like js, css or images are copied from the `build/web` directory to the `web` directory.
+All necessary resources like js, css or images are copied from the `build/web` directory in all environment directories (e.g. `web/prod`).
 
 ## Static files
 
-The final static HTML files and resources are added or refreshed when the pages are opened in the browser. When `/hello.html` is open, the `hello.html` file is automatically generated in the `web` directory.
+The final static HTML files and resources are added or refreshed when the pages are opened in the browser. When `/hello.html` is open, the `hello.html` file is automatically generated in all environment directories (e.g. `web/prod`).
 
 ## Crawler
 
@@ -140,8 +148,21 @@ sh crawler.sh
 ...
 ```
 
-Feel free to delete the `web` directory and launch the crawler.
+Feel free to delete the contents of the environment directory and launch the crawler.
+
+```
+rm -rf web/prod/*
+sh crawler.sh
+git add -A web/prod
+```
 
 ## Netlify
 
-Setup Netlify to deploy the `web` directory of the git repository.
+Setup Netlify to deploy the environment directory (e.g. `web/prod`) of the git repository.
+
+## Themes
+
+Simple and minimal themes made with StaPy:
+
+* [Dusk](https://stapy.magentix.fr/themes/dusk/)
+* [Breeze](https://stapy.magentix.fr/themes/breeze/)

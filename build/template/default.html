@@ -12,17 +12,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ title }}</title>
         <meta name="description" content="{{ description }}" />
-        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="{{ url }}css/style.css" />
         <meta name="robots" content="{{ robots }}" />
     </head>
     <body>
         <header>
             <div id="header-content">
-                <h1><a href="/"><img src="/media/magentix.png" alt="Magentix" /></a></h1>
+                <h1><a href="{{ url }}"><img src="{{ url }}media/magentix.png" alt="Magentix" /></a></h1>
                 <p>Développeur Magento indépendant depuis 2009</p>
                 <nav>
-                    <a href="/">Accueil</a> &bull;
-                    <a href="/blog.html">Billets</a>
+                    <a href="{{ url }}">Accueil</a> &bull;
+                    <a href="{{ url }}blog.html">Billets</a>
                 </nav>
             </div>
         </header>
@@ -37,7 +37,7 @@
             <div id="footer-content">
                 <p><strong>Magentix</strong> © 2009 / 2021</p>
                 <p><small>Réalisé avec <a href="https://stapy.magentix.fr">StaPy</a></small></p>
-                <nav><a href="/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+                <nav><a href="{{ url }}mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
             </div>
         </footer>
         {% highlight %}
