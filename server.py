@@ -9,6 +9,7 @@ from socketserver import ThreadingMixIn
 import shutil
 import os
 import json
+import re
 
 
 class StapyFileSystem:
@@ -128,16 +129,15 @@ class StapyParser:
 
         return content
 
-    @staticmethod
-    def content_tags(data, content, env):
-        for var, value in data.items():
-            content = content.replace('{{ ' + var.replace('.' + env, '') + ' }}', value if value else '')
+    def content_tags(self, data, content, env):
+        for var, value in sorted(data.items(), reverse=True):
+            content = content.replace('{{ ' + self.get_var(var, env) + ' }}', value if value else '')
 
         return content
 
     def template_tags(self, data, content, env, parent=''):
-        for var, value in data.items():
-            key = var.replace('.' + env, '')
+        for var, value in sorted(data.items(), reverse=True):
+            key = self.get_var(var, env)
             if key != parent and '{% ' + key + ' %}' in content:
                 base = self.fs.get_root_dir()
                 content = content.replace(
@@ -146,6 +146,10 @@ class StapyParser:
                 )
 
         return content
+
+    @staticmethod
+    def get_var(var, env):
+        return re.sub(r'\.' + env + '$', '', var)
 
 
 class StapyHTTPRequestHandler(BaseHTTPRequestHandler):

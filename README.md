@@ -75,6 +75,15 @@ Set the environment variables with the environment suffix:
 
 **The environment suffix must have the same name as your environment directory.** For local rendering, the suffix is always "local".
 
+A variable can have a default value:
+
+```json
+{
+  "my_text": "All environments display this text",
+  "my_text.local": "Except the local with this"
+}
+```
+
 A file named **default.json** in the `build/json` directory is used for the default configuration. It will be merged with the page's json file. This is useful for a global configuration.
 
 **default.json**
