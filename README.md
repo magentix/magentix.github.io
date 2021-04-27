@@ -173,5 +173,5 @@ Setup Netlify to deploy the environment directory (e.g. `web/prod`) of the git r
 
 Simple and minimal themes made with StaPy:
 
-* [Dusk](https://stapy.magentix.fr/themes/dusk/)
-* [Breeze](https://stapy.magentix.fr/themes/breeze/)
+* [Dusk](https://www.stapy.net/themes/dusk/)
+* [Breeze](https://www.stapy.net/themes/breeze/)
