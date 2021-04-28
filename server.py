@@ -1,32 +1,20 @@
 """
 Copyright (c) 2021, Magentix
-This code is licensed under simplified BSD license license (see LICENSE for details)
-Version 1.4.0
+This code is licensed under simplified BSD license (see LICENSE for details)
+Version 1.4.1
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from socketserver import ThreadingMixIn
-import shutil
-import os
 import json
+import os
+import mimetypes
 import re
+import shutil
 
 
 class StapyFileSystem:
     environments = {}
-
-    @staticmethod
-    def get_content_types():
-        return {
-            'html': 'text/html; charset=utf-8',
-            'xml': 'text/xml; charset=utf-8',
-            'css': 'text/css; charset=utf-8',
-            'js': 'application/javascript; charset=utf-8',
-            'png': 'image/png',
-            'jpg': 'image/jpeg',
-            'gif': 'image/gif',
-            'ico': 'image/x-icon'
-        }
 
     @staticmethod
     def get_root_dir():
@@ -69,15 +57,17 @@ class StapyFileSystem:
 
         return extension.replace('.', '')
 
-    def get_content_type(self, extension):
-        types = self.get_content_types()
-        if extension in types:
-            return types[extension]
+    @staticmethod
+    def get_file_type(file):
+        mime, encoding = mimetypes.guess_type(file)
+        if encoding:
+            return f"{mime}; charset={encoding}"
+        else:
+            return mime or "application/octet-stream"
 
-        return 'text/plain; charset=utf-8'
-
-    def get_file_type(self, file):
-        return self.get_content_type(self.get_file_extension(file))
+    @staticmethod
+    def get_html_file_type():
+        return 'text/html; charset=utf-8'
 
     def create_directory(self, path):
         if self.get_file_extension(path):
@@ -179,19 +169,20 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def copy_resources(self):
         try:
-            for dir in self.fs.get_environments().values():
-                if dir:
-                    self.fs.copy_tree(self.fs.get_build_dir('web'), dir)
+            for directory in self.fs.get_environments().values():
+                if directory:
+                    self.fs.copy_tree(self.fs.get_build_dir('web'), directory)
         except Exception as e:
-            return self.get_response(500, self.fs.get_content_type('html'), str(e).encode())
+            return self.get_response(500, self.fs.get_html_file_type(), str(e).encode())
 
     def get_error(self):
-        return self.get_response(404, self.fs.get_content_type('html'), b'404 not found')
+        return self.get_response(404, self.fs.get_html_file_type(), b'404 not found')
 
     def get_file(self):
-        content = self.fs.get_file_content(self.fs.get_build_dir('web') + self.path, 'rb')
+        file = self.fs.get_build_dir('web') + self.path
+        content = self.fs.get_file_content(file, 'rb')
 
-        return self.get_response(200, self.fs.get_file_type(self.path), content)
+        return self.get_response(200, self.fs.get_file_type(file), content)
 
     def get_html(self):
         status = 500
@@ -210,7 +201,7 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         except Exception as e:
             content = str(e)
 
-        return self.get_response(status, self.fs.get_content_type('html'), content.encode())
+        return self.get_response(status, self.fs.get_html_file_type(), content.encode())
 
     def save_html(self, content, env):
         self.fs.create_file(self.fs.get_environments()[env] + self.get_page_path(), content)
