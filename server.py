@@ -1,7 +1,7 @@
 """
 Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license (see LICENSE for details)
-Version 1.4.1
+Version 1.4.2
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -234,6 +234,8 @@ def main():
         httpd.serve_forever()
     except KeyboardInterrupt:
         print("\nGood bye!")
+    except Exception as e:
+        print(str(e))
 
 
 if __name__ == "__main__":
