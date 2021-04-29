@@ -180,9 +180,8 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def get_file(self):
         file = self.fs.get_build_dir('web') + self.path
-        content = self.fs.get_file_content(file, 'rb')
 
-        return self.get_response(200, self.fs.get_file_type(file), content)
+        return self.get_response(200, self.fs.get_file_type(file), self.fs.get_file_content(file, 'rb'))
 
     def get_html(self):
         status = 500

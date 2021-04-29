@@ -1,6 +1,6 @@
 # StaPy
 
-StaPy is a real-time static page generator made with Python 3.
+StaPy is a Static Site Generator. It works with Python without any additional package.
 
 ## Requirements
 
@@ -26,13 +26,15 @@ Run standalone HTTP server:
 python3 server.py
 ```
 
-Access to `http://localhost:1985`
+On Windows 10 just double-click on the `server.py` file.
+
+Then access the URL `http://localhost:1985`
 
 ## Environments
 
 Static files are generated in the `web` directory. This directory contains all the necessary environment directories (devel, prod...).
 
-For the production, add a `prod` directory in the `web` directory. It will contain all pages and files you need to deploy (html, css, js, images...), with specific environment variables (like URL or analytic script).
+For the production, add a `prod` directory in the `web` directory. It will contain all pages and files you need to deploy (html, css, js, images...).
 
 After you add a new environment, you must restart the server.
 
