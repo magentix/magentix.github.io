@@ -2,5 +2,5 @@
   "title": "Page introuvable",
   "description": "La page recherchée n'existe pas",
   "robots": "NOINDEX,NOFOLLOW",
-  "content": "build/page/404.html"
+  "content": "page/404.html"
 }

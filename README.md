@@ -40,7 +40,7 @@ After you add a new environment, you must restart the server.
 
 ## Route
 
-When a page is open in the browser, the server search a json file in `build/json` directory. The name of the json file is the same as the URL path. Examples:
+When a page is open in the browser, the server search a json file in `source/json` directory. The name of the json file is the same as the URL path. Examples:
 
 | URL Path          | Json file                   |
 | ----------------- | --------------------------- |
@@ -59,8 +59,8 @@ The json file contains all the data required for generate the page:
 {
   "title": "Page title",
   "description": "Page description",
-  "template": "build/template/default.html",
-  "content": "build/page/index.html"
+  "template": "template/default.html",
+  "content": "page/index.html"
 }
 ```
 
@@ -86,13 +86,13 @@ A variable can have a default value:
 }
 ```
 
-A file named **default.json** in the `build/json` directory is used for the default configuration. It will be merged with the page's json file. This is useful for a global configuration.
+A file named **default.json** in the `source/json` directory is used for the default configuration. It will be merged with the page's json file. This is useful for a global configuration.
 
 **default.json**
 ```json
 {
   "title": "Default title",
-  "template": "build/template/default.html"
+  "template": "template/default.html"
 }
 ```
 
@@ -100,7 +100,7 @@ A file named **default.json** in the `build/json` directory is used for the defa
 ```json
 {
   "title": "Home title",
-  "content": "build/page/index.html"
+  "content": "page/index.html"
 }
 ```
 
@@ -108,8 +108,8 @@ A file named **default.json** in the `build/json` directory is used for the defa
 ```json
 {
   "title": "Home title",
-  "template": "build/template/default.html",
-  "content": "build/page/index.html"
+  "template": "template/default.html",
+  "content": "page/index.html"
 }
 ```
 
@@ -141,7 +141,7 @@ The template file is the skeleton of the page:
 
 ## Resources
 
-All necessary resources like js, css or images are copied from the `build/web` directory in all environment directories (e.g. `web/prod`).
+All necessary resources like js, css or images are copied from the `source/web` directory in all environment directories (e.g. `web/prod`).
 
 ## Static files
 

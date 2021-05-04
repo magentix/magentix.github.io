@@ -2,5 +2,5 @@
   "title": "Mentions légales et Confidentialité de Magentix - Développeur Magento indépendant",
   "description": "Consultez les mentions légales et de confidentialité du site Magentix",
   "robots": "NOINDEX,NOFOLLOW",
-  "content": "build/page/mentions.html"
+  "content": "page/mentions.html"
 }

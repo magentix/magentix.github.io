@@ -1,7 +1,7 @@
 """
 Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license (see LICENSE for details)
-Version 1.4.2
+Version 1.5.0
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -20,11 +20,11 @@ class StapyFileSystem:
     def get_root_dir():
         return os.path.dirname(os.path.abspath(__file__)) + os.sep
 
-    def get_web_dir(self):
+    def get_build_dir(self):
         return self.get_root_dir() + 'web'
 
-    def get_build_dir(self, directory=''):
-        return self.get_root_dir() + 'build' + (os.sep + directory if directory else '')
+    def get_source_dir(self, directory=''):
+        return self.get_root_dir() + 'source' + (os.sep + os.path.normpath(directory) if directory else '')
 
     @staticmethod
     def get_local_environment():
@@ -33,8 +33,8 @@ class StapyFileSystem:
     def get_environments(self):
         if not self.environments:
             self.environments[self.get_local_environment()] = False
-            for env in os.listdir(self.get_web_dir()):
-                path = os.path.join(self.get_web_dir(), env)
+            for env in os.listdir(self.get_build_dir()):
+                path = os.path.join(self.get_build_dir(), env)
                 if os.path.isdir(path):
                     self.environments[env] = path
 
@@ -129,10 +129,10 @@ class StapyParser:
         for var, value in sorted(data.items(), reverse=True):
             key = self.get_var(var, env)
             if key != parent and '{% ' + key + ' %}' in content:
-                base = self.fs.get_root_dir()
+                file = self.fs.get_source_dir(value)
                 content = content.replace(
                     '{% ' + key + ' %}',
-                    self.template_tags(data, self.fs.get_file_content(base + value), key) if value else ''
+                    self.template_tags(data, self.fs.get_file_content(file), key) if value else ''
                 )
 
         return content
@@ -171,7 +171,7 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         try:
             for directory in self.fs.get_environments().values():
                 if directory:
-                    self.fs.copy_tree(self.fs.get_build_dir('web'), directory)
+                    self.fs.copy_tree(self.fs.get_source_dir('web'), directory)
         except Exception as e:
             return self.get_response(500, self.fs.get_html_file_type(), str(e).encode())
 
@@ -179,7 +179,7 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         return self.get_response(404, self.fs.get_html_file_type(), b'404 not found')
 
     def get_file(self):
-        file = self.fs.get_build_dir('web') + self.path
+        file = self.fs.get_source_dir('web') + self.path
 
         return self.get_response(200, self.fs.get_file_type(file), self.fs.get_file_content(file, 'rb'))
 
@@ -189,7 +189,7 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         self.fs.get_file_content(self.get_page_config())
         try:
             data = self.fs.merge_json(self.get_page_config('/default'), self.get_page_config())
-            template = self.fs.get_file_content(self.fs.get_root_dir() + data['template'])
+            template = self.fs.get_file_content(self.fs.get_source_dir(data['template']))
             for env in self.fs.get_environments().keys():
                 result = self.ps.process(data, template, env)
                 if env == self.fs.get_local_environment():
@@ -216,7 +216,7 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         return path
 
     def get_page_config(self, path=None):
-        return os.path.normpath(self.fs.get_build_dir('json') + (self.get_page_path() if not path else path) + '.json')
+        return os.path.normpath(self.fs.get_source_dir('json') + (self.get_page_path() if not path else path) + '.json')
 
     @staticmethod
     def get_response(status, file_type, content):

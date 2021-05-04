@@ -1,6 +1,6 @@
 {
   "title": "CSP : utiliser une stratégie de sécurité du contenu (Content Security Policy)",
   "description": "Comment améliorer la sécurité du site avec les CSP Content Security Policy dont les attaques XSS et les injections de contenu. Apprenez par un exemple à définir une stratégie de sécurité.",
-  "highlight": "build/template/block/highlight.html",
-  "content": "build/page/blog/csp.html"
+  "highlight": "template/block/highlight.html",
+  "content": "page/blog/csp.html"
 }

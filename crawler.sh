@@ -1,5 +1,5 @@
 #!/bin/bash
-dir="$( cd "$( dirname "$0" )" && pwd )/build/json"
+dir="$( cd "$( dirname "$0" )" && pwd )/source/json"
 
 host="http://localhost:1985"
 if [ $1 ]

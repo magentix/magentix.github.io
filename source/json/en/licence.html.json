@@ -2,6 +2,6 @@
   "title": "Magentix Software Licence",
   "description": "Magentix Software Licence for Magentix Extensions",
   "robots": "NOINDEX,NOFOLLOW",
-  "template": "build/template/licence.html",
-  "content": "build/page/en/licence.html"
+  "template": "template/licence.html",
+  "content": "page/en/licence.html"
 }

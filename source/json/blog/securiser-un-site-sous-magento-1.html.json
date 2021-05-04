@@ -1,6 +1,6 @@
 {
   "title": "Magento : sécuriser un site sous Magento 1",
   "description": "Voici plusieurs solutions pour sécuriser votre plateforme développé avec Magento 1. Ces techniques permettent de pérenniser le site e-commerce au delà de la date de fin de vie annoncée pour juin 2020.",
-  "highlight": "build/template/block/highlight.html",
-  "content": "build/page/blog/magento-1-secure.html"
+  "highlight": "template/block/highlight.html",
+  "content": "page/blog/magento-1-secure.html"
 }

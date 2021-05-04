@@ -1,7 +1,7 @@
 {
   "robots": "INDEX,FOLLOW",
   "highlight": "",
-  "template": "build/template/default.html",
+  "template": "template/default.html",
   "url.local": "http://localhost:1985/",
   "url.prod": "https://www.magentix.fr/"
 }

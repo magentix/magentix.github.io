@@ -1,6 +1,6 @@
 {
   "title": "iptables : les règles pour sécuriser au maximum un serveur Web",
   "description": "Comment bloquer avec iptables l'ensemble du traffic INPUT sur tous les ports sauf 80 (http) et 443 (https).",
-  "highlight": "build/template/block/highlight.html",
-  "content": "build/page/blog/iptables.html"
+  "highlight": "template/block/highlight.html",
+  "content": "page/blog/iptables.html"
 }
