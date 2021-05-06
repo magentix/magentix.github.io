@@ -12,6 +12,12 @@
             <link>https://www.magentix.fr</link>
         </image>
         <item>
+            <title>Magento 2 sans Elasticsearch</title>
+            <link>https://www.magentix.fr/blog/magento-2-sans-elasticsearch.html</link>
+            <guid>https://www.magentix.fr/blog/magento-2-sans-elasticsearch.html</guid>
+            <description><![CDATA[Depuis la version 2.4, Elasticsearch est imposé nativement. L'installation de Magento n'aboutira pas si Elasticsearch n'est pas disponible. Mais il est tout à fait possible de s'en passer...]]></description>
+        </item>
+        <item>
             <title>Une installation légère de Magento 2</title>
             <link>https://www.magentix.fr/blog/une-installation-legere-de-magento-2.html</link>
             <guid>https://www.magentix.fr/blog/une-installation-legere-de-magento-2.html</guid>
