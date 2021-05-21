@@ -35,9 +35,11 @@
 
 <h2>Les règles iptables pour sécuriser au maximum un serveur Web</h2>
 
-<p class="intro">
-    Pour sécuriser un serveur Web, j'applique systèmatiquement le même comportement : bloquer l'ensemble du traffic sur tous les ports, sauf 80 (http) et 443 (https).
-    Seuls quelques IPs sont autorisés à accéder au reste. Voici comment le mettre en place avec iptables.
+<p>
+    <em>
+        Pour sécuriser un serveur Web, j'applique systèmatiquement le même comportement : bloquer l'ensemble du traffic sur tous les ports, sauf 80 (http) et 443 (https).
+        Seuls quelques IPs sont autorisés à accéder au reste. Voici comment le mettre en place avec iptables.
+    </em>
 </p>
 
 <p>Dès la mise en place d'un serveur accessible à distance, les scans de port et les tentatives de connexion SSH sont légions. La solution la plus radicale reste de tout bloquer, sauf les ports dont le serveur a besoin pour le ou les services qu'il propose.</p>
