@@ -54,7 +54,7 @@ p {
 }
 
 a {
-    color: #0070f3;
+    color: #245a61;
     text-decoration: underline;
 }
 
@@ -144,6 +144,21 @@ nav a:first-child {
     border-radius: 4px;
     padding: 15px;
     margin-bottom: 2rem;
+}
+
+article {
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+article a {
+    font-size: 1.2rem;
+}
+
+article span {
+    font-size: 0.9rem;
+    color: #999;
 }
 
 .ll-nam {
