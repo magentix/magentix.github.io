@@ -1,0 +1,83 @@
+<p><a href="{{ url }}blog.html">Billets</a> : Un serveur web à la maison</p>
+
+<hr/>
+
+<h2>Un serveur web à la maison</h2>
+
+<p>
+    <em>
+        Si vous disposez de la fibre et d'une freebox, vous pouvez installer votre propre serveur web et héberger facilement toutes vos applications à la maison.
+        Ce billet expose les différentes étapes pour la configuration du serveur.
+    </em>
+</p>
+
+<h3>Pourquoi faire ?</h3>
+
+<p>
+    La réponse est assez simple et plutôt évidente : il faut éviter d'héberger à la maison un site ou une application pour lesquels une déconnexion peut avoir un impact important pour les utilisateurs, la visibilité et l'activité.
+</p>
+
+<p>
+    Pour héberger un site perso, un site statique, un blog, échanger des resources avec des proches, installer une application, gérer du code (Gitea), se former, ou juste pour le fun, un serveur web maison est idéal.
+    Pour une agence c'est aussi un excellent moyen de mettre en place gratuitement et rapidement des instances de recette, proposer des démos aux clients, du bug tracking...
+</p>
+
+<p>
+    Mais il y a également une question de souplesse et de liberté, vous faites absolument ce que vous souhaitez de la machine. Pas d'engagement, pas de condition, pas de paiement.
+    Par exemple, personne ne vous facturera 10€ par mois pour l'utilisation d'une version obsolète de PHP (la spécialité chez Ionos).
+    Nos applications sont là, à proximité, et il suffit de débrancher une prise pour les déconnecter.
+    Si vous visitez <a href="https://magentix.space/">magentix.space</a> (serveur d'expérimentation),
+    vous n'êtes pas dans un data center à Roubaix ou à Francfort, non, vous êtes dans mon entrée, sur un meuble en rottin.
+</p>
+
+<p>
+     Donc rien de critique sur le serveur maison, car au quotidien nous ne sommes jamais à l'abri d'une coupure de courant ou d'un problème réseau.
+</p>
+
+<p>
+    Pour les coupures de courant un onduleur est assez efficace. Il garantit une continuité électrique (entre 15 et 30 minutes pour des modèles accessibles).
+    Il permet également de se protégrer des micros coupures. J'ai acheté il y a quelques années un Eaton Ellipse ECO 650 qui fonctionne parfaitement (environ 100€).
+    Pour les longues coupures, liées par exemple aux intempéries, il faudra prendre votre mal en patience.
+    Attention tout de même, si vous utilisez le CPL pour communiquer avec des équipements réseaux (comme le boîtier TV), il n'est pas possible de brancher la box sur l'onduleur. Le CPL de fonctionnera plus.
+</p>
+
+<p>
+    Pour les problèmes réseaux entre le terminal optique du logement et les équipements de l'opérateur, cela reste assez rare.
+    En 3 ans cela m'est arrivé à 2 reprises : un mauvais branchement du technicien lors d'une intervention sur la baie.
+    Dans ce cas la déconnexion peut durer plusieurs jours, le temps que le technicien se déplace pour constater la panne et réparer.
+    Les pannes générales sur les répartiteurs sont souvent traitées rapidement. Les opérateurs ne laissent jamais plusieurs centaines d'abonnées sans connexion.
+</p>
+
+<p>
+    De manière générale c'est à vous de juger l'intérêt d'une installation selon les pannes rencontrées dans votre région et l'utilisation que vous souhaitez faire du serveur. Si vous déménagez 2 fois par an cela risque d'être également un peu contraignant.
+</p>
+
+<h3>Free et la fibre</h3>
+
+<p>
+    Free est l'un des seules opérateurs en France à proposer depuis toujours l'attribution d'une IP v4 fixe (sur demande). Gratuitement.
+    Pour monter un serveur c'est important. Dans le cadre d'une installation domotique pilotée à distance également.
+    Chez Orange cela est réservé aux professionnels, chez les autres je ne sais pas mais il me semble que c'est impossible.
+    Il faut dans ce cas se tourner vers des solutions DynDNS, mais je n'ai jamais expérimenté.
+</p>
+
+<p>
+    Par défaut votre IP v4 chez Free est partagé avec 4 clients. L'opérateur réserve simplement une plage de ports différente. Cela permet de pallier (sans doute provisoirement) à la pénurie d'IP v4 que nous rencontrons actuellement.
+    Pour 100000 clients, Free n'a plus besoin de 100000 IPs v4, mais de 25000. Cela convient parfaitement pour un usage traditionnel. Mais pour notre serveur, il faut demander une adresse IP fixe personnelle.
+</p>
+
+<p>
+    Il est fort probable que nous soyons obligé un jour de basculer complétement vers de l'IP v6. Il est déjà possible de le faire si vos machines le supportent.
+</p>
+
+<p>
+    Pour le moment nous resterons sur de l'IP v4. Il faut vérifier dans un premier temps que l'attribution d'une adresse IP fixe est possible depuis le compte client : <strong>Ma Freebox > Demander une adresse IP fixe V4 full-stack</strong>.
+</p>
+
+<p>
+    Si vous n'avez pas l'option il sera un peu plus compliqué d'accéder à distance à vos applications.
+</p>
+
+<p>
+    Je recommande donc fortement une connexion fibrée chez Free...
+</p>

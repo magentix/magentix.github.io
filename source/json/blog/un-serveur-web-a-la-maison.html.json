@@ -1,0 +1,5 @@
+{
+  "title": "Un serveur web à la maison",
+  "description": "Ce billet expose les différentes étapes pour la mise en place d'un serveur Web à la maison : installation de l'OS, d'Apache et la configuration de la box.",
+  "content": "page/blog/web-server.html"
+}
