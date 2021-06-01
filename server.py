@@ -3,7 +3,6 @@ Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license (see LICENSE for details)
 Version 1.5.1
 """
-import sys
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from socketserver import ThreadingMixIn
