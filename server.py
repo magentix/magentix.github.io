@@ -1,8 +1,9 @@
 """
 Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license (see LICENSE for details)
-Version 1.5.0
+Version 1.5.1
 """
+import sys
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from socketserver import ThreadingMixIn
@@ -161,7 +162,10 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_response(result['status'])
         self.send_header('Content-type', result['type'])
         self.end_headers()
-        self.wfile.write(result['content'])
+        try:
+            self.wfile.write(result['content'])
+        except BrokenPipeError:
+            pass
 
     def send_response(self, code, message=None):
         self.send_response_only(code, message)
