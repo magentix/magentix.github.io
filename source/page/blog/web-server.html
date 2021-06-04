@@ -14,21 +14,23 @@
 <h3>Pourquoi faire ?</h3>
 
 <p>
-    La réponse est assez simple et plutôt évidente : il faut éviter d'héberger à la maison un site ou une application pour lesquels une déconnexion peut avoir un impact important pour les utilisateurs, la visibilité et l'activité.
+    Il faut éviter d'héberger à la maison un site ou une application pour lesquels une déconnexion peut avoir un impact important pour les utilisateurs, la visibilité et l'activité.
 </p>
 
 <p>
-    Pour héberger un site perso, un site statique, un blog, échanger des resources avec des proches, installer une application, gérer du code (Gitea), se former, ou juste pour le fun, un serveur web maison est idéal.
+    Pour héberger un site perso, un site statique, un blog, échanger des resources avec des proches, installer une application, gérer du code, se former, ou juste pour le fun, un serveur web maison est idéal.
     Pour une agence c'est aussi un excellent moyen de mettre en place gratuitement et rapidement des instances de recette, proposer des démos aux clients, du bug tracking...
 </p>
 
 <p>
     Mais il y a également une question de souplesse et de liberté, vous faites absolument ce que vous souhaitez de la machine. Pas d'engagement, pas de condition, pas de paiement.
-    Par exemple, personne ne vous facturera 10€ par mois pour l'utilisation d'une version obsolète de PHP (la spécialité chez Ionos).
+    Personne ne vous facturera 10€ par mois pour l'utilisation d'une version obsolète de PHP (la spécialité chez Ionos).
     Nos applications sont là, à proximité, et il suffit de débrancher une prise pour les déconnecter.
     Si vous visitez <a href="https://magentix.space/">magentix.space</a> (serveur d'expérimentation),
     vous n'êtes pas dans un data center à Roubaix ou à Francfort, non, vous êtes dans mon entrée, sur un meuble en rottin.
 </p>
+
+<img src="{{ url }}media/blog/articles/freebox.png" alt="Freebox Delta" />
 
 <p>
      Donc rien de critique sur le serveur maison, car au quotidien nous ne sommes jamais à l'abri d'une coupure de courant ou d'un problème réseau.
@@ -86,7 +88,7 @@
 
 <p>
     C'est un vaste sujet... Celà dépend de ce que l'on souhaite hérberger sur le serveur.
-    Dans le passée j'ai toujours eu tendance à prendre des machines surdimensionnées par rapport à l'usage que j'en avais.
+    Dans le passé j'ai toujours eu tendance à prendre des machines surdimensionnées par rapport à l'usage que j'en avais.
     <em>"On ne sait jamais, ça peut servir"</em>. C'est une erreur. De l'argent dépensé inutilement.
 </p>
 
@@ -122,7 +124,7 @@
 </p>
 
 <p>
-    Je suis un lecteur du site <a href="#">minimachines.net</a>.
+    Je suis un lecteur du site <a href="https://www.minimachines.net">minimachines.net</a>.
     Au moment de mes recherches Pierre Lecourt publiait une offre pour un nouveau mini PC fanless, le Mele Quieter2.
     C'est ce genre de machine qu'il me fallait.
 </p>
@@ -130,12 +132,222 @@
 <p>
     Mais sur un PC d'une marque chinoise peu connue on ne sait jamais très bien comment une distribution Linux va tourner.
     C'est un risque modéré car il n'y a généralement rien d'extravagant. Il faut surtout s'inquiéter de la finission générale de l'engin.
-    Il m'est arrivé de me retrouver avec des machines au bruit insuportable ou avec des connecteurs deffectueux.
+    Il m'est arrivé de me retrouver avec des machines au bruit insuportable ou avec des connecteurs défectueux.
     Toujours attendre un peu, n'acheter que s'il y a plusieurs retours positifs.
 </p>
 
 <p>
     Pour cet article, l'installation a donc été effectuée sur le Mele Quieter2.
-    Il a également l'avantage de ne consommer moins de 2w quand il ne se passe rien (sans disque supplémentaire).
+    Il a également l'avantage de ne consommer <strong>moins de 1.5w</strong> quand il ne se passe rien (sans disque supplémentaire).
     Cela représente quelques centimes par mois.
+</p>
+
+<p>
+    Comparatif de la consommation de 3 mini machines (aucune activité) :
+</p>
+
+<img src="{{ url }}media/blog/articles/consommation-electrique.png" alt="Consommation électrique" />
+
+<table>
+    <tr>
+        <th>Machine</th>
+        <th>OS</th>
+        <th>Conso.</th>
+    </tr>
+    <tr>
+        <td>Raspberry Pi 4<br /><em>Standard</em></td>
+        <td>Raspberry Pi OS</td>
+        <td><strong>2.5w</strong></td>
+    </tr>
+    <tr>
+        <td>ASUS PN60<br /><em>SSD 256Go - 32Go ram</em></td>
+        <td>Debian</td>
+        <td><strong>8.5w</strong></td>
+    </tr>
+        <tr>
+        <td>Mele Quieter2<br /><em>Standard</em></td>
+        <td>Debian</td>
+        <td><strong>1.2w</strong></td>
+    </tr>
+</table>
+
+<p>
+    Héberger un site statique sur un Mele Quieter2 coûte moins de 2€ par an.
+</p>
+
+<h3>Installation du système</h3>
+
+<p>
+    Pour le système d'exploitation c'est au choix, généralement pour du serveur on trouve :
+</p>
+
+<ul>
+    <li>Debian</li>
+    <li>CentOS</li>
+    <li>Ubuntu server</li>
+    <li>FreeBSD</li>
+</ul>
+
+<p>
+    Il en existe beaucoup d'autres. J'en ai essayé pas mal mais j'ai une nette préférence pour Debian. J'y reviens toujours. C'est très personnel.
+</p>
+
+<p>
+    <strong>J'effectue dans cet article une installation Debian</strong>, mais vous pouvez adapter sans problème selon votre OS préféré.
+</p>
+
+<p>
+    Je réalise l'installation de l'OS à partir d'une clé USB bootable.
+    On peut utiliser n'importe quelle clé, avec une capacité suffisante pour accueillir l'image d'installation.
+    J'ai une petite clé SanDisk de 16Go, ça coûte moins de 10€.
+</p>
+
+<p>
+    Les systèmes fournissent des images de type <strong>img</strong> ou <strong>iso</strong>. Pour Debian on la télécharge via le lien suivant :
+</p>
+
+<p>
+    <a href="https://www.debian.org/CD/http-ftp/#stable">Télécharger les images de CD de Debian par HTTP ou par FTP</a>
+</p>
+
+<p>
+    Dans la majorité des cas votre CPU est de type amd64.
+    Pour faire simple, si la machine a moins 20 ans et peut faire tourner Windows c'est de l'amd64.
+    Les choses vont peut être changer dans le futur avec l'arrivée d'Apple M1 et du Lakefield chez Intel (ARM).
+    Pour un Raspberry Pi 4 c'est de l'arm64, mais Raspberry Pi OS est basé sur Debian, il est préférable d'utiliser cet OS.
+</p>
+
+<p>
+    Si vous avez la possibilité de relier le PC à la box en ethernet pendant l'installation, partez sur l'image <strong>debian-X.X.X-amd64-netinst.iso</strong>, sinon <strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong>.
+    Il est fréquent que la configuration du wifi requiert des drivers spécifiques, toujours un peu galère pendant la phase d'installation.
+</p>
+
+<p>
+    De mon côté j'ai la chance d'avoir un D-Link DAP-1360 (environ 30€) configuré en mode Wireless (le bureau est loin de la box), j'y branche simplement la machine en ethernet.
+</p>
+
+<img src="{{ url }}media/blog/articles/dlink-dap-1360.png" alt="Dlink DAP 1360" />
+
+<p>
+    Mais vous pouvez sans problème effectuer l'installation sans Internet à partir de l'image CD complète (<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong>).
+</p>
+
+<p>
+    Pour créer une clé USB bootable à partir de l'image téléchargée, 2 solutions.
+</p>
+
+<h4>Depuis Windows</h4>
+
+<section>
+    <p>
+        Si vous êtes sous Windows, le logiciel <a href="https://rufus.ie/fr/">Rufus</a> est parfait.
+    </p>
+</section>
+
+<h4>Depuis un système UNIX</h4>
+
+<section>
+    <p>
+        Si vous êtes sous un système UNIX (Ubuntu, Debian, MacOS...), on peut passer par la commande <code>dd</code>.
+    </p>
+
+    <p>
+        Il faut dans un premier temps identifier le fichier périphérique sur lequel la clé est accessible.
+        J'utilise la commande <code>dmesg</code> juste après avoir branché la clé USB.
+    </p>
+
+<pre>
+sudo <strong>dmesg</strong>
+</pre>
+
+<pre>
+[1129003.393918] usb-storage 2-4.3:1.0: USB Mass Storage device detected
+[1129003.394285] scsi host1: usb-storage 2-4.3:1.0
+[1129004.398960] scsi 1:0:0:0: Direct-Access     SanDisk  Ultra            1.00 PQ: 0 ANSI: 6
+[1129004.399389] sd 1:0:0:0: Attached scsi generic sg0 type 0
+[1129004.399661] sd 1:0:0:0: [<span class="ll-num">sda</span>] 30464000 512-byte logical blocks: (15.6 GB/14.5 GiB)
+[1129004.400584] sd 1:0:0:0: [<span class="ll-num">sda</span>] Write Protect is off
+[1129004.400588] sd 1:0:0:0: [<span class="ll-num">sda</span>] Mode Sense: 43 00 00 00
+[1129004.400897] sd 1:0:0:0: [<span class="ll-num">sda</span>] Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
+[1129004.422517] <span class="ll-num">sda</span>: sda1
+[1129004.423849] sd 1:0:0:0: [<span class="ll-num">sda</span>] Attached SCSI removable disk
+</pre>
+
+    <p>
+        On identifie ici clairement que nous sommes sur <code>/dev/sda</code> (ce peut être sdb, sdc... ou autre), avec une partition (sda1). Ce que l'on peut vérifier avec la commande <code>df</code>.
+    </p>
+
+<pre>
+sudo <strong>df</strong>
+</pre>
+
+<pre>
+<span class="ll-num">/dev/sda1</span>    15G    8,0K   15G   1% /media/xxxxxxx/name
+</pre>
+
+    <p>
+        Ou encore la commande <code>lsblk</code>.
+    </p>
+
+<pre>
+sudo <strong>lsblk</strong>
+</pre>
+
+<pre>
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+<span class="ll-num">sda</span>           8:0    0  14,5G   0 disk
+└─ <span class="ll-num">sda1</span>       8:1    0  14,5G   0 part /media/xxxxxxx/name
+</pre>
+
+    <p>
+        <strong>Note :</strong> si c'est une clé toute neuve ou complétement formatée il n'y a pas forcement de partition (sdaX).
+    </p>
+
+    <p>
+        <strong>Pour la suite n'oubliez pas de remplacer le fichier périphérique par celui identifié sur votre machine
+        au risque de perdre toutes les informations contenues sur un disque.</strong>
+    </p>
+
+    <p>
+        Il nous reste, à l'aide de la commande <code>dd</code>, à copier l'image sur la clé USB. <strong>Ne pas oublier de démonter la clé au préalable.</strong>
+    </p>
+
+<pre>
+sudo <strong>umount</strong> <span class="ll-num">/dev/sda1</span>
+</pre>
+
+    <aside>Si la partition est montée sur sda1</aside>
+
+<pre>
+sudo <strong>umount</strong> <span class="ll-num">/dev/sda</span>
+</pre>
+
+    <aside>Si la clé USB est montée sur sda</aside>
+
+<pre>
+sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-netinst.iso</strong> of=<span class="ll-num">/dev/sda</span> bs=1M
+</pre>
+
+    <aside>Avec l'image <strong>Debian network install</strong> si la machine dispose d'une connexion Internet</aside>
+
+<pre>
+sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong> of=<span class="ll-num">/dev/sda</span> bs=1M
+</pre>
+
+    <aside>Avec l'image <strong>Debian CD</strong> si la machine ne peut être connectée à Internet</aside>
+
+    <p>
+        Si tout va bien on obtient après quelques secondes :
+    </p>
+
+<pre>
+337+0 enregistrements lus
+337+0 enregistrements écrits
+353370112 bytes (353 MB, 337 MiB) copied, 29,0891 s, 12,1 MB/s
+</pre>
+
+</section>
+
+<p>
+    <strong>La clé USB est prête</strong>, on la branche sur le futur serveur.
 </p>

@@ -153,6 +153,40 @@ article span {
     color: #555;
 }
 
+table {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin: 0 0 1rem 0;
+}
+
+table td, table th {
+    border: 1px solid #e5e7eb;
+    padding: 5px 10px;
+}
+
+table th {
+    text-align: center;
+    font-weight: bold;
+    background: #0c4047;
+    color: #fff;
+}
+
+section {
+    border-left: 3px solid #e5e7eb;
+    padding-left: 15px;
+}
+
+aside {
+    font-size:0.8rem;
+    font-style: italic;
+    margin: -0.6rem 0 1rem 0;
+    background: url(../images/arrow.png) no-repeat left 4px;
+    padding-left: 16px;
+    margin-left: 8px;
+}
+
 .ll-nam {
     color: #0c4047;
 }
