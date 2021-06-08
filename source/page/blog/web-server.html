@@ -30,7 +30,7 @@
     vous n'êtes pas dans un data center à Roubaix ou à Francfort, non, vous êtes dans mon entrée, sur un meuble en rottin.
 </p>
 
-<img src="{{ url }}media/blog/articles/freebox.png" alt="Freebox Delta" />
+<img src="{{ url }}media/blog/articles/freebox.png" alt="Freebox Delta" loading="lazy" />
 
 <p>
      Donc rien de critique sur le serveur maison, car au quotidien nous ne sommes jamais à l'abri d'une coupure de courant ou d'un problème réseau.
@@ -84,6 +84,19 @@
     Je recommande donc fortement une connexion fibrée chez Free...
 </p>
 
+<p>
+    Niveau temps de réponse, c'est très bon, même excellent. Mieux que chez beaucoup d'hébergeurs.
+</p>
+
+<img src="{{ url }}media/blog/articles/freebox-fibre-vs-netlify.png" alt="TTBF Freebox vs Netlify" loading="lazy" />
+
+<aside>Freebox FTTH vs Netlify</aside>
+
+<p>
+    Ce graphique met en évidence le temps de latence pour des requêtes vers une <strong>Freebox FTTH</strong> (à gauche), puis <strong>Netlify</strong> (à droite).
+    Les sondes sont situées à Roubaix et Londres. Chez Netlify c'est beaucoup plus cahotique.
+</p>
+
 <h3>Quelle machine ?</h3>
 
 <p>
@@ -126,7 +139,7 @@
 <p>
     Je suis un lecteur du site <a href="https://www.minimachines.net">minimachines.net</a>.
     Au moment de mes recherches Pierre Lecourt publiait une offre pour un nouveau mini PC fanless, le Mele Quieter2.
-    C'est ce genre de machine qu'il me fallait.
+    C'est ce genre de machine qu'il me fallait. Cerise sur le gâteau, le PC est insensible à la poussière.
 </p>
 
 <p>
@@ -146,7 +159,7 @@
     Comparatif de la consommation de 3 mini machines (aucune activité) :
 </p>
 
-<img src="{{ url }}media/blog/articles/consommation-electrique.png" alt="Consommation électrique" />
+<img src="{{ url }}media/blog/articles/consommation-electrique.png" alt="Consommation électrique" loading="lazy" />
 
 <table>
     <tr>
@@ -226,7 +239,7 @@
     De mon côté j'ai la chance d'avoir un D-Link DAP-1360 (environ 30€) configuré en mode Wireless (le bureau est loin de la box), j'y branche simplement la machine en ethernet.
 </p>
 
-<img src="{{ url }}media/blog/articles/dlink-dap-1360.png" alt="Dlink DAP 1360" />
+<img src="{{ url }}media/blog/articles/dlink-dap-1360.png" alt="Dlink DAP 1360" loading="lazy" />
 
 <p>
     Mais vous pouvez sans problème effectuer l'installation sans Internet à partir de l'image CD complète (<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong>).
@@ -242,6 +255,38 @@
     <p>
         Si vous êtes sous Windows, le logiciel <a href="https://rufus.ie/fr/">Rufus</a> est parfait.
     </p>
+
+    <img src="{{ url }}media/blog/articles/rufus.png" alt="Logiciel Rufus" loading="lazy" />
+
+    <p>
+        Il y a quelques options à paramétrer :
+    </p>
+
+    <ul>
+        <li><strong>Périphérique :</strong> la clé USB</li>
+        <li><strong>Type de démarrage :</strong> l'image d'installation précédemment téléchargée</li>
+        <li><strong>Schéma de partition :</strong> GPT *</li>
+        <li><strong>Système de destination :</strong> UEFI</li>
+        <li><strong>Système de fichiers :</strong> FAT32</li>
+        <li><strong>Taille d’unité d’allocation :</strong> Défaut</li>
+    </ul>
+
+    <p>
+        * Je pars du principe que le futur serveur est une machine assez récente (après 2012) avec <strong>firmeware UEFI</strong> et disque avec <strong>partition GPT</strong>.
+        Si vous doutez, il faut visualiser le <strong>setup</strong> de la carte mère (BIOS/UEFI).
+        Au démarrage (splash screen) actionnez la touche d'accès au setup (esc, suppr, F2, F10...), généralement la touche est indiquée.
+        Si vous êtes sur de l'UEFI cela est obligatoirement mentionné quelque part.
+    </p>
+
+    <img src="{{ url }}media/blog/articles/bios-uefi.png" alt="Bios Legacy ou UEFI" loading="lazy" />
+
+    <aside>UEFI Asus PN60 et Mele Quieter2</aside>
+
+    <p>
+        Après validation, il est possible que Rufus vous demande le mode d'écriture de l'image. Restez sur l'option recommandée (Ecrire en mode image ISO).
+    </p>
+
+    <img src="{{ url }}media/blog/articles/rufus-isohybrid.png" alt="Rufus mode d'écriture de l'image" loading="lazy" />
 </section>
 
 <h4>Depuis un système UNIX</h4>
