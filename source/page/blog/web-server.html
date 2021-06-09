@@ -7,11 +7,22 @@
 <p>
     <em>
         Si vous disposez de la fibre et d'une freebox, vous pouvez installer votre propre serveur web et héberger facilement toutes vos applications à la maison.
-        Ce billet expose les différentes étapes pour la configuration du serveur.
+        Ce billet expose les différentes étapes pour l'installation et la configuration du serveur.
     </em>
 </p>
 
-<h3>Pourquoi faire ?</h3>
+<h3 id="p0">Sommaire</h3>
+
+<ul>
+    <li><a href="#p1">Pour quoi faire ?</a></li>
+    <li><a href="#p2">Free et la fibre</a></li>
+    <li><a href="#p3">Quelle machine ?</a></li>
+    <li><a href="#p4">Image d'installation</a></li>
+    <li><a href="#p5">Préparer une Clé USB bootable</a></li>
+    <li><a href="#p6">Installation du système d'exploitation</a></li>
+</ul>
+
+<h3 id="p1">Pour quoi faire ?</h3>
 
 <p>
     Il faut éviter d'héberger à la maison un site ou une application pour lesquels une déconnexion peut avoir un impact important pour les utilisateurs, la visibilité et l'activité.
@@ -37,10 +48,15 @@
 </p>
 
 <p>
-    Pour les coupures de courant un onduleur est assez efficace. Il garantit une continuité électrique (entre 15 et 30 minutes pour des modèles accessibles).
-    Il permet également de se protégrer des micros coupures. J'ai acheté il y a quelques années un Eaton Ellipse ECO 650 qui fonctionne parfaitement (environ 100€).
+    Pour les coupures de courant un onduleur est assez efficace. Il garantit une continuité électrique et permet de se protégrer des micros coupures ou des chutes de tension.
+    J'ai acheté il y a quelques années un <strong>Eaton Ellipse ECO 650</strong>, 650VA, batterie 12V, 7Ah, soit plus de 6h d'autonomie pour une machine de 10W. Il fonctionne parfaitement (environ 100€).
     Pour les longues coupures, liées par exemple aux intempéries, il faudra prendre votre mal en patience.
-    Attention tout de même, si vous utilisez le CPL pour communiquer avec des équipements réseaux (comme le boîtier TV), il n'est pas possible de brancher la box sur l'onduleur. Le CPL de fonctionnera plus.
+    Attention tout de même, si vous utilisez le CPL pour communiquer avec des équipements réseaux (comme le boîtier TV), il n'est pas possible de brancher la box sur l'onduleur. Le CPL ne fonctionnera plus.
+</p>
+
+<p class="warning">
+    <strong>Note :</strong> Une <strong>freebox delta</strong> une fois démarrée consomme <strong>27,2 Watts</strong>. Avec le <strong>Eaton Ellipse ECO 650</strong> elle continuera de fonctionner environ <strong>2h30</strong> si elle est branchée seule.
+    Si la panne de courant concerne également le NRO il n'y aura plus la fibre non plus, mais les NRO sont également équipés d'un onduleur...
 </p>
 
 <p>
@@ -54,7 +70,7 @@
     De manière générale c'est à vous de juger l'intérêt d'une installation selon les pannes rencontrées dans votre région et l'utilisation que vous souhaitez faire du serveur. Si vous déménagez 2 fois par an cela risque d'être également un peu contraignant.
 </p>
 
-<h3>Free et la fibre</h3>
+<h3 id="p2">Free et la fibre</h3>
 
 <p>
     Free est l'un des seules opérateurs en France à proposer depuis toujours l'attribution d'une IP v4 fixe (sur demande). Gratuitement.
@@ -97,7 +113,7 @@
     Les sondes sont situées à Roubaix et Londres. Chez Netlify c'est beaucoup plus cahotique.
 </p>
 
-<h3>Quelle machine ?</h3>
+<h3 id="p3">Quelle machine ?</h3>
 
 <p>
     C'est un vaste sujet... Celà dépend de ce que l'on souhaite hérberger sur le serveur.
@@ -188,7 +204,7 @@
     Héberger un site statique sur un Mele Quieter2 coûte moins de 2€ par an.
 </p>
 
-<h3>Installation du système</h3>
+<h3 id="p4">Image d'installation</h3>
 
 <p>
     Pour le système d'exploitation c'est au choix, généralement pour du serveur on trouve :
@@ -212,7 +228,7 @@
 <p>
     Je réalise l'installation de l'OS à partir d'une clé USB bootable.
     On peut utiliser n'importe quelle clé, avec une capacité suffisante pour accueillir l'image d'installation.
-    J'ai une petite clé SanDisk de 16Go, ça coûte moins de 10€.
+    J'ai une petite clé <strong>SanDisk de 16Go</strong>, ça coûte moins de 10€.
 </p>
 
 <p>
@@ -224,7 +240,7 @@
 </p>
 
 <p>
-    Dans la majorité des cas votre CPU est de type amd64.
+    Le téléchargement d'une image requiert de connaître le type de processeur. Dans la majorité des cas votre CPU est de type amd64.
     Pour faire simple, si la machine a moins 20 ans et peut faire tourner Windows c'est de l'amd64.
     Les choses vont peut être changer dans le futur avec l'arrivée d'Apple M1 et du Lakefield chez Intel (ARM).
     Pour un Raspberry Pi 4 c'est de l'arm64, mais Raspberry Pi OS est basé sur Debian, il est préférable d'utiliser cet OS.
@@ -244,6 +260,8 @@
 <p>
     Mais vous pouvez sans problème effectuer l'installation sans Internet à partir de l'image CD complète (<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong>).
 </p>
+
+<h3 id="p5">Préparer une Clé USB bootable</h3>
 
 <p>
     Pour créer une clé USB bootable à partir de l'image téléchargée, 2 solutions.
@@ -273,14 +291,19 @@
 
     <p>
         * Je pars du principe que le futur serveur est une machine assez récente (après 2012) avec <strong>firmeware UEFI</strong> et disque avec <strong>partition GPT</strong>.
-        Si vous doutez, il faut visualiser le <strong>setup</strong> de la carte mère (BIOS/UEFI).
+        Si vous doutez, il faut visualiser le <strong>setup</strong> de la carte mère.
         Au démarrage (splash screen) actionnez la touche d'accès au setup (esc, suppr, F2, F10...), généralement la touche est indiquée.
         Si vous êtes sur de l'UEFI cela est obligatoirement mentionné quelque part.
     </p>
 
     <img src="{{ url }}media/blog/articles/bios-uefi.png" alt="Bios Legacy ou UEFI" loading="lazy" />
 
-    <aside>UEFI Asus PN60 et Mele Quieter2</aside>
+    <aside>UEFI du Asus PN60 (sur de nombreuses cartes mères Asus) et du Mele Quieter2 (Aptio setup utility, un classique)</aside>
+
+    <p>
+        Il peut arriver que le boot soit en mode BIOS Legacy.
+        Revenez sur de l'UEFI si cela est le cas (même si le disque est en MBR il sera formaté intégralement).
+    </p>
 
     <p>
         Après validation, il est possible que Rufus vous demande le mode d'écriture de l'image. Restez sur l'option recommandée (Ecrire en mode image ISO).
@@ -319,7 +342,7 @@ sudo <strong>dmesg</strong>
 </pre>
 
     <p>
-        On identifie ici clairement que nous sommes sur <code>/dev/sda</code> (ce peut être sdb, sdc... ou autre), avec une partition (sda1). Ce que l'on peut vérifier avec la commande <code>df</code>.
+        On identifie ici clairement que nous sommes sur <code>/dev/sda</code> (ce peut être <strong>sdb</strong>, <strong>sdc</strong>... ou autre), avec une partition (sda1). Ce que l'on peut vérifier avec la commande <code>df</code>.
     </p>
 
 <pre>
@@ -348,8 +371,8 @@ NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
         <strong>Note :</strong> si c'est une clé toute neuve ou complétement formatée il n'y a pas forcement de partition (sdaX).
     </p>
 
-    <p>
-        <strong>Pour la suite n'oubliez pas de remplacer le fichier périphérique par celui identifié sur votre machine
+    <p class="alert">
+        <strong>Pour la suite n'oubliez pas de remplacer le fichier périphérique par celui identifié sur votre système (sda, sdb, sdc...)
         au risque de perdre toutes les informations contenues sur un disque.</strong>
     </p>
 
@@ -396,3 +419,9 @@ sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong> of
 <p>
     <strong>La clé USB est prête</strong>, on la branche sur le futur serveur.
 </p>
+
+<h3 id="p6">Installation du système d'exploitation</h3>
+
+<div class="toolbar">
+    <a href="#p0">Sommaire</a>
+</div>
