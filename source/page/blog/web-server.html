@@ -14,19 +14,16 @@
 <h3 id="p0">Sommaire</h3>
 
 <ul>
-    <li><a href="#p1">Pour quoi faire ?</a></li>
-    <li><a href="#p2">Free et la fibre</a></li>
-    <li><a href="#p3">Quelle machine ?</a></li>
-    <li><a href="#p4">Image d'installation</a></li>
-    <li><a href="#p5">Préparer une Clé USB bootable</a></li>
-    <li><a href="#p6">Installation du système d'exploitation</a></li>
+    <li><a href="#p1">Introduction</a></li>
+    <li><a href="#p2">Quels sont les risques ?</a></li>
+    <li><a href="#p3">Free et la fibre</a></li>
+    <li><a href="#p4">Quelle machine ?</a></li>
+    <li><a href="#p5">Image d'installation</a></li>
+    <li><a href="#p6">Préparer une Clé USB bootable</a></li>
+    <li><a href="#p7">Installation du système d'exploitation</a></li>
 </ul>
 
-<h3 id="p1">Pour quoi faire ?</h3>
-
-<p>
-    Il faut éviter d'héberger à la maison un site ou une application pour lesquels une déconnexion peut avoir un impact important pour les utilisateurs, la visibilité et l'activité.
-</p>
+<h3 id="p1">Introduction</h3>
 
 <p>
     Pour héberger un site perso, un site statique, un blog, échanger des resources avec des proches, installer une application, gérer du code, se former, ou juste pour le fun, un serveur web maison est idéal.
@@ -43,19 +40,29 @@
 
 <img src="{{ url }}media/blog/articles/freebox.png" alt="Freebox Delta" loading="lazy" />
 
+<h3 id="p2">Quels sont les risques ?</h3>
+
 <p>
-     Donc rien de critique sur le serveur maison, car au quotidien nous ne sommes jamais à l'abri d'une coupure de courant ou d'un problème réseau.
+     Au quotidien nous ne sommes jamais à l'abri d'une coupure de courant ou d'un problème réseau.
 </p>
 
 <p>
     Pour les coupures de courant un onduleur est assez efficace. Il garantit une continuité électrique et permet de se protégrer des micros coupures ou des chutes de tension.
-    J'ai acheté il y a quelques années un <strong>Eaton Ellipse ECO 650</strong>, 650VA, batterie 12V, 7Ah, soit environ 8h d'autonomie pour une machine de 10 Watts : 7/(10/12).
+    J'ai acheté il y a quelques années un <strong>Eaton Ellipse ECO 650</strong>, 650VA, batterie 12V, 7Ah, soit au minimum 6h d'autonomie pour une machine de 10 Watts (marge de 20%) :
+</p>
+
+<pre>
+7Ah / ( 10w / 12v ) * 0.8 = 6.72h
+</pre>
+
+<p>
+
     Pour les longues coupures, liées par exemple aux intempéries, il faudra prendre votre mal en patience.
     Attention tout de même, si vous utilisez le CPL pour communiquer avec des équipements réseaux (comme le boîtier TV), il n'est pas possible de brancher la box sur l'onduleur. Le CPL ne fonctionnera plus.
 </p>
 
 <p class="warning">
-    <strong>Note :</strong> Une <strong>freebox delta</strong> (équipée d'un seul disque dur 2,5") consomme <strong>27,2 Watts</strong>. Avec le <strong>Eaton Ellipse ECO 650</strong> elle continuera de fonctionner environ <strong>3h</strong> si elle est branchée seule.
+    <strong>Note :</strong> Une <strong>freebox delta</strong> (équipée d'un seul disque dur 2,5") consomme <strong>27,2 Watts</strong>. Avec le <strong>Eaton Ellipse ECO 650</strong> elle continuera de fonctionner environ <strong>2.5h</strong> si elle est branchée seule.
     Si la panne de courant concerne également le NRO il n'y aura plus la fibre non plus, mais les NRO sont également équipés d'un onduleur...
 </p>
 
@@ -67,10 +74,14 @@
 </p>
 
 <p>
-    De manière générale c'est à vous de juger l'intérêt d'une installation selon les pannes rencontrées dans votre région et l'utilisation que vous souhaitez faire du serveur. Si vous déménagez 2 fois par an cela risque d'être également un peu contraignant.
+    <strong>De manière générale c'est à vous de juger l'intérêt d'une installation selon les pannes rencontrées dans votre région et l'utilisation que vous souhaitez faire du serveur.</strong> Si vous déménagez 2 fois par an cela risque d'être également un peu contraignant.
 </p>
 
-<h3 id="p2">Free et la fibre</h3>
+<p>
+    Je pense qu'il faut éviter d'héberger à la maison un site ou une application pour lesquels une déconnexion peut avoir un impact important pour les utilisateurs, la visibilité et l'activité.
+</p>
+
+<h3 id="p3">Free et la fibre</h3>
 
 <p>
     Free est l'un des seules opérateurs en France à proposer depuis toujours l'attribution d'une IP v4 fixe (sur demande). Gratuitement.
@@ -113,7 +124,7 @@
     Les sondes sont situées à Roubaix et Londres. Chez Netlify c'est beaucoup plus cahotique.
 </p>
 
-<h3 id="p3">Quelle machine ?</h3>
+<h3 id="p4">Quelle machine ?</h3>
 
 <p>
     C'est un vaste sujet... Celà dépend de ce que l'on souhaite hérberger sur le serveur.
@@ -201,10 +212,20 @@
 </table>
 
 <p>
-    Héberger un site statique sur un Mele Quieter2 coûte moins de 2€ par an.
+    J'ai fait monté au maximum le <strong>Mele Quieter2</strong> à 5.1w avec 283 requêtes HTTP par seconde sur un site statique.
 </p>
 
-<h3 id="p4">Image d'installation</h3>
+<p>
+    Héberger un site sur un Mele Quieter2 coûte moins de 2€ par an.
+</p>
+
+<p class="warning">
+    <strong>Note :</strong> ce sont ici des mini-machines avec des composants à très faible consommation.
+    Si vous utilisez une vielle tour qui traîne dans un coin on pourrait facilement se situer aux alentours des 100w.
+    Il existe de nombreux sites pour estimer la consommation d'un PC, par exemple <a href="https://outervision.com/power-supply-calculator">Power Supply Calculator</a>.
+</p>
+
+<h3 id="p5">Image d'installation</h3>
 
 <p>
     Pour le système d'exploitation c'est au choix, généralement pour du serveur on trouve :
@@ -261,7 +282,7 @@
     Mais vous pouvez sans problème effectuer l'installation sans Internet à partir de l'image CD complète (<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong>).
 </p>
 
-<h3 id="p5">Préparer une Clé USB bootable</h3>
+<h3 id="p6">Préparer une Clé USB bootable</h3>
 
 <p>
     Pour créer une clé USB bootable à partir de l'image téléchargée, 2 solutions.
@@ -420,7 +441,7 @@ sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong> of
     <strong>La clé USB est prête</strong>, on la branche sur le futur serveur.
 </p>
 
-<h3 id="p6">Installation du système d'exploitation</h3>
+<h3 id="p7">Installation du système d'exploitation</h3>
 
 <div class="toolbar">
     <a href="#p0">Sommaire</a>
