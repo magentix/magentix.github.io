@@ -313,7 +313,7 @@
     <p>
         * Je pars du principe que le futur serveur est une machine assez récente (après 2012) avec <strong>firmeware UEFI</strong> et disque avec <strong>partition GPT</strong>.
         Si vous doutez, il faut visualiser le <strong>setup</strong> de la carte mère.
-        Au démarrage (splash screen) actionnez la touche d'accès au setup (esc, suppr, F2, F10...), généralement la touche est indiquée.
+        Au démarrage (splash screen) actionnez la touche d'accès au setup (<kbd>Esc</kbd>, <kbd>Suppr</kbd>, <kbd>F2</kbd>, <kbd>F10</kbd>...), généralement la touche est indiquée.
         Si vous êtes sur de l'UEFI cela est obligatoirement mentionné quelque part.
     </p>
 
@@ -442,6 +442,48 @@ sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong> of
 </p>
 
 <h3 id="p7">Installation du système d'exploitation</h3>
+
+<p>
+    Au démarrage du système, au splash screen, on active rapidement la touche pour l'accès au setup. La touche diffère selon les constructeurs : <kbd>Esc</kbd>, <kbd>Suppr</kbd>, <kbd>F2</kbd>, <kbd>F10</kbd>...
+    En général la touche est indiquée. Pour le Mele Quieter2 c'est <kbd>Suppr</kbd>.
+</p>
+
+<p>
+    Une fois sur le <strong>BIOS/UEFI</strong>, on se dirige vers la section <code>boot</code>, ou parfois <code>démarrage</code> en Français.
+</p>
+
+<img src="{{ url }}media/blog/articles/uefi-aptio-boot.png" alt="UEFI Aptio Boot" loading="lazy" />
+
+<p>
+    L'obectif et d'amorcer le démarrage sur la <strong>clé USB</strong> et non sur les autres disques, en lui accordant la priorité. On enregistre et on redémarre.
+</p>
+
+<p>
+    Le système démarre sur la clé USB et si tout a bien fonctionné, l'écran d'installation du système d'exploitation est affiché.
+</p>
+
+<img src="{{ url }}media/blog/articles/debian-install-screen.png" alt="Installation du système d'exploitation Debian" loading="lazy" />
+
+<p>
+    Pour la suite je parcours l'installation de <strong>Debian</strong>, si vous optez pour un autre système c'est généralement assez similaire.
+</p>
+
+<p>
+    Par habitude je préfère l'installation classique (Install), je n'utilise jamais l'installation graphique. Mais les étapes sont exactement les mêmes.
+</p>
+
+<section>
+    <ul>
+        <li><strong>Language :</strong> French - Français</li>
+        <li><strong>Pays :</strong> France</li>
+        <li><strong>Disposition du clavier :</strong> Français</li>
+        <li><strong>Wifi (optionnel) :</strong> si le réseau n'est pas accessible, Debian tente une connexion wifi qui échoue la plus part du temps en raison des drivers manquants. Passez cette étape puis sélectionnez "Ne pas configurer le réseau maintenant"</li>
+        <li><strong>Nom de la machine :</strong> indiquez ce que vous souhaitez, de préférence un nom qui n'existe pas déjà sur le réseau, ce sera plus simple de l'identifier par la suite</li>
+        <li><strong>Mot de passe root :</strong> mot de passe souhaité</li>
+        <li><strong>Nom complet du nouvel utilisateur :</strong> votre identifiant</li>
+        <li><strong>Forcer l'installation UEFI (optionnel)</strong> : Debian peut détecter un système installé en mode de compatibilité BIOS. On force alors l'UEFI.</li>
+    </ul>
+</section>
 
 <div class="toolbar">
     <a href="#p0">Sommaire</a>

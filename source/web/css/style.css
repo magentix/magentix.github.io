@@ -86,11 +86,15 @@ pre {
     line-height: 1.5rem;
 }
 
-code {
+code, kbd {
     background: #f6f8fa;
     border: 1px solid #e5e7eb;
     font-family: Consolas, monaco, 'Ubuntu Mono', 'Liberation Mono', 'Courier New', Courier, monospace;
     padding: 3px 5px;
+}
+
+kbd {
+    border-bottom: 3px solid #E5E7EB;
 }
 
 blockquote {
