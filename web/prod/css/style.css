@@ -86,11 +86,15 @@ pre {
     line-height: 1.5rem;
 }
 
-code {
+code, kbd {
     background: #f6f8fa;
     border: 1px solid #e5e7eb;
     font-family: Consolas, monaco, 'Ubuntu Mono', 'Liberation Mono', 'Courier New', Courier, monospace;
     padding: 3px 5px;
+}
+
+kbd {
+    border-bottom: 3px solid #E5E7EB;
 }
 
 blockquote {
@@ -185,6 +189,39 @@ aside {
     background: url(../images/arrow.png) no-repeat left 4px;
     padding-left: 16px;
     margin-left: 8px;
+}
+
+.toolbar {
+    position: fixed;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.toolbar a {
+    padding-left: 25px;
+    background: url(../images/top.png) no-repeat left center;
+    text-decoration: none;
+    line-height: 20px;
+}
+
+.alert {
+    background: #FFF5F4;
+    border: 1px solid #951C24;
+    color: #951C24;
+    padding: 10px;
+}
+
+.warning {
+    background: #FDF8E4;
+    border: 1px solid #f2c779;
+    color: #333;
+    padding: 10px;
 }
 
 .ll-nam {

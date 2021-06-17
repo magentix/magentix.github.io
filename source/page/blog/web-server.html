@@ -21,6 +21,8 @@
     <li><a href="#p5">Image d'installation</a></li>
     <li><a href="#p6">Préparer une Clé USB bootable</a></li>
     <li><a href="#p7">Installation du système d'exploitation</a></li>
+    <li><a href="#p8">Configuration du système</a></li>
+    <li><a href="#p9">Installation du serveur Web</a></li>
 </ul>
 
 <h3 id="p1">Introduction</h3>
@@ -103,6 +105,8 @@
     Pour le moment nous resterons sur de l'IP v4. Il faut vérifier dans un premier temps que l'attribution d'une adresse IP fixe est possible depuis le compte client : <strong>Ma Freebox > Demander une adresse IP fixe V4 full-stack</strong>.
 </p>
 
+<img src="{{ url }}media/blog/articles/freebox-ipv4-fullstack.png" alt="Free Adresse IP fixe V4 full-stack" loading="lazy" />
+
 <p>
     Si vous n'avez pas l'option il sera un peu plus compliqué d'accéder à distance à vos applications.
 </p>
@@ -127,7 +131,7 @@
 <h3 id="p4">Quelle machine ?</h3>
 
 <p>
-    C'est un vaste sujet... Celà dépend de ce que l'on souhaite hérberger sur le serveur.
+    C'est un vaste sujet... Cela dépend de ce que l'on souhaite hérberger sur le serveur.
     Dans le passé j'ai toujours eu tendance à prendre des machines surdimensionnées par rapport à l'usage que j'en avais.
     <em>"On ne sait jamais, ça peut servir"</em>. C'est une erreur. De l'argent dépensé inutilement.
 </p>
@@ -144,7 +148,7 @@
 </ul>
 
 <p>
-    La bonne nouvelle est que de manière générale une pachine peu puissante suffit. Un simple Raspberry Pi avec Nginx sert parfaitement un site statique.
+    La bonne nouvelle est que de manière générale une machine peu puissante suffit. Un simple Raspberry Pi avec Nginx sert parfaitement un site statique.
 </p>
 
 <p>
@@ -178,7 +182,7 @@
 
 <p>
     Pour cet article, l'installation a donc été effectuée sur le Mele Quieter2.
-    Il a également l'avantage de ne consommer <strong>moins de 1.5w</strong> quand il ne se passe rien (sans disque supplémentaire).
+    Il a également l'avantage de consommer <strong>moins de 1.5w</strong> quand il ne se passe rien (sans disque supplémentaire).
     Cela représente quelques centimes par mois.
 </p>
 
@@ -212,7 +216,7 @@
 </table>
 
 <p>
-    J'ai fait monté au maximum le <strong>Mele Quieter2</strong> à 5.1w avec 283 requêtes HTTP par seconde sur un site statique.
+    Le <strong>Mele Quieter2</strong> est monté au maximum à <strong>5.1w</strong> avec <strong>283 requêtes HTTP par seconde</strong> sur un site statique.
 </p>
 
 <p>
@@ -445,7 +449,7 @@ sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong> of
 
 <p>
     Au démarrage du système, au splash screen, on active rapidement la touche pour l'accès au setup. La touche diffère selon les constructeurs : <kbd>Esc</kbd>, <kbd>Suppr</kbd>, <kbd>F2</kbd>, <kbd>F10</kbd>...
-    En général la touche est indiquée. Pour le Mele Quieter2 c'est <kbd>Suppr</kbd>.
+    En général la touche est indiquée. Pour le <strong>Mele Quieter2</strong> c'est <kbd>Suppr</kbd>.
 </p>
 
 <p>
@@ -465,7 +469,7 @@ sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong> of
 <img src="{{ url }}media/blog/articles/debian-install-screen.png" alt="Installation du système d'exploitation Debian" loading="lazy" />
 
 <p>
-    Pour la suite je parcours l'installation de <strong>Debian</strong>, si vous optez pour un autre système c'est généralement assez similaire.
+    J'effectue l'installation de <strong>Debian</strong>, si vous optez pour un autre système c'est généralement assez similaire.
 </p>
 
 <p>
@@ -481,9 +485,173 @@ sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong> of
         <li><strong>Nom de la machine :</strong> indiquez ce que vous souhaitez, de préférence un nom qui n'existe pas déjà sur le réseau, ce sera plus simple de l'identifier par la suite</li>
         <li><strong>Mot de passe root :</strong> mot de passe souhaité</li>
         <li><strong>Nom complet du nouvel utilisateur :</strong> votre identifiant</li>
-        <li><strong>Forcer l'installation UEFI (optionnel)</strong> : Debian peut détecter un système installé en mode de compatibilité BIOS. On force alors l'UEFI.</li>
+        <li><strong>Forcer l'installation UEFI (optionnel) :</strong> Debian peut détecter un système installé en mode de compatibilité BIOS. On force alors l'UEFI.</li>
+        <li><strong>Partitionner les disques :</strong> sauf pour des cas très particuliers, vous pouvez choisir "Utiliser un disque entier", puis "tous dans une seule partition (recommandé pour les débutants)". On applique enfin les changements sur les disques.</li>
     </ul>
+    <p>
+        L'installation du système de base commence. Il reste à configurer l'outil de gestion des paquets (sans miroir sur le réseau si vous êtes offline), et enfin la <strong>sélection des logiciels</strong>.
+    </p>
+
+    <p>
+        A cette étape <strong>ne sélectionnez que 2 options</strong> :
+    </p>
+
+<pre>
+[ ] environnement de bureau Debian
+[ ] serveur web
+[ ] serveur d'impression
+[*] serveur SSH
+[*] utilitaires usuels du système
+</pre>
+
+    <ul>
+        <li><strong>Serveur SSH</strong> car la connexion au serveur se fera à distance. Une fois l'installation et la configuration terminées on branche la machine sur la box et elle n'en bougera plus.</li>
+        <li><strong>Utilitaires usuels du système</strong> comprend une série d'applications pour gérer le système d'exploitation.</li>
+    </ul>
+
+    <p>
+        Je ne sélectionne jamais <strong>serveur web</strong> à cette étape, je préfère une installation manuelle.
+    </p>
 </section>
+
+<p>
+    Le système est installé, on redémarre.
+</p>
+
+<h3 id="p8">Configuration du système</h3>
+
+<h4>Editeur de texte</h4>
+
+<p>
+    Pour éditer les fichiers de configuration, utilisez un éditeur que vous appréciez. Par défaut nous n'avons que <code>vi</code>.
+    Cela convient aux puristes mais <code>nano</code> facilite grandement la tâche.
+</p>
+
+<p>
+    Si vous êtes en mode offline, utilisez <code>vi</code> à l'étape suivante (Adresse IP), vous pourrez installer autre chose par la suite.
+</p>
+
+<pre>
+<strong>apt-get</strong> update
+<strong>apt-get</strong> install nano
+</pre>
+
+<h4>Adresse IP</h4>
+
+<p>
+    Nous devons attribuer à la machine une adresse IP fixe en dehors de la plage d'adresses IP réservées par la box pour le DHCP.
+</p>
+
+<p>
+    Contrôlez cette plage d'adresses dans la configuration de la freebox en vous connectant depuis le navigateur sur <a href="http://mafreebox.freebox.fr" rel="nofollow">http://mafreebox.freebox.fr</a>.
+</p>
+
+<p>
+    Dans le menu <strong>Paramètres de la freebox > Réseau local > DHCP</strong>, on visualise le début et la fin de la plage d'adresses :
+</p>
+
+<img src="{{ url }}media/blog/articles/freebox-dhcp.png" alt="Freebox configuration du DHCP" loading="lazy" />
+
+<p>
+    Le DHCP est configuré ici pour attribuer des adresses entre <strong>192.168.1.2</strong> et <strong>192.168.1.50</strong>.
+</p>
+
+<p class="warning">
+    Il est également possible dans la configuration de la freebox d'attribuer un bail DHCP statique selon l'adresse mac de la machine, mais par expérience évitez d'utiliser ce système.
+</p>
+
+<p>
+    Sur le serveur, connectez vous au compte <strong>root</strong> via la commande <code>su</code>, puis éditez le fichier <code>/etc/network/interfaces</code>.
+</p>
+
+<pre>
+<strong>su</strong>
+<strong>nano</strong> /etc/network/interfaces
+</pre>
+
+<p>
+    Nous avons <strong>dhcp</strong> pour l'interface réseau. Par exemple :
+</p>
+
+<pre>
+iface <span class="ll-nam">enp2s0</span> inet <span class="ll-str">dhcp</span>
+</pre>
+
+<aside>L'interface est ici enp2s0, diffère selon les systèmes</aside>
+
+<p>
+    On remplace avec une IP fixe en dehors de la plage d'adresses DHCP de la box. J'ai choisi <strong>192.168.1.60</strong>.
+</p>
+
+<pre>
+<span class="ll-com"># This file describes the network interfaces available on your system</span>
+<span class="ll-com"># and how to activate them. For more information, see interfaces(5).</span>
+
+source /etc/network/interfaces.d/*
+
+<span class="ll-com"># The loopback network interface</span>
+auto <span class="ll-nam">lo</span>
+iface <span class="ll-nam">lo</span> inet <span class="ll-str">loopback</span>
+
+<span class="ll-com"># The primary network interface</span>
+auto <span class="ll-nam">enp2s0</span>
+allow-hotplug <span class="ll-nam">enp2s0</span>
+iface <span class="ll-nam">enp2s0</span> inet <span class="ll-str">static</span>
+    address <span class="ll-num">192.168.1.60</span>
+    netmask <span class="ll-num">255.255.255.0</span>
+    gateway <span class="ll-num">192.168.1.254</span>
+    broadcast <span class="ll-num">192.168.1.255</span>
+</pre>
+
+<aside>/etc/network/interfaces</aside>
+
+<p>
+    On peut redémarrer :
+</p>
+
+<pre>
+/etc/init.d/networking <strong>restart</strong>
+</pre>
+
+<p>
+    On vérifie que l'adresse IP a bien été attribuée avec la commande <code>ip a</code> :
+</p>
+
+<pre>
+ip a
+</pre>
+
+<p>
+    <strong>Nous pouvons maintenant relier définitivement la machine à la box (sans écran ni clavier) et utiliser n'importe quel PC pour s'y connecter à distance.</strong>
+</p>
+
+<p>
+    Petite vérification au préalable :
+</p>
+
+<pre>
+systemctl status ssh
+</pre>
+
+<p>
+    Nous avions installer le serveur SSH lors du choix des logiciels à l'installation de Debian. Si vous avez omis cette étape il faut l'installer maintenant : <code>apt-get install openssh-server</code>.
+</p>
+
+<p>
+    Par défaut le serveur SSH n'accepte pas de connexion directe au compte <strong>root</strong>. C'est une configuration que l'on peut modifier en éditant le fichier <code>/etc/ssh/sshd_config</code> (<strong>PermitRootLogin</strong>).
+    Mais si vous souhaitez autoriser les connexions SSH depuis l'extérieur je le déconseille fortement. Pensez également dans ce cas à modifier le port de connexion par défaut (22).
+</p>
+
+<p>
+    Une fois la machine connectée en ethernet à la box, utilisez d'importe quelle machine avec un client ssh pour vous y connecter. Depuis windows 10 vous pouvez utiliser directement la commande <code>ssh</code> dans le <strong>command prompt</strong>.
+    Pour les versions antérieures vous pouvez passer par <a href="https://www.putty.org/" rel="nofollow">putty</a>. Pour les systèmes UNIX c'est la commande <code>ssh</code>.
+</p>
+
+<pre>
+<strong>ssh</strong> <span class="ll-nam">username</span>@<span class="ll-num">192.168.1.60</span>
+</pre>
+
+<h3 id="p9">Installation du serveur Web</h3>
 
 <div class="toolbar">
     <a href="#p0">Sommaire</a>
