@@ -570,7 +570,7 @@ sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong> of
 </pre>
 
 <p>
-    Nous avons <strong>dhcp</strong> pour l'interface réseau. Par exemple :
+    Nous devrions trouver <strong>dhcp</strong> pour l'interface réseau. Par exemple :
 </p>
 
 <pre>
@@ -652,6 +652,100 @@ systemctl status ssh
 </pre>
 
 <h3 id="p9">Installation du serveur Web</h3>
+
+<p>
+    Apache, Nginx, Node.js... On y met ce que l'on souhaite. Pour mes sites statiques je vais rester sur un traditionnel Apache.
+</p>
+
+<p>
+    Une fois connecté au serveur via ssh, on installe Apache :
+</p>
+
+<pre>
+<strong>apt-get</strong> install <span class="ll-nam">apache2</span>
+</pre>
+
+<p class="warning">
+    <strong>Note :</strong> les commandes de type <strong>a2enmod</strong>, <strong>a2enconf</strong>, <strong>a2enmod</strong>... sont propres à Debian (et donc tous les systèmes basés sur Debian comme Ubuntu).
+    Les opérations que j'effectue via ces commandes sont à réaliser manuellement si vous avez opté pour un système tel que centOS ou FreeBSD.
+    Le paquet Apache sur les systèmes Debian propose un panel d'outils et une façon particulière de gérer les configurations.
+</p>
+
+<p>
+    On active de suite les module classiques :
+</p>
+
+<pre>
+<strong>a2enmod</strong> ssl
+<strong>a2enmod</strong> rewrite
+<strong>a2enmod</strong> expires
+<strong>a2enmod</strong> headers
+</pre>
+
+<pre>
+<strong>service</strong> <span class="ll-nam">apache2</span> restart
+</pre>
+
+<p>
+    On peut enfin vérifier qu'Apache communique bien sur les ports 80 et 443 :
+</p>
+
+<pre>
+<strong>lsof</strong> -i -P -n | <strong>grep</strong> LISTEN
+</pre>
+
+<p>
+    A ce stade, depuis n'importe quel PC ou smartphone connecté au réseau, on accéde au serveur depuis le navigateur à l'adresse <code>http://192.168.1.60</code> (adaptez selon l'IP que vous avez choisi).
+</p>
+
+<img src="{{ url }}media/blog/articles/apache-it-works.png" alt="Page Apache par défaut" loading="lazy" />
+
+<p>
+    J'ajoute une configuration custom pour sécuriser un peu mes applications et activer HTTP/2. A adapter selon vos besoins.
+</p>
+
+<pre>
+nano /etc/apache2/conf-available/custom.conf
+</pre>
+
+<pre>
+Timeout 60
+FileETag None
+ServerTokens Prod
+ServerSignature Off
+TraceEnable Off
+
+AddDefaultCharset utf-8
+
+&lt;Directory /var/www&gt;
+    Options -Indexes
+    &lt;LimitExcept GET POST HEAD&gt;
+        Require all denied
+    &lt;/LimitExcept&gt;
+&lt;/Directory&gt;
+
+&lt;IfModule mod_headers.c&gt;
+    Header set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; base-uri 'self';"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Content-Type-Options: "nosniff"
+    Header set X-Frame-Options: "sameorigin"
+&lt;/IfModule&gt;
+
+&lt;IfModule mod_ssl.c&gt;
+    Protocols h2 http/1.1
+&lt;/IfModule&gt;
+</pre>
+
+<aside>/etc/apache2/conf-available/custom.conf</aside>
+
+<pre>
+<strong>a2enconf</strong> custom
+<strong>service</strong> <span class="ll-nam">apache2</span> restart
+</pre>
+
+<p>
+    Pour aller plus loin dans la sécuristation d'Apache, je recommande grandement le <a href="https://geekflare.com/fr/apache-web-server-hardening-security/" rel="nofollow">guide de renforcement et de sécurité du serveur Web Apache</a> sur geekflare.
+</p>
 
 <div class="toolbar">
     <a href="#p0">Sommaire</a>
