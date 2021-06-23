@@ -12,6 +12,12 @@
             <link>https://www.magentix.fr</link>
         </image>
         <item>
+            <title>Un serveur web à la maison</title>
+            <link>https://www.magentix.fr/blog/un-serveur-web-a-la-maison.html</link>
+            <guid>https://www.magentix.fr/blog/un-serveur-web-a-la-maison.html</guid>
+            <description><![CDATA[Si vous disposez de la fibre et d'une freebox, vous pouvez installer votre propre serveur web et héberger facilement toutes vos applications à la maison. Ce billet expose les différentes étapes pour l'installation et la configuration du serveur.]]></description>
+        </item>
+        <item>
             <title>Magento 2 sans Elasticsearch</title>
             <link>https://www.magentix.fr/blog/magento-2-sans-elasticsearch.html</link>
             <guid>https://www.magentix.fr/blog/magento-2-sans-elasticsearch.html</guid>

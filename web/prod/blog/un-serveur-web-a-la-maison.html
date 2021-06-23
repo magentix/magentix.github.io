@@ -10,7 +10,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Un serveur web à la maison</title>
+        <title>Installer un serveur web à la maison</title>
         <meta name="description" content="Ce billet expose les différentes étapes pour la mise en place d'un serveur Web à la maison : installation de l'OS, d'Apache et la configuration de la box." />
         <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
         <meta name="robots" content="INDEX,FOLLOW" />
@@ -42,6 +42,11 @@
     </em>
 </p>
 
+<p class="info">
+    Cet article détaille l'installation complète d'un serveur Web avec <strong>Apache</strong> sous <strong>Debian</strong> derrière une connexion fibrée <strong>Free</strong>.
+    Il peut être adapté avec n'importe quel système (CentOS, Ubuntu, Fedora, FreeBSD...) et n'importe quel serveur (Nginx, node.js, Tomcat, Lighttpd...).
+</p>
+
 <h3 id="p0">Sommaire</h3>
 
 <ul>
@@ -50,7 +55,7 @@
     <li><a href="#p3">Free et la fibre</a></li>
     <li><a href="#p4">Quelle machine ?</a></li>
     <li><a href="#p5">Image d'installation</a></li>
-    <li><a href="#p6">Préparer une Clé USB bootable</a></li>
+    <li><a href="#p6">Préparer une clé USB bootable</a></li>
     <li><a href="#p7">Installation du système d'exploitation</a></li>
     <li><a href="#p8">Configuration du système</a></li>
     <li><a href="#p9">Installation du serveur Web</a></li>
@@ -63,8 +68,8 @@
 <h3 id="p1">Introduction</h3>
 
 <p>
-    Pour héberger un site perso, un site statique, un blog, échanger des resources avec des proches, installer une application, gérer du code, se former, ou juste pour le fun, un serveur web maison est idéal.
-    Pour une agence c'est aussi un excellent moyen de mettre en place gratuitement et rapidement des instances de recette, proposer des démos aux clients, du bug tracking...
+    Pour héberger un site perso, un site statique, un blog, échanger des ressources avec des proches, installer une application, gérer du code, se former, ou juste pour le fun, un serveur web maison est idéal.
+    Pour une agence, c'est aussi un excellent moyen de mettre en place gratuitement et rapidement des instances de recette, proposer des démos aux clients, du bug tracking...
 </p>
 
 <p>
@@ -72,7 +77,7 @@
     Personne ne vous facturera 10€ par mois pour l'utilisation d'une version obsolète de PHP (la spécialité chez Ionos).
     Nos applications sont là, à proximité, et il suffit de débrancher une prise pour les déconnecter.
     Si vous visitez <a href="https://magentix.space/">magentix.space</a> (serveur d'expérimentation),
-    vous n'êtes pas dans un data center à Roubaix ou à Francfort, non, vous êtes dans mon entrée, sur un meuble en rottin.
+    vous n'êtes pas dans un data center à Roubaix ou à Francfort, non, vous êtes dans mon entrée, sur un meuble en rotin.
 </p>
 
 <img src="https://www.magentix.fr/media/blog/articles/freebox.png" alt="Freebox Delta" loading="lazy" />
@@ -80,11 +85,11 @@
 <h3 id="p2">Quels sont les risques ?</h3>
 
 <p>
-     Au quotidien nous ne sommes jamais à l'abri d'une coupure de courant ou d'un problème réseau.
+     Au quotidien, nous ne sommes jamais à l'abri d'une coupure de courant ou d'un problème réseau.
 </p>
 
 <p>
-    Pour les coupures de courant un onduleur est assez efficace. Il garantit une continuité électrique et permet de se protégrer des micros coupures ou des chutes de tension.
+    Pour les coupures de courant, un onduleur est assez efficace. Il garantit une continuité électrique et permet de se protéger des micros coupures ou des chutes de tension.
     J'ai acheté il y a quelques années un <strong>Eaton Ellipse ECO 650</strong>, 650VA, batterie 12V, 7Ah, soit au minimum 6h d'autonomie pour une machine de 10 Watts (marge de 20%) :
 </p>
 
@@ -94,7 +99,7 @@
 
 <p>
     Pour les longues coupures, liées par exemple aux intempéries, il faudra prendre votre mal en patience.
-    Attention tout de même, si vous utilisez le CPL pour communiquer avec des équipements réseaux (comme le boîtier TV), il n'est pas possible de brancher la box sur l'onduleur. Le CPL ne fonctionnera plus.
+    Si vous utilisez le CPL pour communiquer avec des équipements réseaux (comme le boîtier TV), il n'est pas possible de brancher la box sur l'onduleur. Le CPL ne fonctionnera plus.
 </p>
 
 <p class="warning">
@@ -105,12 +110,12 @@
 <p>
     Pour les problèmes réseaux entre le terminal optique du logement et les équipements de l'opérateur, cela reste assez rare.
     En 3 ans cela m'est arrivé à 2 reprises : un mauvais branchement du technicien lors d'une intervention sur la baie.
-    Dans ce cas la déconnexion peut durer plusieurs jours, le temps que le technicien se déplace pour constater la panne et réparer.
+    Dans ce cas, la déconnexion peut durer plusieurs jours, le temps que le technicien se déplace pour constater la panne et réparer.
     Les pannes générales sur les répartiteurs sont souvent traitées rapidement. Les opérateurs ne laissent jamais plusieurs centaines d'abonnées sans connexion.
 </p>
 
 <p>
-    <strong>De manière générale c'est à vous de juger l'intérêt d'une installation selon les pannes rencontrées dans votre région et l'utilisation que vous souhaitez faire du serveur.</strong> Si vous déménagez 2 fois par an cela risque d'être également un peu contraignant.
+    <strong>De manière générale, c'est à vous de juger l'intérêt d'une installation selon les pannes rencontrées dans votre région et l'utilisation que vous souhaitez faire du serveur.</strong> Si vous déménagez 2 fois par an cela risque d'être également un peu contraignant.
 </p>
 
 <p>
@@ -142,7 +147,7 @@
 <img src="https://www.magentix.fr/media/blog/articles/freebox-ipv4-fullstack.png" alt="Free Adresse IP fixe V4 full-stack" loading="lazy" />
 
 <p>
-    Si vous n'avez pas l'option il sera un peu plus compliqué d'accéder à distance à vos applications.
+    Si vous n'avez pas l'option, il sera un peu plus compliqué d'accéder à distance à vos applications.
 </p>
 
 <p>
@@ -165,8 +170,8 @@
 <h3 id="p4">Quelle machine ?</h3>
 
 <p>
-    C'est un vaste sujet... Cela dépend de ce que l'on souhaite hérberger sur le serveur.
-    Dans le passé j'ai toujours eu tendance à prendre des machines surdimensionnées par rapport à l'usage que j'en avais.
+    C'est un vaste sujet... Cela dépend de ce que l'on souhaite héberger sur le serveur.
+    Dans le passé, j'ai toujours eu tendance à prendre des machines surdimensionnées par rapport à l'usage que j'en avais.
     <em>"On ne sait jamais, ça peut servir"</em>. C'est une erreur. De l'argent dépensé inutilement.
 </p>
 
@@ -176,41 +181,41 @@
 
 <ul>
     <li>Les applications web que l'on souhaite utiliser (Wordpress, Magento, site statique...)</li>
-    <li>Le traffic estimé</li>
-    <li>La consomation électrique nécessaire au fonctionnement de la machine</li>
+    <li>Le trafic estimé</li>
+    <li>La consommation électrique nécessaire au fonctionnement de la machine</li>
     <li>La place dont vous disposez à proximité de la box</li>
 </ul>
 
 <p>
-    La bonne nouvelle est que de manière générale une machine peu puissante suffit. Un simple Raspberry Pi avec Nginx sert parfaitement un site statique.
+    La bonne nouvelle est que de manière générale une machine peu puissante suffi. Un simple Raspberry Pi avec Nginx sert parfaitement un site statique.
 </p>
 
 <p>
-    Il faut simplement adapter en fonction des recommandations communiquées par les éditeurs. Anticiper si possible le nombre de connexion simultanées.
+    Il faut simplement adapter en fonction des recommandations communiquées par les éditeurs. Anticiper si possible le nombre de connexions simultanées.
 </p>
 
 <p>
-    Si c'est une machine recyclée qui n'avait plus d'utilité c'est encore mieux.
+    Si c'est une machine recyclée qui n'avait plus d'utilité, c'est encore mieux.
 </p>
 
 <p>
     Ici j'ai souhaité une machine peu encombrante, presque invisible.
     Cette machine doit remplacer le serveur que j'utilise depuis 3 ans et pour lequel j'ai d'autres projets.
-    La box est située dans l'entrée de la maison, je n'ai pas envi d'y mettre une tour.
-    J'attache également beaucoup d'importance à la consomation électrique, la machine est allumée non stop.
-    Pour finir je ne souhaite héberger que des sites statiques (jekylls, Hugo...), avec un traffic très faible.
+    La box est située dans l'entrée de la maison, je n'ai pas envie d'y mettre une tour.
+    J'attache également beaucoup d'importance à la consommation électrique, la machine est allumée non stop.
+    Pour finir, je ne souhaite héberger que des sites statiques (jekylls, Hugo...), avec un trafic très faible.
 </p>
 
 <p>
     Je suis un lecteur du site <a href="https://www.minimachines.net">minimachines.net</a>.
-    Au moment de mes recherches Pierre Lecourt publiait une offre pour un nouveau mini PC fanless, le Mele Quieter2.
+    Au moment de mes recherches, Pierre Lecourt publiait une offre pour un nouveau mini PC fanless, le Mele Quieter2.
     C'est ce genre de machine qu'il me fallait. Cerise sur le gâteau, le PC est insensible à la poussière.
 </p>
 
 <p>
     Mais sur un PC d'une marque chinoise peu connue on ne sait jamais très bien comment une distribution Linux va tourner.
-    C'est un risque modéré car il n'y a généralement rien d'extravagant. Il faut surtout s'inquiéter de la finission générale de l'engin.
-    Il m'est arrivé de me retrouver avec des machines au bruit insuportable ou avec des connecteurs défectueux.
+    C'est un risque modéré car il n'y a généralement rien d'extravagant. Il faut surtout s'inquiéter de la finition générale de l'engin.
+    Il m'est arrivé de me retrouver avec des machines au bruit insupportable ou avec des connecteurs défectueux.
     Toujours attendre un peu, n'acheter que s'il y a plusieurs retours positifs.
 </p>
 
@@ -221,7 +226,7 @@
 </p>
 
 <p>
-    Comparatif de la consommation de 3 mini machines (aucune activité) :
+    Comparatif de la consommation de 3 mini-machines (aucune activité) :
 </p>
 
 <img src="https://www.magentix.fr/media/blog/articles/consommation-electrique.png" alt="Consommation électrique" loading="lazy" />
@@ -259,7 +264,7 @@
 
 <p class="warning">
     <strong>Note :</strong> ce sont ici des mini-machines avec des composants à très faible consommation.
-    Si vous utilisez une vielle tour qui traîne dans un coin on pourrait facilement se situer aux alentours des 100w.
+    Si vous utilisez une vielle tour qui traîne dans un coin, on pourrait facilement se situer aux alentours des 100w.
     Il existe de nombreux sites pour estimer la consommation d'un PC, par exemple <a href="https://outervision.com/power-supply-calculator">Power Supply Calculator</a>.
 </p>
 
@@ -277,7 +282,7 @@
 </ul>
 
 <p>
-    Il en existe beaucoup d'autres. J'en ai essayé pas mal mais j'ai une nette préférence pour Debian. J'y reviens toujours. C'est très personnel.
+    Il en existe beaucoup d'autres. J'en ai essayé pas mal, mais j'ai une nette préférence pour Debian. J'y reviens toujours. C'est très personnel.
 </p>
 
 <p>
@@ -301,7 +306,7 @@
 <p>
     Le téléchargement d'une image requiert de connaître le type de processeur. Dans la majorité des cas votre CPU est de type amd64.
     Pour faire simple, si la machine a moins 20 ans et peut faire tourner Windows c'est de l'amd64.
-    Les choses vont peut être changer dans le futur avec l'arrivée d'Apple M1 et du Lakefield chez Intel (ARM).
+    Les choses vont peut-être changer dans le futur avec l'arrivée d'Apple M1 et du Lakefield chez Intel (ARM).
     Pour un Raspberry Pi 4 c'est de l'arm64, mais Raspberry Pi OS est basé sur Debian, il est préférable d'utiliser cet OS.
 </p>
 
@@ -320,7 +325,7 @@
     Mais vous pouvez sans problème effectuer l'installation sans Internet à partir de l'image CD complète (<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong>).
 </p>
 
-<h3 id="p6">Préparer une Clé USB bootable</h3>
+<h3 id="p6">Préparer une clé USB bootable</h3>
 
 <p>
     Pour créer une clé USB bootable à partir de l'image téléchargée, 2 solutions.
@@ -515,7 +520,7 @@ sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong> of
         <li><strong>Language :</strong> French - Français</li>
         <li><strong>Pays :</strong> France</li>
         <li><strong>Disposition du clavier :</strong> Français</li>
-        <li><strong>Wifi (optionnel) :</strong> si le réseau n'est pas accessible, Debian tente une connexion wifi qui échoue la plus part du temps en raison des drivers manquants. Passez cette étape puis sélectionnez "Ne pas configurer le réseau maintenant"</li>
+        <li><strong>Wifi (optionnel) :</strong> si le réseau n'est pas accessible, Debian tente une connexion wifi qui échoue la plupart du temps en raison des drivers manquants. Passez cette étape puis sélectionnez "Ne pas configurer le réseau maintenant"</li>
         <li><strong>Nom de la machine :</strong> indiquez ce que vous souhaitez, de préférence un nom qui n'existe pas déjà sur le réseau, ce sera plus simple de l'identifier par la suite</li>
         <li><strong>Mot de passe root :</strong> mot de passe souhaité</li>
         <li><strong>Nom complet du nouvel utilisateur :</strong> votre identifiant</li>
@@ -544,7 +549,7 @@ sudo <strong>dd</strong> if=<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong> of
     </ul>
 
     <p>
-        Je ne sélectionne jamais <strong>serveur web</strong> à cette étape, je préfère une installation manuelle.
+        Je ne sélectionne jamais <strong>serveur web</strong>, je préfère une installation manuelle par la suite.
     </p>
 </section>
 
@@ -783,7 +788,7 @@ AddDefaultCharset utf-8
 </pre>
 
 <p>
-    Pour aller plus loin dans la sécuristation d'Apache, je recommande grandement le <a href="https://geekflare.com/fr/apache-web-server-hardening-security/" rel="nofollow">guide de renforcement et de sécurité du serveur Web Apache</a> sur geekflare.
+    Pour aller plus loin dans la sécuristation d'Apache, je recommande le <a href="https://geekflare.com/fr/apache-web-server-hardening-security/" rel="nofollow">guide de renforcement et de sécurité du serveur Web Apache</a> sur geekflare.
 </p>
 
 <p>
@@ -997,7 +1002,7 @@ ff02::2 ip6-allrouters
 </p>
 
 <p>
-    La génération d'un certificat SSL Let's Encrypt s'effectue très simplement avec certbot.
+    La génération d'un certificat SSL Let's Encrypt s'effectue très simplement avec <strong>certbot</strong>.
 </p>
 
 <pre>
@@ -1049,8 +1054,10 @@ Select the appropriate number [1-2] then [enter] (press 'c' to cancel): <span cl
 <aside>/etc/apache2/sites-available</aside>
 
 <p>
-    Le site est maintenant accessible à l'adresse <code>https://example.com</code>.
+    Le site est maintenant accessible à l'adresse <code>https://example.com</code> (ou <code>https://www.example.com</code>).
 </p>
+
+<img src="https://www.magentix.fr/media/blog/articles/site-secure.png" alt="Site Internet sécurisé dans le navigateur" loading="lazy" />
 
 <div class="toolbar">
     <a href="#p0">Sommaire</a>

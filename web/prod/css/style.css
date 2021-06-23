@@ -224,6 +224,13 @@ aside {
     padding: 10px;
 }
 
+.info {
+    background: #ebf3f4;
+    border: 1px solid #015B65;
+    color: #333;
+    padding: 10px;
+}
+
 .ll-nam {
     color: #0c4047;
 }
