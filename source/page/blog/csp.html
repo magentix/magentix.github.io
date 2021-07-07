@@ -7,12 +7,12 @@
 <p>
     <em>
         Le CSP (Content Security Policy) est un excellent moyen de diminuer les attaques XSS et les injections de contenu.
-        Vous décidez des resources internes et externes que le navigateur a le droit de charger.
+        Vous décidez des ressources internes et externes que le navigateur a le droit de charger.
         Configurer une stratégie CSP nécessite simplement d'utiliser un en-tête HTTP Content-Security-Policy.
     </em>
 </p>
 
-<p>La mise en place d'une stratégie de sécurité du contenu avec CSP est extrêmement simple et efficace. CSP vous permet d'éliminer les moyens de réaliser des attaques XSS en permettant de spécifier les domaines autorisés à fournir des resources (scripts, images, CSS...) pour la page visitée.</p>
+<p>La mise en place d'une stratégie de sécurité du contenu avec CSP est extrêmement simple et efficace. CSP vous permet d'éliminer les moyens de réaliser des attaques XSS en permettant de spécifier les domaines autorisés à fournir des ressources (scripts, images, CSS...) pour la page visitée.</p>
 
 <h3>Configuration</h3>
 
@@ -91,9 +91,9 @@
 
 <h3>Application</h3>
 
-<p>Si vous copiez la page d'exemple dans un fichier html, <strong>la majorité des resources sont bloquées</strong>. Vous obtenez dans la console du navigateur :</p>
+<p>Si vous copiez la page d'exemple dans un fichier html, <strong>la majorité des ressources sont bloquées</strong>. Vous obtenez dans la console du navigateur :</p>
 
-<img src="{{ url }}media/blog/articles/browser-csp.png" alt="Blocage des resources par le navigateur (CSP)" />
+<img src="{{ url }}media/blog/articles/browser-csp.png" alt="Blocage des ressources par le navigateur (CSP)" />
 
 <h4>Ressources locales</h4>
 
@@ -144,7 +144,7 @@
 
 <h4>CSS externe</h4>
 
-<p>Nous tentons de charger une resource CSS herbergée sur un serveur distant (cdnjs.cloudflare.com). Cette resource est automatiquement bloquée. Il est nécessaire de l'autoriser. Il faut pour cela indiquer le domaine concerné pour <strong>style-src</strong> :</p>
+<p>Nous tentons de charger une ressource CSS herbergée sur un serveur distant (cdnjs.cloudflare.com). Cette ressource est automatiquement bloquée. Il est nécessaire de l'autoriser. Il faut pour cela indiquer le domaine concerné pour <strong>style-src</strong> :</p>
 
 <pre>default-src 'self'; style-src 'self' cdnjs.cloudflare.com</pre>
 
@@ -155,7 +155,7 @@
 
 <h4>Script externe</h4>
 
-<p>Nous souhaitons charger un Script herbergé sur un serveur distant (cdnjs.cloudflare.com). Cette resource est bloquée par défaut. Il nous faut l'autoriser :</p>
+<p>Nous souhaitons charger un Script herbergé sur un serveur distant (cdnjs.cloudflare.com). Cette ressource est bloquée par défaut. Il nous faut l'autoriser :</p>
 
 <pre>default-src 'self'; script-src 'self' cdnjs.cloudflare.com</pre>
 
@@ -208,9 +208,9 @@
 
 <pre>default-src 'self'; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; img-src 'self' fr.wikipedia.org</pre>
 
-<p>Cette stratégie d'exemple n'est évidemment pas la plus sécurisée. Il est conseillé d'éviter les styles et scripts "inline" ainsi que l'utilisation de resources externes, cela peut souvent être évité.</p>
+<p>Cette stratégie d'exemple n'est évidemment pas la plus sécurisée. Il est conseillé d'éviter les styles et scripts "inline" ainsi que l'utilisation de ressources externes, cela peut souvent être évité.</p>
 
-<p>La mise en place de CSP sur un site existant peut donc être extrêmement complexe, une politique moins restrictive (unsafe-inline) sera certainement nécessaire. L'avantage est qu'une fois établie vous maîtrisez les resources externes et le respect des bonnes pratiques pour les intégrations futurs.</p>
+<p>La mise en place de CSP sur un site existant peut donc être extrêmement complexe, une politique moins restrictive (unsafe-inline) sera certainement nécessaire. L'avantage est qu'une fois établie vous maîtrisez les ressources externes et le respect des bonnes pratiques pour les intégrations futurs.</p>
 
 <p>Dans tous les cas <strong>n'oubliez jamais de vérifier la console du navigateur</strong> pour adapter si besoin votre stratégie de sécurité du contenu lors de sa mise en place.</p>
 
