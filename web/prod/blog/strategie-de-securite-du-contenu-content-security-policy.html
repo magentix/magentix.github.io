@@ -126,19 +126,19 @@
 
 <img src="https://www.magentix.fr/media/blog/articles/browser-csp.png" alt="Blocage des resources par le navigateur (CSP)" />
 
-<h4>Resources locales</h4>
+<h4>Ressources locales</h4>
 
 <p>Considérons la directive CSP suivante :</p>
 
 <pre>default-src 'self'</pre>
 
-<p>Nous indiquons ici au navigateur de ne charger que les resources locales, c'est à dire les fichiers Javascript et CSS herbergés sur notre serveur. Dans notre page d'exemple cela correspond à :</p>
+<p>Nous indiquons ici au navigateur de ne charger que les ressources locales, c'est à dire les fichiers Javascript et CSS herbergés sur notre serveur. Dans notre page d'exemple cela correspond à :</p>
 
 <pre>&lt;!-- Local resources --&gt;
 &lt;link rel="stylesheet" href="css/style.css" type="text/css" /&gt;
 &lt;script type="text/javascript" src="js/script.js"&gt;&lt;/script&gt;</pre>
 
-<p><strong>Cette stratégie est la plus restrictive et sécurisée qui soit</strong> (après la valeur "none" mais c'est un peu excessif). Par défaut nous n'autorisons que les resources locales, les scripts et CSS inline sont ignorés.</p>
+<p><strong>Cette stratégie est la plus restrictive et sécurisée qui soit</strong> (après la valeur "none" mais c'est un peu excessif). Par défaut nous n'autorisons que les ressources locales, les scripts et CSS inline sont ignorés.</p>
 
 <h4>Style inline</h4>
 
