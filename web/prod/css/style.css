@@ -217,6 +217,10 @@ aside {
     padding: 10px;
 }
 
+.alert.csp em {
+    color: #C67378;
+}
+
 .warning {
     background: #FDF8E4;
     border: 1px solid #f2c779;
@@ -231,8 +235,9 @@ aside {
     padding: 10px;
 }
 
-.alert.csp em {
-    color: #C67378;
+.project img {
+    display: inline-block;
+    margin-bottom: 0;
 }
 
 .ll-nam {
