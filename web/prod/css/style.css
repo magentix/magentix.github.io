@@ -23,6 +23,13 @@ h1 img {
     margin: 0;
 }
 
+h1 a {
+    font-weight: normal;
+    color: #000;
+    text-decoration: none;
+    font-size: 2.6rem;
+}
+
 h2 {
     padding: 1rem 0 0 0;
     margin: 0 0 1rem 0;
@@ -108,6 +115,7 @@ blockquote {
 
 img {
     max-width: 100%;
+    height: auto;
     margin: 1.5rem auto;
     display: block;
 }
