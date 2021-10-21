@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<!--
+  __    __     ______     ______     ______     __   __     ______    __     __  __
+ /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
+ \ \ \-./\ \  \ \  __ \  \ \ \__ \  \ \  __\   \ \ \-.  \  \/_/\ \/  \ \ \  \/_/\_\/_
+  \ \_\ \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\\"\_\    \ \_\   \ \_\   /\_\/\_\
+   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CSP : utiliser une stratégie de sécurité du contenu (Content Security Policy)</title>
+        <meta name="description" content="Comment améliorer la sécurité du site avec les CSP Content Security Policy dont les attaques XSS et les injections de contenu. Apprenez par un exemple à définir une stratégie de sécurité." />
+        <link rel="stylesheet" href="https://vercel.magentix.fr/css/style.css" />
+        <meta name="robots" content="NOINDEX,NOFOLLOW" />
+    </head>
+    <body>
+        <header>
+            <div id="header-content">
+                <h1><a href="https://vercel.magentix.fr/"><img src="https://vercel.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="https://vercel.magentix.fr/">Accueil</a> &bull;
+                    <a href="https://vercel.magentix.fr/blog.html">Billets</a>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div id="main-content">
+<!-- Content -->
+<p><a href="https://vercel.magentix.fr/blog.html">Billets</a> : Utiliser une stratégie de sécurité du contenu (Content Security Policy)</p>
+
+<hr/>
+
+<h2>Utiliser une stratégie de sécurité du contenu (Content Security Policy)</h2>
+
+<p>
+    <em>
+        Le CSP (Content Security Policy) est un excellent moyen de diminuer les attaques XSS et les injections de contenu.
+        Vous décidez des ressources internes et externes que le navigateur a le droit de charger.
+        Configurer une stratégie CSP nécessite simplement d'utiliser un en-tête HTTP Content-Security-Policy.
+    </em>
+</p>
+
+<p>La mise en place d'une stratégie de sécurité du contenu avec CSP est extrêmement simple et efficace. CSP vous permet d'éliminer les moyens de réaliser des attaques XSS en permettant de spécifier les domaines autorisés à fournir des ressources (scripts, images, CSS...) pour la page visitée.</p>
+
+<h3>Configuration</h3>
+
+<p>Plusieurs possibilités pour inclure l'en-tête Content-Security-Policy.</p>
+
+<h4>Configuration Apache</h4>
+
+<pre># Content-Security-Policy
+&lt;IfModule mod_headers.c&gt;
+    Header set Content-Security-Policy "default-src 'self'"
+&lt;/IfModule&gt;
+# /Content-Security-Policy</pre>
+
+<h4>Configuration Nginx</h4>
+
+<pre>add_header Content-Security-Policy "default-src 'self';"</pre>
+
+<h4>Fichier .htaccess</h4>
+
+<pre># Content-Security-Policy
+&lt;IfModule mod_headers.c&gt;
+    Header set Content-Security-Policy "default-src 'self'"
+&lt;/IfModule&gt;
+# /Content-Security-Policy</pre>
+
+<h4>Header (PHP)</h4>
+
+<pre>header("Content-Security-Policy: default-src 'self'");</pre>
+
+<h4>Meta Tag</h4>
+
+<pre>&lt;meta http-equiv="Content-Security-Policy" content="default-src 'self'" /&gt;</pre>
+
+<h3>Page d'exemple</h3>
+
+<p>Pour notre article, nous utilisons la page suivante :</p>
+
+<pre>&lt;!doctype html&gt;
+&lt;html lang="fr"&gt;
+    &lt;head&gt;
+        &lt;title&gt;Content Security Policy&lt;/title&gt;
+
+        &lt;!-- Content Security Policy --&gt;
+        &lt;meta http-equiv="Content-Security-Policy" content="default-src 'self'" /&gt;
+
+        &lt;!-- Local resources --&gt;
+        &lt;link rel="stylesheet" href="css/style.css" type="text/css" /&gt;
+        &lt;script type="text/javascript" src="js/script.js"&gt;&lt;/script&gt;
+
+        &lt;!-- External resources --&gt;
+        &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/default.min.css" type="text/css" /&gt;
+        &lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"&gt;&lt;/script&gt;
+
+        &lt;!-- Inline CSS --&gt;
+        &lt;style&gt;
+            h1 {
+                color:#CC0000
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;CSP Page&lt;/h1&gt;
+
+        &lt;!-- Inline CSS --&gt;
+        &lt;p style="font-weight: bold"&gt;Content Security Policy example page&lt;/p&gt;
+
+        &lt;!-- External image --&gt;
+        &lt;img src="https://fr.wikipedia.org/static/images/project-logos/frwiki.png" alt="Wikipedia" /&gt;
+
+        &lt;!-- Inline Script --&gt;
+        &lt;script type="text/javascript"&gt;
+            console.log('ok');
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<h3>Application</h3>
+
+<p>Si vous copiez la page d'exemple dans un fichier html, <strong>la majorité des ressources sont bloquées</strong>. Vous obtenez dans la console du navigateur :</p>
+
+<img src="https://vercel.magentix.fr/media/blog/articles/browser-csp.png" alt="Blocage des ressources par le navigateur (CSP)" />
+
+<p><strong>Chrome</strong></p>
+
+<p class="alert csp">
+    Refused to <em>[apply|load|execute]</em> the <em>[stylesheet|script|image|object|media|font]</em> <em>[resource]</em> because it violates the following Content Security Policy directive: (...)
+</p>
+
+<p><strong>Firefox</strong></p>
+
+<p class="alert csp">
+    Content Security Policy: The page's settings blocked the loading of a resource at <em>[resource]</em> (...)
+</p>
+<p class="alert csp">
+    Content Security Policy: Les paramètres de la page ont empêché le chargement d'une ressource à <em>[ressource]</em> (...)
+</p>
+
+<h4>Ressources locales</h4>
+
+<p>Considérons la directive CSP suivante :</p>
+
+<pre>default-src 'self'</pre>
+
+<p>Nous indiquons ici au navigateur de ne charger que les ressources locales, c'est à dire les fichiers Javascript et CSS herbergés sur notre serveur. Dans notre page d'exemple cela correspond à :</p>
+
+<pre>&lt;!-- Local resources --&gt;
+&lt;link rel="stylesheet" href="css/style.css" type="text/css" /&gt;
+&lt;script type="text/javascript" src="js/script.js"&gt;&lt;/script&gt;</pre>
+
+<p><strong>Cette stratégie est la plus restrictive et sécurisée qui soit</strong> (après la valeur "none" mais c'est un peu excessif). Par défaut nous n'autorisons que les ressources locales, les scripts et CSS inline sont ignorés.</p>
+
+<h4>Style inline</h4>
+
+<p>Notre page contient des styles en ligne dans le header et dans la page. Avec la directive précedente ils sont ignorés. Nous pouvons autoriser le style inline grâce à la valeur <strong>unsafe-inline</strong> de la directive  <strong>style-src</strong> :</p>
+
+<pre>default-src 'self'; style-src 'self' 'unsafe-inline'</pre>
+
+<p>Avec cette stratégie, nos styles en ligne sont maintenant interprétés :</p>
+
+<pre>&lt;!-- Inline CSS --&gt;
+&lt;style&gt;
+    h1 {
+        color:#CC0000
+    }
+&lt;/style&gt;</pre>
+
+<pre>&lt;!-- Inline CSS --&gt;
+&lt;p style="font-weight: bold"&gt;Content Security Policy example page&lt;/p&gt;</pre>
+
+<h4>Script inline</h4>
+
+<p>Notre page contient un script en ligne ignoré avec notre politique par défaut. Il est cependant possible d'accepter les scripts inline par le biais de la valeur <strong>unsafe-inline</strong> de la directive <strong>script-src</strong> :</p>
+
+<pre>default-src 'self'; script-src 'self' 'unsafe-inline'</pre>
+
+<p>Nous autorisons ainsi la portion de code suivante :</p>
+
+<pre>&lt;!-- Inline Script --&gt;
+&lt;script type="text/javascript"&gt;
+    console.log('ok');
+&lt;/script&gt;</pre>
+
+<p>Dans la pratique il est souvent complexe de ne pas autoriser les scripts en ligne, mais pour une stratégie de sécurité du contenu optimale il faut tendre à les éviter.</p>
+
+<h4>CSS externe</h4>
+
+<p>Nous voulons charger une ressource CSS herbergée sur un serveur distant : <code>cdnjs.cloudflare.com</code>. Cette ressource est automatiquement bloquée. Il est nécessaire de l'autoriser. Il faut pour cela indiquer le domaine concerné pour <strong>style-src</strong> :</p>
+
+<pre>default-src 'self'; style-src 'self' cdnjs.cloudflare.com</pre>
+
+<p>Cette stratégie nous permet de charger le CSS externe spécifié dans le header :</p>
+
+<pre>&lt;!-- External resources --&gt;
+&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/.../styles/default.min.css" type="text/css" /&gt;</pre>
+
+<h4>Script externe</h4>
+
+<p>Nous souhaitons charger un script herbergé sur un serveur distant : <code>cdnjs.cloudflare.com</code>. Cette ressource est bloquée par défaut. Il nous faut l'autoriser :</p>
+
+<pre>default-src 'self'; script-src 'self' cdnjs.cloudflare.com</pre>
+
+<p>Cette stratégie nous permet de charger le Script spécifié dans le header :</p>
+
+<pre>&lt;!-- External resources --&gt;
+&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax.../highlight.min.js"&gt;&lt;/script&gt;</pre>
+
+<h4>Image externe</h4>
+
+<p>Pour finir, une image externe doit apparaître dans la page. Elle est également bloquée par défaut. Nous l'autorisons via <strong>img-src</strong> :</p>
+
+<pre>default-src 'self'; img-src 'self' fr.wikipedia.org</pre>
+
+<p>Nous acceptons ainsi l'affichage des images issues du domaine <code>fr.wikipedia.org</code> :</p>
+
+<pre>&lt;img src="https://fr.wikipedia.org/static/images/project-logos/frwiki.png" alt="Wikipedia" /&gt;</pre>
+
+<h3>Stratégie de sécurité</h3>
+
+<p>Pour afficher complétement notre page d'exemple, nous arrivons finalement à la stratégie de sécurité suivante :</p>
+
+<pre>default-src 'self'; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; img-src 'self' fr.wikipedia.org</pre>
+
+<p>La mise en place de CSP sur un site existant peut être extrêmement complexe, une politique moins restrictive (unsafe-inline) sera certainement nécessaire. L'avantage est qu'une fois établie vous maîtrisez les ressources externes et le respect des bonnes pratiques pour les intégrations futures.</p>
+
+<p>Dans tous les cas <strong>n'oubliez jamais de vérifier la console du navigateur</strong> pour adapter si besoin votre stratégie de sécurité du contenu lors de sa mise en place.</p>
+
+<h3>Autres directives</h3>
+
+<p>Dans notre page d'exemple nous avons abordés les directives CSP (version 1) suivantes :</p>
+
+<ul>
+    <li><strong>default-src</strong> : politique par défaut, utilisée partout sauf si surchargée par une directive plus précise</li>
+    <li><strong>style-src</strong> : la politique dédiée aux styles (CSS)</li>
+    <li><strong>script-src</strong> : la politique dédiée aux scripts</li>
+    <li><strong>img-src</strong> : la politique dédiée aux images</li>
+</ul>
+
+<p>CSP présente d'autres directives à utiliser selon vos besoins :</p>
+
+<ul>
+    <li><strong>object-src</strong> : la politique dédiée aux plugins (éléments object, embed, ou applet)</li>
+    <li><strong>media-src</strong> : la politique dédiée aux medias (éléments video, audio, source, ou track)</li>
+    <li><strong>font-src</strong> : la politique dédiée aux polices de caractères</li>
+    <li><strong>connect-src</strong> : la politique dédiée à l'établissement de connexions depuis un objet XMLHttpRequest ou une WebSocket</li>
+</ul>
+
+<p>Toutes les directive acceptent les valeurs <strong>none</strong>, <strong>self</strong> et une liste de domaine.</p>
+
+<p>Les directives <strong>style-src</strong> et <strong>script-src</strong> acceptent également la valeur <strong>unsafe-inline</strong>. Il est possible d'indiquer <strong>unsafe-eval</strong> avec <strong>script-src</strong> pour autoriser l'utilisation de la méthode <strong>eval()</strong>.</p>
+
+<p>La directive <strong>img-src</strong> accepte <strong>data:</strong> pour les images en base64 (script-src 'self' data:)</p>
+
+<p>D'autres directives existent en CSP version 2 et 3 (form-action, child-src...). Retrouvez l'ensemble des directives sur <a href="https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Content-Security-Policy">MDN Web Docs</a>.</p>
+
+<h3>Google Analytics</h3>
+
+<p>Si comme une grande majorité de sites vous implémentez Google Analytics, vous pouvez appliquer la stratégie de base suivante :</p>
+
+<pre>default-src 'self'; script-src 'self' 'unsafe-inline' www.googletagmanager.com www.google-analytics.com; img-src 'self' www.google-analytics.com</pre>
+<!-- /Content -->
+            </div>
+        </main>
+        <footer>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2021</p>
+                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+                <nav><a href="https://vercel.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
+        </footer>
+        <script type="text/javascript" src="https://vercel.magentix.fr/js/highlight.min.js"></script>
+        <script type="text/javascript" src="https://vercel.magentix.fr/js/app.js"></script>
+    </body>
+</html>

@@ -1,9 +1,11 @@
 {
   "robots": "INDEX,FOLLOW",
   "robots.scaleway": "NOINDEX,NOFOLLOW",
+  "robots.vercel": "NOINDEX,NOFOLLOW",
   "highlight": "",
   "template": "template/default.html",
   "url.local": "http://localhost:1985/",
   "url.prod": "https://www.magentix.fr/",
-  "url.scaleway": "https://scaleway.magentix.fr/"
+  "url.scaleway": "https://scaleway.magentix.fr/",
+  "url.vercel": "https://vercel.magentix.fr/"
 }
