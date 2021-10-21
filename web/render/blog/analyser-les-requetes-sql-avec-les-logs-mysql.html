@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--
+  __    __     ______     ______     ______     __   __     ______    __     __  __
+ /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
+ \ \ \-./\ \  \ \  __ \  \ \ \__ \  \ \  __\   \ \ \-.  \  \/_/\ \/  \ \ \  \/_/\_\/_
+  \ \_\ \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\\"\_\    \ \_\   \ \_\   /\_\/\_\
+   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Logs MySQL : analyser les requêtes SQL d'une page Web</title>
+        <meta name="description" content="Lors d'une analyse des performances d'un site, les requêtes SQL doivent être contrôlées. Rien de plus simple et de plus fiable que d'activer les logs MySQL." />
+        <link rel="stylesheet" href="https://render.magentix.fr/css/style.css" />
+        <meta name="robots" content="NOINDEX,NOFOLLOW" />
+    </head>
+    <body>
+        <header>
+            <div id="header-content">
+                <h1><a href="https://render.magentix.fr/"><img src="https://render.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="https://render.magentix.fr/">Accueil</a> &bull;
+                    <a href="https://render.magentix.fr/blog.html">Billets</a>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div id="main-content">
+<!-- Content -->
+<p><a href="https://render.magentix.fr/blog.html">Billets</a> : Analyser les requêtes SQL avec les logs MySQL</p>
+
+<hr/>
+
+<h2>Analyser les requêtes SQL avec les logs MySQL</h2>
+
+<p>
+    <em>
+        Lors d'une analyse des performances d'un site, les requêtes SQL doivent être contrôlées. Combien de requêtes pour une page ?
+        Certaines requêtes peuvent-elles être évitées ? Peut-on les regrouper ? Rien de plus simple et de plus fiable que d'activer les logs MySQL.
+    </em>
+</p>
+
+<p>Sur votre environnement de développement, il est très facile d'activer les logs MySQL. C'est le moyen le plus simple d'obtenir pour une page l'ensemble des requêtes exécutées.</p>
+
+<p>Les logs fournissent la requête exacte et le type de commande (Connect, Prepare, Execute, Query, Close stmt, Quit...). L'analyse de ces logs peut permettre d'alléger le nombre de requête pour une page en les factorisant par exemple.</p>
+
+<img src="https://render.magentix.fr/media/blog/articles/mysql-general-log.png" alt="Mysql General Log" />
+
+<h3>Activer les logs</h3>
+
+<p>Par le biais d'un utilisateur qui en possède les droits, on active les logs de type TABLE :</p>
+
+<pre>USE mysql;
+
+SET GLOBAL log_output = 'TABLE';
+
+TRUNCATE general_log;
+
+SET GLOBAL general_log = 'ON';</pre>
+
+<h3>Consulter une page</h3>
+
+<p>Depuis n'importe quel navigateur, consulter la page que vous souhaitez analyser. Ne consultez qu'une seule page préalablement sélectionnée.</p>
+
+<h3>Consulter les logs</h3>
+
+<pre>SET GLOBAL general_log = 'OFF';
+
+SELECT COUNT(*) FROM general_log;
+
+SELECT event_time, user_host, thread_id, server_id, command_type, CONVERT(argument USING utf8) FROM general_log;</pre>
+
+<h3>Réinitialiser les logs</h3>
+
+<p>Avant chaque analyse, il est important de ne pas oublier de vider la table des logs, au risque d'enregistrer les requêtes de plusieurs pages.</p>
+
+<pre>TRUNCATE general_log;
+
+SET GLOBAL general_log = 'ON';</pre>
+
+<h3>Exporter les logs</h3>
+
+<h4>Depuis une requête SQL</h4>
+
+<p>Uniquement si votre utilisateur dispose du droit <strong>FILE</strong> et que l'option <strong>--secure-file-priv</strong> n'est pas activée.</p>
+
+<pre>SELECT * FROM general_log INTO OUTFILE '/tmp/general-log.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '"' LINES TERMINATED BY '\n';</pre>
+
+<h4>Depuis la console</h4>
+
+<p>Le fichier généré peut être ouvert sur un tableur en tant que CSV avec une tabulation comme séparateur de champs, ou sur n'importe quel éditeur de texte.</p>
+
+<pre>mysql -u username -p -h 127.0.0.1 mysql -e "SELECT * FROM general_log" > general_log.csv</pre>
+<!-- /Content -->
+            </div>
+        </main>
+        <footer>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2021</p>
+                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+                <nav><a href="https://render.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
+        </footer>
+        <script type="text/javascript" src="https://render.magentix.fr/js/highlight.min.js"></script>
+        <script type="text/javascript" src="https://render.magentix.fr/js/app.js"></script>
+    </body>
+</html>

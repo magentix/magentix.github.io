@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--
+  __    __     ______     ______     ______     __   __     ______    __     __  __
+ /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
+ \ \ \-./\ \  \ \  __ \  \ \ \__ \  \ \  __\   \ \ \-.  \  \/_/\ \/  \ \ \  \/_/\_\/_
+  \ \_\ \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\\"\_\    \ \_\   \ \_\   /\_\/\_\
+   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>XHProf : profiling et performance du code PHP</title>
+        <meta name="description" content="Pour le profiling rapide d'une application PHP, XHProf est une excellente extension. Elle permet en quelques secondes de détecter les fuites de mémoire." />
+        <link rel="stylesheet" href="https://render.magentix.fr/css/style.css" />
+        <meta name="robots" content="NOINDEX,NOFOLLOW" />
+    </head>
+    <body>
+        <header>
+            <div id="header-content">
+                <h1><a href="https://render.magentix.fr/"><img src="https://render.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="https://render.magentix.fr/">Accueil</a> &bull;
+                    <a href="https://render.magentix.fr/blog.html">Billets</a>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div id="main-content">
+<!-- Content -->
+<p><a href="https://render.magentix.fr/blog.html">Billets</a> : Contrôler la performance du code PHP avec l'outil de profiling XHProf</p>
+
+<hr/>
+
+<h2>Contrôler la performance du code PHP avec l'outil de profiling XHProf</h2>
+
+<p>
+    <em>
+        XHProf est une extension PHP qui ne sert qu'à faire du profiling. Elle a été créée par Facebook puis donnée à la communauté OpenSource en 2009.
+        Bien qu'aujourd'hui l'extension ne soit plus maintenue par Facebook, des forks assurent les évolutions (compatibilité avec les dernières versions de PHP).
+    </em>
+</p>
+
+<p>
+    Pour le profiling rapide d'un projet, <strong>XHProf</strong> est une excellente extension.
+    Elle permet en quelques secondes de détecter les fuites de mémoire, avec un impact sur les temps d'exécution de l'application extrêmement faible.
+</p>
+
+<p>Cet article explique comment implémenter <strong>XHProf</strong> pour votre application PHP.</p>
+
+<img src="https://render.magentix.fr/media/blog/articles/xhprof-graph.png" alt="Xhprof Callgraph" />
+
+<h3>Installer l'extension PHP</h3>
+
+<p>Nous installons l'extension pour PHP 7 maintenue par <strong>Tideways</strong>.</p>
+
+<pre>git clone "https://github.com/tideways/php-xhprof-extension.git"
+cd php-xhprof-extension
+phpize
+./configure
+make
+sudo make install</pre>
+
+<p>On active ensuite l'extension, à adapter selon la version de PHP en place (ici php 7.2).</p>
+
+<pre>echo "extension=tideways_xhprof.so" | sudo tee -a /etc/php/7.2/mods-available/xhprof.ini</pre>
+
+<p>PHP standard :</p>
+
+<pre>sudo phpenmod -v 7.2 xhprof
+sudo service apache2 restart</pre>
+
+<p>PHP FPM :</p>
+
+<pre>sudo phpenmod -v 7.2 -s fpm xhprof
+sudo service php7.2-fpm restart
+sudo service apache2 restart</pre>
+
+<h3>Installer une interface web</h3>
+
+<p>Le rapport fournit par <strong>XHProf</strong> doit être analysé via une interface web. Cette interface permet la navigation dans l'arbre et la génération de graphs.</p>
+
+<pre>sudo mkdir /var/www/xhprof
+cd /var/www/hxprof
+git clone https://github.com/sters/xhprof-html .</pre>
+
+<pre>sudo nano /etc/hosts</pre>
+
+<p>On ajoute au fichier une nouvelle entrée :</p>
+
+<pre>127.0.0.1 localhost.xhprof</pre>
+
+<p>On génère ensuite un nouveau vhost :</p>
+
+<pre>sudo nano /etc/apache2/sites-available/xhprof.conf</pre>
+
+<p>On utilise la configuration basique suivante :</p>
+
+<pre>&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@localhost
+
+    DocumentRoot /var/www/xhprof
+    ServerName localhost.xhprof
+
+    &lt;Directory /var/www/xhprof&gt;
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</pre>
+
+<p>Il ne reste plus qu'à activer le site :</p>
+
+<pre>sudo a2ensite xhprof.conf
+sudo service apache2 restart</pre>
+
+<p>Depuis le navigateur, accédez à l'URL <em>http://localhost.xhprof/?dir=/tmp</em>. Le paramètre <strong>dir</strong> dans l'URL indique que les runs sont stockés dans le dossier <strong>/tmp</strong> de la machine (à adapter si besoin). Vous obtenez le message suivant :</p>
+
+<pre>No XHProf runs specified in the URL.
+Existing runs:</pre>
+
+<h3>Installation de GraphViz</h3>
+
+<p><strong>GraphViz</strong> est la solution retenue pour la génération des graphiques (callgraphs). C'est un ensemble d'outils OpenSource dédiés à la génération de graphs. Ils seront générés via l'interface Web.</p>
+
+<pre>sudo apt-get install graphviz</pre>
+
+<h3>Profiler une application PHP</h3>
+
+<p>Pour exécuter un run <strong>XHProf</strong>, il faut simplement ajouter dans le code de l'application les lignes suivantes :</p>
+
+<pre>tideways_xhprof_enable();
+
+// Code à profiler
+
+$data = tideways_xhprof_disable();
+$namespace = 'myapp';
+file_put_contents(
+    sys_get_temp_dir() . "/" . uniqid() . "." . $namespace . ".xhprof", // /tmp/xxxxxxxxxxxxx.myapp.xhprof
+    serialize($data)
+);</pre>
+
+<p>Pour profiler entièrement l'application, on place généralement ces lignes dans le fichier <strong>index.php</strong>.</p>
+
+<p>Le fichier généré dans <strong>tmp</strong> est de la forme <strong>xxxxxxxxxxxxx.myapp.xhprof</strong>. Ce fichier contient l'ensemble des données enregistrées par <strong>XHProf</strong>. Il peut maintenant être analysé via l'interface Web.</p>
+
+<h3>Analyse des résultats</h3>
+
+<p>En ouvrant de nouveau <em>http://localhost.xhprof/?dir=/tmp</em>, vous disposez maintenant du run :</p>
+
+<img src="https://render.magentix.fr/media/blog/articles/xhprof-runs.png" alt="Xhprof Runs" />
+
+<p>Sélectionnez le run correspondant, l'analyse peut alors débuter...</p>
+<!-- /Content -->
+            </div>
+        </main>
+        <footer>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2021</p>
+                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+                <nav><a href="https://render.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
+        </footer>
+        <script type="text/javascript" src="https://render.magentix.fr/js/highlight.min.js"></script>
+        <script type="text/javascript" src="https://render.magentix.fr/js/app.js"></script>
+    </body>
+</html>

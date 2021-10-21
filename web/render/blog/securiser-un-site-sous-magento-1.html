@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<!--
+  __    __     ______     ______     ______     __   __     ______    __     __  __
+ /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
+ \ \ \-./\ \  \ \  __ \  \ \ \__ \  \ \  __\   \ \ \-.  \  \/_/\ \/  \ \ \  \/_/\_\/_
+  \ \_\ \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\\"\_\    \ \_\   \ \_\   /\_\/\_\
+   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Magento : sécuriser un site sous Magento 1</title>
+        <meta name="description" content="Voici plusieurs solutions pour sécuriser votre plateforme développé avec Magento 1. Ces techniques permettent de pérenniser le site e-commerce au delà de la date de fin de vie annoncée pour juin 2020." />
+        <link rel="stylesheet" href="https://render.magentix.fr/css/style.css" />
+        <meta name="robots" content="NOINDEX,NOFOLLOW" />
+    </head>
+    <body>
+        <header>
+            <div id="header-content">
+                <h1><a href="https://render.magentix.fr/"><img src="https://render.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="https://render.magentix.fr/">Accueil</a> &bull;
+                    <a href="https://render.magentix.fr/blog.html">Billets</a>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div id="main-content">
+<!-- Content -->
+<p><a href="https://render.magentix.fr/blog.html">Billets</a> : Sécuriser un site sous Magento 1</p>
+
+<hr/>
+
+<h2>Sécuriser un site sous Magento 1</h2>
+
+<p>
+    <em>
+        Voici plusieurs solutions pour sécuriser votre plateforme développée avec Magento 1.
+        Cela ne couvre évidemment pas les risques à 100% mais est recommandé pour pérenniser le site e-commerce au delà de la date de fin de vie annoncée pour juin 2020.
+    </em>
+</p>
+
+<p>
+    <strong>Magento 1</strong> restera dans l'histoire comme une solution e-commerce exceptionnelle : une communauté Française et internationale très active et dynamique (conférences, blogs, forums...), un panel de fonctionnalités natives impressionnant, des milliers de modules développés et mis à disposition par des développeurs du monde entier. Magento a déchaîné les passions pendant plus de 10 ans.
+</p>
+<p>
+    Tout le monde en parle depuis plusieurs années, cette date fatidique où Magento 1 deviendra un <strong>produit EOL</strong> (End Of Life). On se sert souvent de cette date pour mettre une certaine pression sur les commerçants, j'ai pu lire de tout et de n'importe quoi sur les réseaux, dans des communiqués ou des blogs.
+</p>
+<p>
+    L'argument n°1 avancé est la <strong>sécurité</strong> : des failles de sécurité énormes vont apparaître, des vols de carte et de données personnelles... L'argument n°2 est l'<strong>obsolescence des technologies</strong> utilisées par la solution (framework, Zend, PHP).
+</p>
+<p>
+    Ces 2 arguments sont légitimes, mais NON, Magento 1 n'explosera pas en <strong>juin 2020</strong> et continuera de tourner correctement.
+</p>
+<p>
+    Tout d'abord, en suivant certaines règles, il est aisé de <strong>sécuriser Magento 1</strong>, et cela pour plusieurs années. Et comme 95% des commerçants de taille moyenne, le paiement est effectué sur une plateforme externe (le client est redirigé).
+</p>
+<p>
+    Pour les technologies elles ne sont certes pas modernes, mais resteront pérennes. Le seul frein restera certainement PHP (sauf si vous optez pour la version Magento 1 LTS OpenMage ou que vous avez à disposition une équipe de développeur). Notez que rendre compatible Magento 1.9.4 avec PHP 7.4 ne prend que quelques heures (hors extensions tierces) et garantie la sécurité de PHP jusqu'au 28 novembre 2022. Reste également l'option PWA permettant d'isoler complètement le front (si vous vous sentez prêt à adopter cette techno).
+</p>
+<p>
+    Ce qui est cependant inévitable, c'est le <strong>sentiment de solitude</strong>. Les développeurs Magento 1 sont passés pour beaucoup à autre chose. Les blogs, ressources et forums disparaissent les uns après les autres (on a connu la fermeture de Magento Connect, des forums officiels, puis de Fragento). Plus aucun module n'est développé ni mis à jour depuis déjà quelques années. Si vous souhaitez rester sur Magento 1 ou reporter une migration, il est indispensable de conserver un développeur Magento 1 confirmé, car pour du e-commerce, il y a toujours des milliers de choses à expérimenter.
+</p>
+<p>
+    Voici donc <strong>plusieurs astuces pour sécuriser</strong> votre plateforme. Cela ne couvre pas les risques à 100%, des développements spécifiques et des modules externes peuvent toujours être à l'origine de failles.
+</p>
+<p>
+    L'idée principale est de <strong>cacher un maximum aux bots</strong> que votre site est sous Magento 1. Car au delà de sécuriser la plateforme, des <strong>centaines de bots</strong> parcourent le web à la recherche de CMS connus (wordpress, Prestashop, Magento...) afin d'en <strong>exploiter les failles</strong>.
+</p>
+<ol>
+    <li><a href="#p1">Nettoyer les fichiers et dossiers à la racine</a></li>
+    <li><a href="#p2">Un accès au backoffice sécurisé</a></li>
+    <li><a href="#p3">Effectuer une montée en version</a></li>
+    <li><a href="#p4">Empêcher la navigation dans les dossiers</a></li>
+    <li><a href="#p5">Désactiver les modules inutiles</a></li>
+    <li><a href="#p6">Ajouter aux entêtes HTTP un Content Security Policy</a></li>
+    <li><a href="#p7">Bloquer les détecteurs de CMS</a></li>
+    <li><a href="#p8">Bloquer l'accès à certains fichiers natifs</a></li>
+    <li><a href="#p9">Protéger les variables dynamiques dans les templates</a></li>
+    <li><a href="#p10">Modifier le nom des routes</a></li>
+    <li><a href="#p11">Modifier le nom du cookie frontend</a></li>
+    <li><a href="#p12">Déplacer les dossiers js, skin et media dans un sous dossier</a></li>
+    <li><a href="#p13">Déplacer les variables Javascript</a></li>
+    <li><a href="#p14">Sécuriser les cookies</a></li>
+</ol>
+
+<h3 id="p1">1. Nettoyer les fichiers et dossiers à la racine</h3>
+
+<p>
+    On supprime sans aucun risque les dossiers et fichiers suivants :
+</p>
+<ul>
+    <li>downloader</li>
+    <li>dev</li>
+    <li>.htaccess.sample</li>
+    <li>LICENSE.html</li>
+    <li>LICENSE.txt</li>
+    <li>LICENSE_AFL.txt</li>
+    <li>README.md</li>
+    <li>RELEASE_NOTES.txt</li>
+    <li>index.php.sample</li>
+    <li>php.ini.sample</li>
+</ul>
+
+<h3 id="p2">2. Un accès au backoffice sécurisé</h3>
+
+<p>
+    Si cela n'est pas déjà fait, on met à jour le chemin de l'admin dans le fichier <strong>app/etc/local.xml</strong>.
+</p>
+<pre>&lt;admin&gt;
+    &lt;routers&gt;
+        &lt;adminhtml&gt;
+            &lt;args&gt;
+                &lt;frontName&gt;&lt;![CDATA[cheminAdminSecure]]&gt;&lt;/frontName&gt;
+            &lt;/args&gt;
+        &lt;/adminhtml&gt;
+    &lt;/routers&gt;
+&lt;/admin&gt;</pre>
+
+<p>
+    Le chemin d'accès à l'admin doit être tout sauf <strong>admin</strong> ou <strong>manager</strong>.
+</p>
+<p>
+    Dans le fichier <strong>.htaccess</strong> à la racine de Magento (après la ligne <strong>RewriteEngine on</strong>), on autorise uniquement l'accès à des IPs définies :
+</p>
+<pre>RewriteCond %{REQUEST_URI} ^/(index.php/)?cheminAdminSecure(.*) [NC]
+RewriteCond %{REMOTE_ADDR} !^1\.1\.1\.1
+RewriteCond %{REMOTE_ADDR} !^2\.2\.2\.2
+RewriteRule .* - [F,L]</pre>
+
+<p>
+    Remplacez <strong>1\.1\.1\.1</strong>, <strong>2\.2\.2\.2</strong> etc... par vos IPs.
+</p>
+<p>
+    Si vous n'avez pas d'IP fixe l'idéal est un VPN. Pour environ 6$/mois on peut obtenir une adresse IP fixe facilement via un VPN sécurisé comme <a href="https://www.myip.io">myip.io</a> (le meilleur que j'ai trouvé, fiable, sécurisé et compatible avec n'importe quelle plateforme via OpenVPN).
+</p>
+
+<h3 id="p3">3. Effectuer une montée en version</h3>
+
+<p>
+    Si ce n'est pas déjà fait, une migration vers la toute dernière release de Magento est recommandée (actuellement <strong>1.9.4.5</strong>).
+</p>
+<p>
+    <strong>Note :</strong> Magento a introduit dans sa version <strong>1.9.4.3</strong> le cryptage des mots de passe avec bcrypt, ce qui est une très bonne chose. Cette évolution a disparu de Magento <strong>1.9.4.5</strong> (pour SHA256) car il est impossible de migrer les mots de passe des clients en bcrypt vers Magento 2.
+</p>
+<ul>
+    <li><a href="https://render.magentix.fr/media/blog/download/supee-11346_ce_1.5.0.0_-_1.9.4.5_-2020-06-22-03-13-11.zip">Télécharger SUPEE-11346 - Dernier patch de sécurité (22/06/2020)</a></li>
+    <li><a href="https://render.magentix.fr/media/blog/download/magento-1.9.4.5-2020-04-29-01-29-17.tar.gz">Télécharger Magento 1.9.4.5 (29/04/2020)</a></li>
+    <li><a href="https://render.magentix.fr/media/blog/download/magento-1.9.4.4-2020-01-28-04-53-25.tar.gz">Télécharger Magento 1.9.4.4 (28/01/2020)</a></li>
+    <li><a href="https://render.magentix.fr/media/blog/download/magento-1.9.4.3-2019-10-08-05-28-41.tar.gz">Télécharger Magento 1.9.4.3 (08/10/2019)</a></li>
+</ul>
+
+<h3 id="p4">4. Empêcher la navigation dans les dossiers</h3>
+
+<p>
+    Dans le fichier <strong>.htaccess</strong> à la racine de Magento, on ajoute tout en haut la ligne suivante :
+</p>
+
+<pre>Options -Indexes</pre>
+
+<p>
+    Les hébergeurs activent généralement cette option par défaut, mais on ne sait jamais.
+</p>
+
+<h3 id="p5">5. Désactiver les modules inutiles</h3>
+
+<p>
+    Moins il y en a, mieux c'est. Voici une liste de module natifs que vous pouvez désactiver sans problème si vous n'en avez pas l'utilité :
+</p>
+<ul>
+    <li>Mage_AdminNotification</li>
+    <li>Mage_Compiler</li>
+    <li>Mage_ConfigurableSwatches</li>
+    <li>Mage_Usa</li>
+    <li>Mage_Paygate</li>
+    <li>Mage_Paypal</li>
+    <li>Mage_PaypalUk</li>
+    <li>Mage_GoogleCheckout</li>
+    <li>Mage_Poll</li>
+    <li>Mage_Tag</li>
+    <li>Mage_Reports</li>
+    <li>Mage_Newsletter</li>
+    <li>Mage_Sendfriend</li>
+    <li>Mage_Rss</li>
+    <li>Mage_ProductAlert</li>
+    <li>Mage_Api</li>
+    <li>Mage_Api2</li>
+    <li>Mage_Authorizenet</li>
+    <li>Mage_Downloadable</li>
+    <li>Mage_ImportExport</li>
+    <li>Mage_Oauth</li>
+    <li>Mage_XmlConnect</li>
+    <li>Phoenix_Moneybookers</li>
+</ul>
+
+<h3 id="p6">6. Ajouter aux entêtes HTTP un Content Security Policy</h3>
+
+<p>
+    Les CSP permettent d'éviter l'exploitation de failles XSS en contrôlant les ressources externes et internes que vous utilisez. Par exemple :
+</p>
+<pre>&lt;IfModule mod_headers.c&gt;
+Header set Content-Security-Policy "default-src 'self' www.youtube.com fonts.gstatic.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' www.googletagmanager.com www.google-analytics.com maps.googleapis.com; img-src 'self' www.google-analytics.com maps.gstatic.com maps.googleapis.com data:; base-uri 'self'"
+&lt;/IfModule&gt;</pre>
+
+<p>
+    Cet exemple n'autorise aux navigateurs que les resources externes en provenance de <strong>Google analytics</strong>, <strong>Google Fonts</strong>, <strong>Youtube</strong> et <strong>Google Maps</strong>. Il convient évidemment de l'adapter à vos besoins. N'hésitez pas à vous documenter sur les CSP : <a href="https://render.magentix.fr/blog/strategie-de-securite-du-contenu-content-security-policy.html">Utiliser une stratégie de sécurité du contenu (Content Security Policy)</a>.
+</p>
+
+<h3 id="p7">7. Bloquer les détecteurs de CMS</h3>
+
+<p>
+    Il existe de nombreux détecteurs de CMS, il est possible d'en identifier certains. Pour bloquer l'analyse des 2 plus populaires, il suffit d'ajouter au fichier <strong>.htaccess</strong>  (après la ligne <strong>RewriteEngine on</strong>) :
+</p>
+<pre>RewriteCond %{HTTP_USER_AGENT} (WhatCMS|Wappalyzer) [NC]
+RewriteRule .* - [F,L]</pre>
+
+<h3 id="p8">8. Bloquer l'accès à certains fichiers natifs</h3>
+
+<p>
+    Via le fichier <strong>.htaccess</strong> à la racine de Magento, on interdit l'exécution de certains fichiers depuis l'extérieur :
+</p>
+<pre>&lt;Files .gitignore&gt;
+    order allow,deny
+    deny from all
+&lt;/Files&gt;
+
+&lt;Files install.php&gt;
+    order allow,deny
+    deny from all
+&lt;/Files&gt;
+
+&lt;Files api.php&gt;
+    order allow,deny
+    deny from all
+&lt;/Files&gt;
+
+&lt;Files cron.sh&gt;
+    order allow,deny
+    deny from all
+&lt;/Files&gt;
+
+&lt;Files cron.php&gt;
+    order allow,deny
+    deny from all
+&lt;/Files&gt;
+
+&lt;Files mage&gt;
+    order allow,deny
+    deny from all
+&lt;/Files&gt;</pre>
+
+<h3 id="p9">9. Protéger les variables dynamiques dans les templates</h3>
+
+<p>
+    Pour éviter les failles XSS, il conviendra de vérifier dans tous vos templates que les variables dynamiques passent bien par un <strong>escapeHtml</strong> :
+</p>
+<pre>&lt;?php echo $this->escapeHtml($variable) ?&gt;</pre>
+
+<h3 id="p10">10. Modifier le nom des routes</h3>
+
+<p>
+    Les bots viennent scanner l'existence des routes natives (<strong>/contacts</strong>, <strong>/customer/account/login</strong>...).
+</p>
+<p>
+    Les modifier est extrêmement simple. Il faudra cependant <strong>contrôler tous les liens de votre site</strong>, surtout ceux saisis en dur (pages CMS, blocs...).
+</p>
+<p>
+    Depuis le fichier <strong>config.xml</strong> d'un module dédié, il suffit d'ajouter les noeuds suivants (surcharge des frontName natifs) :
+</p>
+<pre>&lt;?xml version="1.0"?&gt;
+&lt;config&gt;
+    ...
+    &lt;frontend&gt;
+        ...
+        &lt;routers&gt;
+            &lt;customer&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Mage_Customer&lt;/module&gt;
+                    &lt;frontName&gt;ctm&lt;/frontName&gt; &lt;!-- /customer/* &gt;&gt; /cmt/* --&gt;
+                &lt;/args&gt;
+            &lt;/customer&gt;
+            &lt;checkout&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Mage_Checkout&lt;/module&gt;
+                    &lt;frontName&gt;ckt&lt;/frontName&gt; &lt;!-- /checkout/* &gt;&gt; /ckt/* --&gt;
+                &lt;/args&gt;
+            &lt;/checkout&gt;
+            &lt;contacts&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Mage_Contacts&lt;/module&gt;
+                    &lt;frontName&gt;cts&lt;/frontName&gt; &lt;!-- /contacts/* &gt;&gt; /cts/* --&gt;
+                &lt;/args&gt;
+            &lt;/contacts&gt;
+        &lt;/routers&gt;
+    &lt;/frontend&gt;
+&lt;/config&gt;</pre>
+
+<p>
+    Adaptez avec le nom de chemins avec ce que vous souhaitez. Les anciennes routes deviendront des <strong>pages 404</strong>.
+</p>
+
+<h3 id="p11">11. Modifier le nom du cookie frontend</h3>
+
+<p>
+    Magento génère un cookie nommé <strong>frontend</strong>. Certains bots contrôlent l'existence de ce cookie dans l'en-tête HTTP pour s'assurer que le site est bien sur Magento.
+</p>
+<p>
+    Pour changer le nom du cookie, il vous suffit de copier le fichier :
+</p>
+<pre class="nohighlight">app/code/<strong>core</strong>/Mage/Core/Controller/Varien/Action.php</pre>
+<p>
+    Dans :
+</p>
+<pre class="nohighlight">app/code/<strong>local</strong>/Mage/Core/Controller/Varien/Action.php</pre>
+<p>
+    Modifiez le nom du namespace par celui de votre choix :
+</p>
+
+<pre>/**
+ * Session namespace to refer in other places
+ */
+const SESSION_NAMESPACE = 'frontend'; // Par exemple : navigation
+</pre>
+
+<p>
+    <strong>Note :</strong> Cette technique de surcharge "directe" dans local a toujours été déconseillée, mais Magento 1 ne connaîtra plus aucune mise à jour...
+</p>
+
+<h3 id="p12">12. Déplacer les dossiers js, skin et media dans un sous dossier</h3>
+
+<p>
+    Les bots scannent très souvent les dossiers <strong>skin</strong>, <strong>media</strong> et <strong>js</strong> à la recherche de fichiers connus pour leur vulnérabilité. Les déplacer réglera immédiatement le problème.
+</p>
+<p>
+    Dans le fichier <strong>app/etc/config.xml</strong>, modifiez les chemins suivants :
+</p>
+
+<pre>&lt;media&gt;{{root_dir}}/media&lt;/media&gt;
+&lt;upload&gt;{{root_dir}}/media/upload&lt;/upload&gt;
+&lt;skin&gt;{{root_dir}}/skin&lt;/skin&gt;</pre>
+
+<p>
+    Avec le dossier de votre choix (ici <strong>pub</strong>) :
+</p>
+
+<pre class="nohighlight">&lt;media&gt;{{root_dir}}/<strong>pub</strong>/media&lt;/media&gt;
+&lt;upload&gt;{{root_dir}}/<strong>pub</strong>/media/upload&lt;/upload&gt;
+&lt;skin&gt;{{root_dir}}/<strong>pub</strong>/skin&lt;/skin&gt;</pre>
+
+<p>
+    Copiez le fichier :
+</p>
+<pre class="nohighlight">app/code/<strong>core</strong>/Mage/Core/Model/Config/Options.php</pre>
+<p>
+    Dans :
+</p>
+<pre class="nohighlight">app/code/<strong>local</strong>/Mage/Core/Model/Config/Options.php</pre>
+<p>
+    Ajoutez en bas de la méthode <strong>_construct()</strong> :
+</p>
+    <pre>$this->_data['media_dir'] = $this->_data['base_dir'] . DS . 'pub/media';
+$this->_data['skin_dir'] = $this->_data['base_dir'] . DS . 'pub/skin';</pre>
+
+<p>
+    Copiez ensuite le fichier :
+</p>
+<pre class="nohighlight">app/code/<strong>core</strong>/Mage/Page/Block/Html/Head.php</pre>
+<p>
+    Dans :
+</p>
+<pre class="nohighlight">app/code/<strong>local</strong>/Mage/Page/Block/Html/Head.php</pre>
+<p>
+    Pour la méthode <strong>&_prepareStaticAndSkinElements</strong>, remplacez la ligne suivante :
+</p>
+<pre>$items[$params][] = $mergeCallback ? Mage::getBaseDir() . DS . 'js' . DS . $name : $baseJsUrl . $name;</pre>
+<p>
+    Par :
+</p>
+<pre>$items[$params][] = $mergeCallback ? Mage::getBaseDir() . DS . 'pub/js' . DS . $name : $baseJsUrl . $name;</pre>
+
+<p>
+    Modifiez en backoffice, en base de données ou via le setup d'un module les chemins pour <strong>skin</strong>, <strong>media</strong> et <strong>js</strong> :
+</p>
+<pre>&lt;?php
+
+/** @var $installer Mage_Core_Model_Resource_Setup */
+$installer = $this;
+
+$installer->setConfigData('web/unsecure/base_skin_url', '&#x7B;&#x7B;unsecure_base_url&#x7D;&#x7D;pub/skin/');
+$installer->setConfigData('web/unsecure/base_media_url', '&#x7B;&#x7B;unsecure_base_url&#x7D;&#x7D;pub/media/');
+$installer->setConfigData('web/unsecure/base_js_url', '&#x7B;&#x7B;unsecure_base_url&#x7D;&#x7D;pub/js/');
+$installer->setConfigData('web/secure/base_skin_url', '&#x7B;&#x7B;secure_base_url&#x7D;&#x7D;pub/skin/');
+$installer->setConfigData('web/secure/base_media_url', '&#x7B;&#x7B;secure_base_url&#x7D;&#x7D;pub/media/');
+$installer->setConfigData('web/secure/base_js_url', '&#x7B;&#x7B;secure_base_url&#x7D;&#x7D;pub/js/');</pre>
+
+<p>
+    Pour finir, dans le fichier <strong>.htaccess</strong> à la racine de Magento, modifiez la ligne suivante :
+</p>
+<pre>RewriteCond %{REQUEST_URI} !^/(media|skin|js)/</pre>
+<p>
+    Avec :
+</p>
+<pre>RewriteCond %{REQUEST_URI} !^/(media|skin|js|pub)/</pre>
+
+<p>
+    Il ne reste plus qu'à déplacer les dossiers <strong>skin</strong>, <strong>media</strong> et <strong>js</strong> dans un nouveau dossier <strong>pub</strong> à la racine :
+</p>
+<img src="https://render.magentix.fr/media/blog/articles/magento-pub.png" alt="Arborescence Magento"/>
+
+<h3 id="p13">13. Déplacer les variables Javascript</h3>
+
+<p>
+    Les bots analysent parfois le contenu de la page à la recherche de code connu. Les variables JS (Mage.Cookies.path, optionalZipCountries, Translator) trahissent Magento.
+</p>
+<p>
+    L'idée est de déplacer ces variables JS dans un fichier script "dynamique" :
+</p>
+<pre>&lt;script type="text/javascript" src="https://.../dynamic/script.js"&gt;&lt;/script&gt;</pre>
+<p>
+    J'entends par <strong>dynamique</strong> que le fichier est composé de blocs ne contenant que du JS et généré via l'action d'un contrôleur, le téléchargement du fichier est forcé (pas de cache navigateur). Nous pourrions également utiliser le cache navigateur mais avec un système de versionning lors de mises à jour (script.js?v=1.0).
+</p>
+<pre>public function indexAction()
+{
+    /** @var Mage_Core_Model_Date $date */
+    $date = Mage::getModel('core/date');
+    /** @var string $gmtDate */
+    $gmtDate = $date->date("D, d M Y H:i:s") . ' GMT';
+
+    $this->getResponse()->setHeader('Content-Type', 'application/javascript');
+    $this->getResponse()->setHeader('Last-Modified', $gmtDate, true);
+    $this->getResponse()->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true);
+    $this->getResponse()->setHeader('Pragma', 'no-cache', true);
+    $this->getResponse()->setHeader('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT', true);
+
+    $this->loadLayout(false);
+    $this->renderLayout();
+}</pre>
+
+<p>
+    Vous pouvez récupérer le module complet via le lien suivant : <a href="https://render.magentix.fr/media/blog/download/Magentix_DynamicJs.tar.gz">Magentix_DynamicJs</a>
+</p>
+
+<img src="https://render.magentix.fr/media/blog/articles/magento-dynamic-script.png" alt="Fichier Script Magento" />
+
+<h3 id="p14">14. Sécuriser les cookies</h3>
+
+<p>
+    Par défault, les cookies frontend sont servis avec l'attribut <strong>Secure</strong> à <em>false</em> et l'attribut <strong>sameSite</strong> à <em>None</em>.
+</p>
+<p>
+    Il est propable que ces cookies soient un jour refusés par les navigateurs. Firefox dans les dernières versions affiche par exemple le message suivant :
+</p>
+<blockquote>
+    Le cookie "frontend" sera bientôt rejeté car son attribut "sameSite" est défini sur "none" ou une valeur invalide, et sans attribut "secure"
+</blockquote>
+
+<img src="https://render.magentix.fr/media/blog/articles/cookie.png" alt="Cookie" />
+
+<p>Une simple surcharge de la classe <strong>Mage_Core_Model_Cookie</strong> permet de corriger ce problème :</p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Magentix_SecureCookie&gt;
+            &lt;version&gt;1.0.0&lt;/version&gt;
+        &lt;/Magentix_SecureCookie&gt;
+    &lt;/modules&gt;
+    &lt;global&gt;
+        &lt;models&gt;
+            &lt;core&gt;
+                &lt;rewrite&gt;
+                    &lt;cookie&gt;Magentix_SecureCookie_Model_Cookie&lt;/cookie&gt;
+                &lt;/rewrite&gt;
+            &lt;/core&gt;
+        &lt;/models&gt;
+    &lt;/global&gt;
+&lt;/config&gt;</pre>
+
+<p>Nous indiquons que le cookie doit être sécurisé et ajoutons la valeur <strong>strict</strong> pour l'attribut <strong>sameSite</strong> :</p>
+
+<pre>&lt;?php
+
+class Magentix_SecureCookie_Model_Cookie extends Mage_Core_Model_Cookie
+{
+    /**
+     * Is https secure request
+     * {override} use secure cookie on frontend
+     *
+     * @return bool
+     * @throws Mage_Core_Model_Store_Exception
+     */
+    public function isSecure()
+    {
+        return $this->_getRequest()->isSecure();
+    }
+
+    /**
+     * Retrieve Path for cookie
+     * {override} Force strict for samesite
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        $path = parent::getPath();
+
+        return $path . '; samesite=strict';
+    }
+}</pre>
+<!-- /Content -->
+            </div>
+        </main>
+        <footer>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2021</p>
+                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+                <nav><a href="https://render.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
+        </footer>
+        <script type="text/javascript" src="https://render.magentix.fr/js/highlight.min.js"></script>
+        <script type="text/javascript" src="https://render.magentix.fr/js/app.js"></script>
+    </body>
+</html>
