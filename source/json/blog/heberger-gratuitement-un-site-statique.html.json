@@ -1,0 +1,5 @@
+{
+  "title": "Publier gratuitement un site statique, quel hébergement choisir ?",
+  "description": "Comparatif entre Netlify, Vercel et Render pour l'hébergement gratuit d'un site statique : focus sur les temps de réponse (ttfb) d'un même site.",
+  "content": "page/blog/static-hosting.html"
+}

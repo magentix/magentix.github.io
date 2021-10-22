@@ -1,4 +1,0 @@
-Sitemap: https://www.magentix.fr/sitemap.xml
-
-User-agent: *
-Allow: /

@@ -248,6 +248,27 @@ aside {
     margin-bottom: 0;
 }
 
+.compare {
+    list-style-type: none;
+    border: 1px solid #ccc;
+    padding-bottom: 0.8rem;
+    padding-left: 0.8rem;
+}
+
+.compare li {
+    padding-left: 32px;
+}
+
+.compare .positive {
+    color: #0c4047;
+    background: url(../images/positive.png) no-repeat left center;
+}
+
+.compare .negative {
+    color: #951C24;
+    background: url(../images/negative.png) no-repeat left center;
+}
+
 .ll-nam {
     color: #0c4047;
 }
