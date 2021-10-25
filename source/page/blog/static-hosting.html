@@ -12,7 +12,7 @@
 </p>
 
 <p>
-    Il n'est pas rare chez les géants Américains du déploiement automatisé de sites statiques de trouver des offres gratuites.
+    Il n'est pas rare avec les solutions de déploiement automatisé de sites statiques de trouver des offres gratuites.
     Ce sont souvent des offres d'appel, limitées, pour vendre ensuite une solution plus complète.
 </p>
 
@@ -58,22 +58,23 @@
 </p>
 
 <p>
-    J'ai donc retenu <strong>4 solutions</strong> : Github Pages, Netlify, Vercel et Render.
+    J'ai donc retenu <strong>5 solutions</strong> : Github Pages, Gitlab Pages, Netlify, Vercel et Render.
 </p>
 
 <p>
-    Pour les tests j'ai utilisé le site Magentix (celui que vous lisez actuellement), que j'ai hébergé (temporairement) sur 4 sous-domaines :
+    Pour les tests j'ai utilisé le site Magentix (celui que vous lisez actuellement) que j'ai hébergé (temporairement) sur 5 sous-domaines :
 </p>
 
 <ul>
     <li><strong>Github Pages</strong> : github.magentix.fr</li>
+    <li><strong>Gitlab Pages</strong> : gitlab.magentix.fr</li>
     <li><strong>Netlify</strong> : netlify.magentix.fr</li>
     <li><strong>Vercel</strong> : vercel.magentix.fr</li>
     <li><strong>Render</strong> : render.magentix.fr</li>
 </ul>
 
 <p>
-    Ces 4 solutions proposent toutes gratuitement les fonctionnalités qui m'intéressent :
+    Ces 5 solutions proposent toutes gratuitement les fonctionnalités qui m'intéressent :
 </p>
 
 <ul>
@@ -102,7 +103,7 @@
 </ul>
 
 <p>
-    Le temps de latence est un critère primordial : le site est dans le cloud, AWS, cloudflare ou Azure. Si le serveur est à l'autre bout de la planète c'est un peu moins intéressant pour moi.
+    Le temps de latence est un critère primordial : le site est dans le cloud, AWS, cloudflare, Digital Ocean, Azure... Si le serveur est à l'autre bout de la planète c'est un peu moins intéressant pour moi.
     Je trouve un peu dommage d'attendre 400ms juste pour récupérer un fichier statique de 5ko.
 </p>
 
@@ -135,7 +136,7 @@
 
 <p>
     Pour le reste c'est assez fluide, il m'a fallu environ 10 minutes pour mettre le site en ligne.
-    Pas besoin d'un outil supplémentaire qui viendrait cloner mon dépôt.
+    Pas besoin d'un outil supplémentaire qui viendrait cloner le dépôt.
 </p>
 
 <p>
@@ -155,11 +156,55 @@
     <li class="negative">En-têtes HTTP non personnalisables</li>
 </ul>
 
+<h3>Gitlab Pages</h3>
+
+<p>
+    Contrairement à son concurrent Github, Gitlab permet de publier un site sur un dépôt privé. On peut donc versionner le site
+    et le déployer sur la même plateforme, le tout gratuitement.
+</p>
+
+<p>
+    La mise en ligne n'a pas posé de problèmes particuliers mais je suis très familié avec Gitlab. J'ai cependant toujours trouvé l'interface
+    moins ergonomique que celle de Github. La configuration du site statique reste plus complexe qu'avec les autres solutions, moins facile d'accès.
+</p>
+
+<p>
+    Il n'est pas possible de customiser les en-têtes HTTP. Celles-ci sont par contre peu nombreuses (8 contre une vingtaine pour Github).
+    Notez que Gitlab ajoute de base la directive <code>permissions-policy: interest-cohort=()</code> pour la désactivation de l'algorithme Google FLoC.
+</p>
+
+<p>
+    Gitlab accuse un temps de réponse très élevé, avec depuis la France un TTFB moyen de <strong>387ms</strong> sur 7 jours.
+    Avec une sonde depuis les US c'est n'est pas beaucoup mieux, le TTFB moyen obtenu est de <strong>317ms</strong>.
+</p>
+
+<p>
+    La compression des ressources (gzip) n'est pas effectuée par défaut, il faut l'ajouter au script de déploiement :
+</p>
+
+<pre>
+pages:
+  # Other directives
+  script:
+  - find public -type f -regex '.*\.\(html\|js\|css\)$' -exec gzip -f -k {} \;
+</pre>
+
+<aside>.gitlab-ci.yml</aside>
+
+<ul class="compare">
+    <li class="positive">Nom de domaine personnalisable</li>
+    <li class="positive">Pas d'outil supplémentaire</li>
+    <li class="positive">Dépôt privé</li>
+    <li class="negative">Temps de réponse très élevé</li>
+    <li class="negative">Configuration complexe</li>
+    <li class="negative">En-têtes HTTP non personnalisables</li>
+</ul>
+
 <h3>Netlify</h3>
 
 <p>
     Netlify est le CDN que j'ai choisi il y a quelques mois pour héberger Magentix. je n'avais pas vraiment réalisé de comparatif.
-    En quelques minutes le site était en ligne et c'était super satisfaisant (clone du dépôt Github et modification du CNAME). L'expérience utilisateur de l'outil est excellente.
+    En quelques minutes le site était en ligne et c'était très satisfaisant (clone du dépôt Github et modification du CNAME). L'expérience utilisateur de l'outil est excellente.
 </p>
 
 <p>
@@ -206,7 +251,7 @@
 
 <p>
     Vercel présente un très bon TTFB. Les réponses sont constantes, avec une moyenne de <strong>69ms</strong> sur 7 jours.
-    C'est la seule solution de ce comparatif à répondre depuis un datacenter Français (AWS Paris) depuis chez moi.
+    C'est la seule solution de ce comparatif à répondre depuis un serveur Français (AWS Paris), depuis chez moi.
 </p>
 
 <p>
@@ -239,5 +284,13 @@
 </p>
 
 <p>
-    Pour finir, <strong>Render</strong> avec un temps de réponse moyen et l'obligation de renseigner une carte bancaire.
+    Pour finir <strong>Gitlab Pages</strong> avec un temps de réponse très mauvais, suivi de <strong>Render</strong> avec un temps de réponse moyen et l'obligation de renseigner une carte bancaire.
+</p>
+
+<img src="{{ url }}media/blog/articles/static-website-tools-ttfb.jpg" alt="Temps de réponse moyen hébergement" />
+
+<p>
+    Il est possible que les offres ne restent pas gratuites indéfiniment ou que les solutions disparaissent un jour.
+    Ce fût par exemple le cas de <strong>fast.io</strong>, qui a tout simplement mis fin à son service de déploiement de sites statiques.
+    Si cela devait arriver, il serait tout de même très facile et rapide de changer de solution.
 </p>
