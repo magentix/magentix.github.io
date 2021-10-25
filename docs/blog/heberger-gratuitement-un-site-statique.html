@@ -10,8 +10,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Publier gratuitement un site statique, quel hébergement choisir ?</title>
-        <meta name="description" content="Comparatif entre Netlify, Vercel et Render pour l'hébergement gratuit d'un site statique : focus sur les temps de réponse (ttfb) d'un même site." />
+        <title>Publier gratuitement un site statique, quelle solution choisir ?</title>
+        <meta name="description" content="Comparatif entre Github, Gitlab, Netlify, Vercel et Render pour le déploiement gratuit d'un site statique : focus sur la configuration et les temps de réponse (TTFB)." />
         <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
         <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
         <meta name="robots" content="INDEX,FOLLOW" />
@@ -73,7 +73,7 @@
 <h2>Sélection des solutions</h2>
 
 <p>
-    Je n'ai pas utilisé les services de build des solutions de déploiement. Je génère le site statique localement et versionne les fichiers sur Github.
+    Je n'ai pas utilisé les services de build des solutions de déploiement. Je génère le site statique localement et pousse le résultat sur Github.
     Il ne reste plus qu'à trouver un espace sur le web pour partager les fichiers.
 </p>
 
@@ -128,7 +128,7 @@
 </p>
 
 <p>
-    L'intérêt du cloud est de se rapprocher au maximum des utilisateurs, mais n'oublions pas que nous sommes sur des offres gratuites, plus limitées.
+    Il est important de se rapprocher au maximum des utilisateurs, mais n'oublions pas que nous sommes sur des offres gratuites, plus limitées.
 </p>
 
 <p>
@@ -160,11 +160,11 @@
 </p>
 
 <p>
-    Les fichiers statiques sont versionnés sur le dépôt (username.github.io) et on ajoute l'entrée CNAME sur la zone DNS.
+    Les fichiers statiques sont disponibles sur le dépôt (username.github.io) et on ajoute l'entrée CNAME sur la zone DNS.
 </p>
 
 <p>
-    Le site ne devra pas excéder les 1GB. Les temps de réponse sont bons et très réguliers, avec une moyenne de <strong>59ms</strong> sur 7 jours.
+    Le site ne doit pas excéder les 1GB. Les temps de réponse sont très bons et réguliers, avec une moyenne de <strong>59ms</strong> sur 7 jours.
 </p>
 
 <ul class="compare">
@@ -178,7 +178,7 @@
 <h3>Gitlab Pages</h3>
 
 <p>
-    Contrairement à son concurrent Github, Gitlab permet de publier un site sur un dépôt privé. On peut donc versionner le site
+    Contrairement à son concurrent Github, Gitlab permet de publier un site sur un dépôt privé. On peut donc gérer le site
     et le déployer sur la même plateforme, le tout gratuitement.
 </p>
 
