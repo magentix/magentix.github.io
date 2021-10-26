@@ -275,13 +275,28 @@ pages:
 </p>
 
 <p>
-    Le seul point négatif que j'ai pu trouver à Vercel est l'impossibilité de customiser les en-têtes HTTP.
+    Il est tout à fait possible de modifier les en-têtes HTTP via un fichier <code>vercel.json</code> à la racine du projet (nécessite un déploiement avec vercel CLI).
 </p>
+
+<pre>
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers" : [
+        {
+          "key" : "X-Frame-Options",
+          "value" : "DENY"
+        }
+      ]
+    }
+}
+</pre>
 
 <ul class="compare">
     <li class="positive">Temps de réponse très bon</li>
     <li class="positive">Mise en ligne très simple</li>
-    <li class="negative">En-têtes HTTP non personnalisables</li>
+    <li class="positive">En-têtes HTTP personnalisables</li>
 </ul>
 
 <h2>Conclusion</h2>
