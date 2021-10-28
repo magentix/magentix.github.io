@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--
+  __    __     ______     ______     ______     __   __     ______    __     __  __
+ /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
+ \ \ \-./\ \  \ \  __ \  \ \ \__ \  \ \  __\   \ \ \-.  \  \/_/\ \/  \ \ \  \/_/\_\/_
+  \ \_\ \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\\"\_\    \ \_\   \ \_\   /\_\/\_\
+   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>iptables : les règles pour sécuriser au maximum un serveur Web</title>
+        <meta name="description" content="Comment bloquer avec iptables l'ensemble du traffic INPUT sur tous les ports sauf 80 (http) et 443 (https)." />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+        <link rel="stylesheet" href="https://cloudflare.magentix.fr/css/style.css" />
+        <meta name="robots" content="INDEX,FOLLOW" />
+    </head>
+    <body>
+        <header>
+            <div id="header-content">
+                <h1><a href="https://cloudflare.magentix.fr/"><img src="https://cloudflare.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="https://cloudflare.magentix.fr/">Accueil</a> &bull;
+                    <a href="https://cloudflare.magentix.fr/blog.html">Billets</a>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div id="main-content">
+<!-- Content -->
+<p><a href="https://cloudflare.magentix.fr/blog.html">Billets</a> : Les règles iptables pour sécuriser au maximum un serveur Web</p>
+
+<hr/>
+
+<h2>Les règles iptables pour sécuriser au maximum un serveur Web</h2>
+
+<p>
+    <em>
+        Pour sécuriser un serveur Web, j'applique systèmatiquement le même comportement : bloquer l'ensemble du traffic sur tous les ports, sauf 80 (http) et 443 (https).
+        Seuls quelques IPs sont autorisés à accéder au reste. Voici comment le mettre en place avec iptables.
+    </em>
+</p>
+
+<p>Dès la mise en place d'un serveur accessible à distance, les scans de port et les tentatives de connexion SSH sont légions. La solution la plus radicale reste de tout bloquer, sauf les ports dont le serveur a besoin pour le ou les services qu'il propose.</p>
+
+<p><strong>Attention :</strong> il est indispensable pour un serveur distant (serveur dédié par exemple) d'autoriser l'accès SSH (port 22 par défaut) à plusieurs IPs fixes : la votre et des IPs de secours. <strong>Si vous ne disposez pas d'IP fixe ne bloquez pas l'accès à SSH et proposez le service sur un autre port que 22.</strong></p>
+
+<h3>Configuration</h3>
+
+<p>On vérifie dans un premier temps qu'iptables est bien en place sur le serveur, si ce n'est pas le cas, on procède à l'installation :</p>
+
+<pre>sudo apt-get install iptables</pre>
+
+<p>Pour contrôler les règles en place, on utilise la commande suivante :</p>
+
+<pre>sudo iptables -L</pre>
+
+<p>Par défaut, le pare-feu accepte toutes les connexions.</p>
+
+<ul>
+    <li><strong>Chain INPUT :</strong> les paquets entrants, de l'extérieur vers le serveur</li>
+    <li><strong>Chain FORWARD :</strong> les paquets redirigés</li>
+    <li><strong>Chain OUTPUT :</strong> les paquets sortants, du serveur vers l'extérieur</li>
+</ul>
+
+<p><strong>Note :</strong> nous appliquons dans cet article uniquement des règles sur le traffic entrant (INPUT).</p>
+
+<h3>Règles du pare-feu</h3>
+
+<p>Le plus simple est d'écrire les règles souhaitées dans un fichier spécifique :</p>
+
+<pre>sudo nano /etc/iptables.custom.rules</pre>
+
+<p>Afin de bloquer le traffic sur l'ensemble des ports exceptés les 80, 443 et 22, nous utilisons les règles suivantes :</p>
+
+<pre>*filter
+
+# Allow unlimited traffic on loopback
+-A INPUT -i lo -j ACCEPT
+
+# Allow ESTABLISHED and RELATED packets
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# Allow traffic on specified ports (ex: web server)
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT # Comment for reject SSH connection
+
+# Allow all for specified IPs (whitelist)
+-A INPUT -s 123.123.123.123 -j ACCEPT
+-A INPUT -s 456.456.456.456 -j ACCEPT
+
+# Reject traffic other than for the rules mentioned above
+-A INPUT -j DROP
+
+COMMIT</pre>
+
+<p>N'oubliez pas de remplacer la whitelist par vos IPs.</p>
+
+<pre># Allow all for specified IPs
+-A INPUT -s 123.123.123.123 -j ACCEPT # Votre IP Fixe 1
+-A INPUT -s 456.456.456.456 -j ACCEPT # Votre IP Fixe 2
+# ...
+</pre>
+
+<h3>Application</h3>
+
+<p>Une fois les règles écrites, il ne reste plus qu'à les appliquer :</p>
+
+<pre>sudo iptables-restore < /etc/iptables.custom.rules</pre>
+
+<p>On vérifie que les règles sont bien appliquées :</p>
+
+<pre>sudo iptables -L</pre>
+
+<h3>Explications</h3>
+
+<h4>Loopback</h4>
+
+<pre>-A INPUT -i lo -j ACCEPT</pre>
+
+<p>Cette règle correspond au trafic loopback qui permet aux services de la machine de communiquer entre elles.</p>
+
+<h4>State</h4>
+
+<pre>-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT</pre>
+
+<p>On autorise ici les connexions déjà établies.</p>
+
+<h4>Ports autorisés</h4>
+
+<pre>-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT</pre>
+
+<p>On établie la liste de tous les ports pour lesquels on autorise le traffic. Vous pouvez adapter cette liste selon le type de service proposé par le serveur.</p>
+
+<h4>Whitelist</h4>
+
+<pre>-A INPUT -s 123.123.123.123 -j ACCEPT
+-A INPUT -s 456.456.456.456 -j ACCEPT</pre>
+
+<p>Liste des IPs depuis lesquels l'accès à l'ensemble du serveur est autorisé. Si vous souhaitez bloquer l'accès SSH, assurez vous que cette liste d'IPs soit valide, au risque de ne plus pouvoir accéder au serveur.</p>
+
+<h4>Drop</h4>
+
+<pre>-A INPUT -j DROP</pre>
+
+<p>On rejette tout le reste.</p>
+
+<h3>Réinitialisation</h3>
+
+<p>Si vous souhaitez restaurer les règles par défaut (ACCEPT), utilisez la commande suivante :</p>
+
+<pre>sudo iptables -F</pre>
+<!-- /Content -->
+            </div>
+        </main>
+        <footer>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2021</p>
+                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+                <nav><a href="https://cloudflare.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
+        </footer>
+        <script type="text/javascript" src="https://cloudflare.magentix.fr/js/highlight.min.js"></script>
+        <script type="text/javascript" src="https://cloudflare.magentix.fr/js/app.js"></script>
+    </body>
+</html>

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <atom:link href="https://www.magentix.fr/rss.xml" rel="self" type="application/rss+xml" />
+        <title>Magentix : les derniers billets</title>
+        <link>https://www.magentix.fr</link>
+        <language>fr</language>
+        <description>Articles sur la performance des sites, le développement Web, la sécurité, l'administration serveur, Magento</description>
+        <image>
+            <url>https://www.magentix.fr/media/logo/magentix.png</url>
+            <title>Magentix : les derniers billets</title>
+            <link>https://www.magentix.fr</link>
+        </image>
+        <item>
+            <title>Publier gratuitement un site statique, quelle solution choisir ?</title>
+            <link>https://www.magentix.fr/blog/heberger-gratuitement-un-site-statique.html</link>
+            <guid>https://www.magentix.fr/blog/heberger-gratuitement-un-site-statique.html</guid>
+            <description><![CDATA[Il existe de nombreux avantages à créer un site statique. L'un d'entre eux concerne l'hébergement. Une fois le site généré, il est possible de l'héberger facilement n'importe où. Et pour un site personnel de taille modeste, cela peut ne rien coûter.]]></description>
+        </item>
+        <item>
+            <title>Un serveur web à la maison</title>
+            <link>https://www.magentix.fr/blog/un-serveur-web-a-la-maison.html</link>
+            <guid>https://www.magentix.fr/blog/un-serveur-web-a-la-maison.html</guid>
+            <description><![CDATA[Si vous disposez de la fibre et d'une freebox, vous pouvez installer votre propre serveur web et héberger facilement toutes vos applications à la maison. Ce billet expose les différentes étapes pour l'installation et la configuration du serveur.]]></description>
+        </item>
+        <item>
+            <title>Magento 2 sans Elasticsearch</title>
+            <link>https://www.magentix.fr/blog/magento-2-sans-elasticsearch.html</link>
+            <guid>https://www.magentix.fr/blog/magento-2-sans-elasticsearch.html</guid>
+            <description><![CDATA[Depuis la version 2.4, Elasticsearch est imposé nativement. L'installation de Magento n'aboutira pas si Elasticsearch n'est pas disponible. Mais il est tout à fait possible de s'en passer...]]></description>
+        </item>
+        <item>
+            <title>Une installation légère de Magento 2</title>
+            <link>https://www.magentix.fr/blog/une-installation-legere-de-magento-2.html</link>
+            <guid>https://www.magentix.fr/blog/une-installation-legere-de-magento-2.html</guid>
+            <description><![CDATA[Magento 2 est proposé de base avec un nombre de modules extrêmement élevé. Beaucoup de ces modules peuvent être supprimés.]]></description>
+        </item>
+        <item>
+            <title>Magento, le projet Open Source qui a transformé le commerce électronique</title>
+            <link>https://www.magentix.fr/blog/magento-projet-open-source-histoire.html</link>
+            <guid>https://www.magentix.fr/blog/magento-projet-open-source-histoire.html</guid>
+            <description><![CDATA[Magento 1 est depuis le 30 juin 2020 un projet officiellement obsolète (fin de vie), l'occasion de revenir sur son histoire. Ce billet et une traduction et une interprétation d'un article de Matt Asay.]]></description>
+        </item>
+        <item>
+            <title>Les PWA sont-elles adaptées au e-commerce ?</title>
+            <link>https://www.magentix.fr/blog/pwa-et-ecommerce.html</link>
+            <guid>https://www.magentix.fr/blog/pwa-et-ecommerce.html</guid>
+            <description><![CDATA[Annoncée initialement comme la technologie du futur, y a-t-il un intérêt à implémenter une Progressive Web App pour un site de vente en ligne ?]]></description>
+        </item>
+        <item>
+            <title>Nettoyage de printemps d'un système Ubuntu / Debian</title>
+            <link>https://www.magentix.fr/blog/nettoyer-un-systeme-ubuntu-debian.html</link>
+            <guid>https://www.magentix.fr/blog/nettoyer-un-systeme-ubuntu-debian.html</guid>
+            <description><![CDATA[Les caches, les logs ou encore des fichiers obsolètes peuvent alourdir inutilement les disques durs : un contrôle et un nettoyage s'imposent.]]></description>
+        </item>
+        <item>
+            <title>Sécuriser un site sous Magento 1</title>
+            <link>https://www.magentix.fr/blog/securiser-un-site-sous-magento-1.html</link>
+            <guid>https://www.magentix.fr/blog/securiser-un-site-sous-magento-1.html</guid>
+            <description><![CDATA[Voici plusieurs solutions pour sécuriser votre plateforme développée avec Magento 1. Cela ne couvre évidemment pas les risques à 100% mais est recommandé pour pérenniser le site e-commerce au delà de la date de fin de vie annoncée pour juin 2020.]]></description>
+        </item>
+        <item>
+            <title>Utiliser une stratégie de sécurité du contenu (Content Security Policy)</title>
+            <link>https://www.magentix.fr/blog/strategie-de-securite-du-contenu-content-security-policy.html</link>
+            <guid>https://www.magentix.fr/blog/strategie-de-securite-du-contenu-content-security-policy.html</guid>
+            <description><![CDATA[Le CSP (Content Security Policy) est un excellent moyen de diminuer les attaques XSS et les injections de contenu. Vous décidez des resources internes et externes que le navigateur a le droit de charger. Configurer une stratégie CSP nécessite simplement d'utiliser un en-tête HTTP Content-Security-Policy.]]></description>
+        </item>
+        <item>
+            <title>Les règles iptables pour sécuriser au maximum un serveur Web</title>
+            <link>https://www.magentix.fr/blog/les-regles-iptables-pour-securiser-au-maximum-un-serveur-web.html</link>
+            <guid>https://www.magentix.fr/blog/les-regles-iptables-pour-securiser-au-maximum-un-serveur-web.html</guid>
+            <description><![CDATA[Pour sécuriser un serveur Web, j'applique systèmatiquement le même comportement : bloquer l'ensemble du traffic sur tous les ports, sauf 80 (http) et 443 (https). Seuls quelques IPs sont autorisés à accéder au reste. Voici comment le mettre en place avec iptables.]]></description>
+        </item>
+        <item>
+            <title>Analyser les requêtes SQL avec les logs MySQL</title>
+            <link>https://www.magentix.fr/blog/analyser-les-requetes-sql-avec-les-logs-mysql.html</link>
+            <guid>https://www.magentix.fr/blog/analyser-les-requetes-sql-avec-les-logs-mysql.html</guid>
+            <description><![CDATA[Lors d'une analyse des performances d'un site, les requêtes SQL doivent être contrôlées. Combien de requêtes pour une page ? Certaines requêtes peuvent-elles être évitées ? Peut-on les regrouper ? Rien de plus simple et de plus fiable que d'activer les logs MySQL.]]></description>
+        </item>
+        <item>
+            <title>Contrôler la performance du code PHP avec l'outil de profiling XHProf</title>
+            <link>https://www.magentix.fr/blog/performance-du-code-php-avec-xhprof.html</link>
+            <guid>https://www.magentix.fr/blog/performance-du-code-php-avec-xhprof.html</guid>
+            <description><![CDATA[XHProf est une extension PHP qui ne sert qu'à faire du profiling. Elle a été créée par Facebook puis donnée à la communauté OpenSource en 2009. Bien qu'aujourd'hui l'extension ne soit plus maintenue par Facebook, des forks assurent les évolutions (compatibilité avec les dernières versions de PHP).]]></description>
+        </item>
+    </channel>
+</rss>
