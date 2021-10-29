@@ -78,11 +78,11 @@
 </p>
 
 <p>
-    J'ai retenu <strong>5 solutions</strong> : Github Pages, Gitlab Pages, Netlify, Vercel et Render.
+    J'ai retenu <strong>6 solutions</strong> : Github Pages, Gitlab Pages, Netlify, Vercel, Render et Cloudflare Pages.
 </p>
 
 <p>
-    Pour les tests j'ai utilisé le site Magentix (celui que vous lisez actuellement) que j'ai hébergé (temporairement) sur 5 sous-domaines :
+    Pour les tests j'ai utilisé le site Magentix (celui que vous lisez actuellement) que j'ai hébergé (temporairement) sur 6 sous-domaines :
 </p>
 
 <ul>
@@ -91,10 +91,11 @@
     <li><strong>Netlify</strong> : netlify.magentix.fr</li>
     <li><strong>Vercel</strong> : vercel.magentix.fr</li>
     <li><strong>Render</strong> : render.magentix.fr</li>
+    <li><strong>Cloudflare Pages</strong> : cloudflare.magentix.fr</li>
 </ul>
 
 <p>
-    Ces 5 solutions proposent toutes gratuitement les fonctionnalités qui m'intéressent :
+    Ces 6 solutions proposent toutes gratuitement les fonctionnalités qui m'intéressent :
 </p>
 
 <ul>
@@ -107,8 +108,12 @@
 </ul>
 
 <p>
-    Les bandes passantes sont systématiquement limitées à 100GB. Cela correspond à 1.000.000 de pages vues par mois pour des pages de 100ko.
+    Les bandes passantes sont souvent limitées à 100GB. Cela correspond à 1.000.000 de pages vues par mois pour des pages de 100ko.
     Cette bande passante est partagée par <strong>tous les sites</strong> de votre compte.
+</p>
+
+<p>
+    Petite exception avec <strong>Cloudflare Pages</strong> qui propose une bande passante illimitée dans son offre gratuite.
 </p>
 
 <p>
@@ -132,7 +137,7 @@
 </p>
 
 <p>
-    J'effectue les tests de TTFB (Time To First Byte) depuis chez moi avec des requêtes toutes les 30 secondes sur les 5 sous-domaines.
+    J'effectue les tests de TTFB (Time To First Byte) depuis chez moi avec des requêtes toutes les 30 secondes sur les 6 sous-domaines.
 </p>
 
 <p class="warning">
@@ -232,8 +237,13 @@ pages:
 </p>
 
 <p>
-    Il est possible de customiser les en-têtes HTTP avec un simple fichier <code>_header</code> à la racine du site.
+    Il est possible de customiser les en-têtes HTTP avec un simple fichier <code>_headers</code> à la racine du site.
 </p>
+
+<pre>
+/*
+  X-Frame-Options: DENY
+</pre>
 
 <ul class="compare">
     <li class="positive">Mise en ligne très simple</li>
@@ -299,6 +309,38 @@ pages:
     <li class="positive">En-têtes HTTP personnalisables</li>
 </ul>
 
+<h3>Cloudflare Pages</h3>
+
+<p>
+    La solution de déploiement <strong>Cloudflare Pages</strong> a été lancée en avril 2021.
+    Cloudflare est le spécialiste du CDN et dispose de sa propre infrastructure, c'est un énorme avantage.
+</p>
+
+<p>
+    En 15 minutes le site était en ligne, l'interface est sobre et va à l'essentiel.
+    On peut simplement noter un temps de build supérieur aux concurrents. Il faut compter environ 3 minutes pour déployer le site
+    (soit 3 minutes entre un commit et la publication des modifications).
+</p>
+
+<p>
+    J'ai obtenu un TTFB moyen depuis la France de <strong>80ms</strong>, ce qui représente un très bon résultat.
+</p>
+
+<p>
+    Cloudflare propose la customisation des en-têtes HTTP depuis un simple fichier <code>_headers</code> à la racine du site.
+</p>
+
+<pre>
+/*
+  X-Frame-Options: DENY
+</pre>
+
+<ul class="compare">
+    <li class="positive">Temps de réponse très bon</li>
+    <li class="positive">Mise en ligne très simple</li>
+    <li class="positive">En-têtes HTTP personnalisables</li>
+</ul>
+
 <h2>Conclusion</h2>
 
 <p>
@@ -306,11 +348,16 @@ pages:
 </p>
 
 <p>
-    <strong>Github Pages</strong> vient en seconde position mais pourrait passer devant Vercel dans le cas où le dépôt public ne serait pas une contrainte.
+    Suivi de très près par <strong>Cloudflare Pages</strong> avec un temps de réponse légèrement supérieur.
 </p>
 
 <p>
-    Je place <strong>Netlify</strong> en troisième position, pénalisé par un temps de réponse depuis la France assez médiocre par rapport aux concurrents.
+    <strong>Github Pages</strong> vient en troisième position mais c'est une excellente alternative dans le cas où le dépôt public ne serait pas une contrainte.
+    Il est tout de même dommage de ne pas pouvoir modifier les headers.
+</p>
+
+<p>
+    Je place <strong>Netlify</strong> en quatrième position, pénalisé par un temps de réponse depuis la France assez médiocre par rapport aux concurrents.
 </p>
 
 <p>
