@@ -149,13 +149,14 @@ The final static HTML files and resources are added or refreshed when the pages 
 
 ## Crawler
 
-The website can be regenerated with a crawler (for example when the template is updated). StaPy gives a simple cURL crawler. All declared routes (json) will be reached.
+The website can be regenerated with a crawler (for example when the template is updated). StaPy gives a python crawler script. All declared routes (json) will be reached.
 
 ```
-sh crawler.sh
+python3 crawler.py
 
-200 http://localhost:1985/
-200 http://localhost:1985/hello.html
+PUT 200
+GET 200 http://localhost:1985/index.html
+GET 200 http://localhost:1985/hello.html
 ...
 ```
 
@@ -163,17 +164,26 @@ Feel free to delete the contents of the environment directory and launch the cra
 
 ```
 rm -rf web/prod/*
-sh crawler.sh
+python3 crawler.py
 git add -A web/prod
 ```
 
-## Netlify
+## Deployment
 
-Setup Netlify to deploy the environment directory (e.g. `web/prod`) of the git repository.
+If you are using an automated deployment tool like Netlify, Cloudflare Pages, Vercel or Render, configure the tool to deploy the environment directory from the git repository (e.g. `web/prod`).
+
+To deploy with Github Pages, create a `docs` directory with a symlink from `web/prod` to `docs`.
+
+```
+ln -s docs web/prod
+```
+
+Commit and push the `docs` directory, then configure Github Pages to deploy `docs`.
 
 ## Themes
 
-Simple and minimal themes made with StaPy:
+Simple and minimal themes for StaPy:
 
+* [Arctic](https://www.stapy.net/themes/arctic/)
 * [Dusk](https://www.stapy.net/themes/dusk/)
 * [Breeze](https://www.stapy.net/themes/breeze/)

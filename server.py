@@ -1,7 +1,7 @@
 """
 Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license (see LICENSE for details)
-Version 1.5.1
+Version 1.6.0
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -96,6 +96,19 @@ class StapyFileSystem:
                 if not os.path.exists(d) or os.stat(s).st_mtime - os.stat(d).st_mtime > 1:
                     shutil.copy2(s, d)
 
+    def get_files(self, src, files=None):
+        if files is None:
+            files = []
+        src = os.path.normpath(src)
+        for item in os.listdir(src):
+            path = os.path.join(src, item)
+            if os.path.isdir(path):
+                self.get_files(path, files)
+            else:
+                files.append(path)
+
+        return files
+
     @staticmethod
     def merge_json(*files):
         merged = json.loads('{}')
@@ -150,25 +163,39 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         result = self.copy_resources()
 
         if result is None:
-            try:
-                result = self.get_html()
-            except OSError:
-                try:
-                    result = self.get_file()
-                except OSError:
-                    result = self.get_error()
+            result = self.process()
 
-        self.send_response(result['status'])
-        self.send_header('Content-type', result['type'])
-        self.end_headers()
+        self.send_head(result)
         try:
             self.wfile.write(result['content'])
         except BrokenPipeError:
             pass
 
-    def send_response(self, code, message=None):
-        self.send_response_only(code, message)
+    def do_HEAD(self):
+        self.send_head(self.process())
+
+    def do_PUT(self):
+        result = self.copy_resources()
+        if result is None:
+            result = self.get_response(200, self.fs.get_html_file_type(), b'')
+        self.send_head(result)
+
+    def process(self):
+        try:
+            result = self.get_html()
+        except OSError:
+            try:
+                result = self.get_file()
+            except OSError:
+                result = self.get_error()
+
+        return result
+
+    def send_head(self, result):
+        self.send_response_only(result['status'])
         self.send_header('Date', self.date_time_string())
+        self.send_header('Content-type', result['type'])
+        self.end_headers()
 
     def copy_resources(self):
         try:
@@ -187,6 +214,9 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         return self.get_response(200, self.fs.get_file_type(file), self.fs.get_file_content(file, 'rb'))
 
     def get_html(self):
+        if self.path == '/_pages':
+            return self.get_response(200, 'application/json', str(self.get_all_pages()).encode())
+
         status = 500
         content = ''
         self.fs.get_file_content(self.get_page_config())
@@ -217,6 +247,17 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
             path = path + 'index.html'
 
         return path
+
+    def get_all_pages(self):
+        files = self.fs.get_files(self.fs.get_source_dir('json'))
+        pages = {}
+        for file in files:
+            key = re.sub(r'^' + self.fs.get_source_dir('json'), '', file)
+            key = re.sub(r'\.json$', '', key)
+            if key != '/default':
+                pages[key] = (self.fs.merge_json(self.get_page_config('/default'), self.get_page_config(key)))
+
+        return json.dumps(pages)
 
     def get_page_config(self, path=None):
         return os.path.normpath(self.fs.get_source_dir('json') + (self.get_page_path() if not path else path) + '.json')
