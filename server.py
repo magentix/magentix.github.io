@@ -1,7 +1,7 @@
 """
 Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license (see LICENSE for details)
-Version 1.6.0
+StaPy Server - Version 1.6.0
 """
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -74,6 +74,16 @@ class StapyFileSystem:
             path = os.path.dirname(path)
 
         Path(os.path.normpath(path)).mkdir(parents=True, exist_ok=True)
+
+    @staticmethod
+    def rm_directory_content(src):
+        src = os.path.normpath(src)
+        for item in os.listdir(src):
+            path = os.path.join(src, item)
+            if os.path.isdir(path):
+                shutil.rmtree(path)
+            else:
+                os.unlink(path)
 
     def create_file(self, path, content=''):
         path = os.path.normpath(path)
@@ -180,9 +190,20 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
             result = self.get_response(200, self.fs.get_html_file_type(), b'')
         self.send_head(result)
 
+    def do_DELETE(self):
+        try:
+            for path in self.fs.get_environments().values():
+                if path:
+                    self.fs.rm_directory_content(path)
+            response = self.get_response(200, self.fs.get_html_file_type(), b'')
+        except Exception as e:
+            response = self.get_response(500, self.fs.get_html_file_type(), str(e).encode())
+
+        self.send_head(response)
+
     def process(self):
         try:
-            result = self.get_html()
+            result = self.get_page()
         except OSError:
             try:
                 result = self.get_file()
@@ -213,7 +234,7 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
         return self.get_response(200, self.fs.get_file_type(file), self.fs.get_file_content(file, 'rb'))
 
-    def get_html(self):
+    def get_page(self):
         if self.path == '/_pages':
             return self.get_response(200, 'application/json', str(self.get_all_pages()).encode())
 
@@ -228,14 +249,14 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
                 if env == self.fs.get_local_environment():
                     content = result
                 else:
-                    self.save_html(result, env)
+                    self.save_page(result, env)
             status = 200
         except Exception as e:
             content = str(e)
 
-        return self.get_response(status, self.fs.get_html_file_type(), content.encode())
+        return self.get_response(status, self.fs.get_file_type(self.get_page_path()), content.encode())
 
-    def save_html(self, content, env):
+    def save_page(self, content, env):
         self.fs.create_file(self.fs.get_environments()[env] + self.get_page_path(), content)
 
     def get_page_path(self):

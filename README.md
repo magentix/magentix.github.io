@@ -149,23 +149,25 @@ The final static HTML files and resources are added or refreshed when the pages 
 
 ## Crawler
 
-The website can be regenerated with a crawler (for example when the template is updated). StaPy gives a python crawler script. All declared routes (json) will be reached.
+The website can be regenerated with a crawler. StaPy gives a python crawler script in the `tools` directory.
 
 ```
-python3 crawler.py
+python3 tools/crawler.py {full} {delete} {copy} {crawl}
+```
 
+* **delete**: remove content from all environments
+* **copy**: copy the `source/web` directory to all the environment directories
+* **crawl**: generate all the pages declared in the `json` files
+* **full**: delete + copy + crawl
+
+```
+python3 crawler.py full
+
+DELETE 200
 PUT 200
-GET 200 http://localhost:1985/index.html
-GET 200 http://localhost:1985/hello.html
+GET 200 /index.html
+GET 200 /hello.html
 ...
-```
-
-Feel free to delete the contents of the environment directory and launch the crawler.
-
-```
-rm -rf web/prod/*
-python3 crawler.py
-git add -A web/prod
 ```
 
 ## Deployment
