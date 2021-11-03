@@ -2,5 +2,6 @@
   "title": "Utiliser Magento 2 sans Elasticsearch",
   "description": "Depuis la version 2.4 de Magento, Elasticsearch est imposé nativement. Il est cependant possible de le désactiver.",
   "highlight": "template/block/highlight.html",
-  "content": "page/blog/elasticsearch.html"
+  "content": "page/blog/elasticsearch.html",
+  "tags": ["sitemap"]
 }

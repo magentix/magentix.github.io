@@ -2,5 +2,6 @@
   "title": "Une installation légère de Magento 2",
   "description": "Magento 2 est proposé de base avec un nombre de modules extrêmement élevé. Beaucoup de ces modules peuvent être supprimés.",
   "highlight": "template/block/highlight.html",
-  "content": "page/blog/magento-2-install.html"
+  "content": "page/blog/magento-2-install.html",
+  "tags": ["sitemap"]
 }

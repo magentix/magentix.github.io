@@ -1,5 +1,6 @@
 {
   "title": "Publier gratuitement un site statique, quelle solution choisir ?",
   "description": "Comparatif entre Github, Gitlab, Netlify, Vercel et Render pour le déploiement gratuit d'un site statique : focus sur la configuration et les temps de réponse (TTFB).",
-  "content": "page/blog/static-hosting.html"
+  "content": "page/blog/static-hosting.html",
+  "tags": ["sitemap"]
 }

@@ -2,5 +2,6 @@
   "title": "Nettoyage de printemps d'un système Ubuntu / Debian",
   "description": "Les caches, les logs ou encore des fichiers obsolètes peuvent alourdir inutilement les disques durs : un nettoyage complet s'impose.",
   "highlight": "template/block/highlight.html",
-  "content": "page/blog/clean-ubuntu.html"
+  "content": "page/blog/clean-ubuntu.html",
+  "tags": ["sitemap"]
 }
