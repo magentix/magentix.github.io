@@ -202,8 +202,11 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
             data = json.loads(body)
             if 'path' in data and 'content' in data:
                 for env in self.fs.get_environments().keys():
-                    if env != self.fs.get_local_environment():
-                        self.save_page(data['content'], env, '/' + data['path'].lstrip('/'))
+                    if env == self.fs.get_local_environment():
+                        continue
+                    if 'env' in data and data['env'] != env:
+                        continue
+                    self.save_page(data['content'], env, '/' + data['path'].lstrip('/'))
 
             response = self.get_response(200, self.fs.get_html_file_type(), b'')
         except Exception as e:
