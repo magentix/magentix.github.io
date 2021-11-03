@@ -171,24 +171,18 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         result = self.copy_resources()
-
         if result is None:
             result = self.process()
-
-        self.send_head(result)
-        try:
-            self.wfile.write(result['content'])
-        except BrokenPipeError:
-            pass
+        self.send(result)
 
     def do_HEAD(self):
-        self.send_head(self.process())
+        self.send(self.process(), False)
 
     def do_PUT(self):
         result = self.copy_resources()
         if result is None:
             result = self.get_response(200, self.fs.get_html_file_type(), b'')
-        self.send_head(result)
+        self.send(result)
 
     def do_DELETE(self):
         try:
@@ -199,7 +193,23 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         except Exception as e:
             response = self.get_response(500, self.fs.get_html_file_type(), str(e).encode())
 
-        self.send_head(response)
+        self.send(response)
+
+    def do_POST(self):
+        try:
+            length = int(self.headers.get('content-length', 0))
+            body = self.rfile.read(length)
+            data = json.loads(body)
+            if 'path' in data and 'content' in data:
+                for env in self.fs.get_environments().keys():
+                    if env != self.fs.get_local_environment():
+                        self.save_page(data['content'], env, '/' + data['path'].lstrip('/'))
+
+            response = self.get_response(200, self.fs.get_html_file_type(), b'')
+        except Exception as e:
+            response = self.get_response(500, self.fs.get_html_file_type(), str(e).encode())
+
+        self.send(response)
 
     def process(self):
         try:
@@ -212,11 +222,16 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
         return result
 
-    def send_head(self, result):
+    def send(self, result, content=True):
         self.send_response_only(result['status'])
         self.send_header('Date', self.date_time_string())
         self.send_header('Content-type', result['type'])
         self.end_headers()
+        if content:
+            try:
+                self.wfile.write(result['content'])
+            except BrokenPipeError:
+                pass
 
     def copy_resources(self):
         try:
@@ -235,9 +250,9 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
         return self.get_response(200, self.fs.get_file_type(file), self.fs.get_file_content(file, 'rb'))
 
     def get_page(self):
-        if self.path == '/_pages':
-            return self.get_response(200, 'application/json', str(self.get_all_pages()).encode())
-
+        reserved = self.reserved_request()
+        if reserved is not None:
+            return reserved
         status = 500
         content = ''
         self.fs.get_file_content(self.get_page_config())
@@ -256,8 +271,15 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
 
         return self.get_response(status, self.fs.get_file_type(self.get_page_path()), content.encode())
 
-    def save_page(self, content, env):
-        self.fs.create_file(self.fs.get_environments()[env] + self.get_page_path(), content)
+    def reserved_request(self):
+        if self.path == '/_pages':
+            return self.get_response(200, 'application/json', str(self.get_all_pages()).encode())
+        if self.path == '/_environments':
+            return self.get_response(200, 'application/json', str(json.dumps(self.fs.get_environments())).encode())
+        return None
+
+    def save_page(self, content, env, path=None):
+        self.fs.create_file(self.fs.get_environments()[env] + (path or self.get_page_path()), content)
 
     def get_page_path(self):
         path = self.path
