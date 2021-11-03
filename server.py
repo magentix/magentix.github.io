@@ -144,6 +144,8 @@ class StapyParser:
 
     def content_tags(self, data, content, env):
         for var, value in sorted(data.items(), reverse=True):
+            if type(value) == list:
+                continue
             content = content.replace('{{ ' + self.get_var(var, env) + ' }}', value if value else '')
 
         return content
@@ -192,7 +194,6 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
             response = self.get_response(200, self.fs.get_html_file_type(), b'')
         except Exception as e:
             response = self.get_response(500, self.fs.get_html_file_type(), str(e).encode())
-
         self.send(response)
 
     def do_POST(self):
@@ -211,7 +212,6 @@ class StapyHTTPRequestHandler(BaseHTTPRequestHandler):
             response = self.get_response(200, self.fs.get_html_file_type(), b'')
         except Exception as e:
             response = self.get_response(500, self.fs.get_html_file_type(), str(e).encode())
-
         self.send(response)
 
     def process(self):
