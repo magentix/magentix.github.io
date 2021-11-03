@@ -1,72 +1,48 @@
 """
 Copyright (c) 2021, Magentix
 This code is licensed under simplified BSD license (see LICENSE for details)
-StaPy Crawler - Version 1.0.0
+Magentix Sitemap - Version 1.0.0
 """
 from urllib import request
 import json
-import time
-import sys
 
 
-class StapyCrawler:
+class MagentixSitemap:
     @staticmethod
     def host():
         return 'http://localhost:1985'
 
-    def req(self, method, page=''):
-        return request.urlopen(request.Request(self.host() + page, method=method))
+    def req(self, method, page='', data=None):
+        return request.urlopen(request.Request(self.host() + page, method=method, data=data))
 
     def run(self):
-        start = time.clock()
-
-        if self.can_delete():
-            self.delete()
-
-        if self.can_copy():
-            self.copy()
-
-        if self.can_crawl():
-            self.crawl()
-
-        print('Time: ' + str(round((time.clock() - start) * 100, 2)) + 'ms')
-
-    def delete(self):
-        print('DELETE ' + str(self.req('DELETE').getcode()))
-
-    def copy(self):
-        print('PUT ' + str(self.req('PUT').getcode()))
-
-    def crawl(self):
         pages = json.loads(self.req('GET', '/_pages').read())
-        for (page, data) in pages.items():
-            if 'enabled' not in data or data['enabled'] == '1':
-                print('HEAD ' + str(self.req('HEAD', page).getcode()) + ' ' + page)
+        environments = json.loads(self.req('GET', '/_environments').read())
+        for env in environments.keys():
+            if env == 'local':
+                continue
+            content = '<?xml version="1.0" encoding="UTF-8"?>' + "\n"
+            content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "\n"
+            post = False
+            for (page, data) in pages.items():
+                if 'tags' not in data:
+                    continue
+                if 'url.' + env not in data:
+                    continue
+                if 'sitemap' not in data['tags']:
+                    continue
+                url = data['url.' + env] + page.lstrip('/').replace('index.html', '')
+                content += '<url><loc>' + url + '</loc></url>' + "\n"
+                post = True
+            content += '</urlset>'
 
-    @staticmethod
-    def can_delete():
-        for arg in sys.argv:
-            if arg == 'delete' or arg == 'full':
-                return True
-        return False
-
-    @staticmethod
-    def can_copy():
-        for arg in sys.argv:
-            if arg == 'copy' or arg == 'full':
-                return True
-        return False
-
-    @staticmethod
-    def can_crawl():
-        for arg in sys.argv:
-            if arg == 'crawl' or arg == 'full':
-                return True
-        return False
+            if post:
+                data = {'path': 'sitemap.xml', 'content': content, 'env': env}
+                self.req('POST', '', str(json.dumps(data)).encode())
 
 
 def main():
-    crawler = StapyCrawler()
+    crawler = MagentixSitemap()
     crawler.run()
 
 
