@@ -26,3 +26,16 @@ The [docs](docs) directory contains the static website hosted by Github Pages.
 - [jsmin](https://pypi.org/project/jsmin/)
 - [Markdown](https://pypi.org/project/Markdown/)
 - [pymdown-extensions](https://pypi.org/project/pymdown-extensions/)
+
+## Github Pages
+
+We need to publish the website in the **docs** directory. A symlink from **web/prod** to **docs** must be created:
+
+```shell
+mkdir docs
+cd web
+rm -rf prod
+ln -s ../docs prod
+cd ..
+python3 tools/crawler.py
+```
