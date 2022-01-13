@@ -2,7 +2,7 @@
 
 Magentix website source repository
 
-[https://www.magentix.fr](www.magentix.fr)
+[www.magentix.fr](https://www.magentix.fr)
 
 The [docs](docs) directory contains the static website hosted by Github Pages.
 
