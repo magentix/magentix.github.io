@@ -1,7 +1,7 @@
 """
 Copyright (c) 2022, Magentix
 This code is licensed under simplified BSD license (see LICENSE for details)
-StaPy Year Plugin - Version 1.0.0
+Magentix Data Plugin - Version 1.0.0
 """
 from datetime import datetime
 
