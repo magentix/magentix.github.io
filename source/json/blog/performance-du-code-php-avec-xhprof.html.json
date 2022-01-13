@@ -1,0 +1,14 @@
+{
+  "template": "template/post.html",
+  "content": "page/blog/performance-du-code-php-avec-xhprof.md",
+  "highlight": "template/block/highlight.html",
+
+  "meta_title": "XHProf : profiling et performance du code PHP",
+  "meta_description": "Pour le profiling rapide d'une application PHP, XHProf est une excellente extension. Elle permet en quelques secondes de détecter les fuites de mémoire.",
+  "title": "Contrôler la performance du code PHP avec l'outil de profiling XHProf",
+  "intro": "XHProf est une extension PHP qui ne sert qu'à faire du profiling. Elle a été créée par Facebook puis donnée à la communauté OpenSource en 2009. Bien qu'aujourd'hui l'extension ne soit plus maintenue par Facebook, des forks assurent les évolutions (compatibilité avec les dernières versions de PHP).",
+  "date_fr": "17/10/2019",
+  "date": "2019-10-17",
+
+  "tags": ["post", "sitemap"]
+}

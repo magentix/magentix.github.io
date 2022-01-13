@@ -1,0 +1,14 @@
+{
+  "template": "template/post.html",
+  "content": "page/blog/stapy-generateur-de-site-statique.md",
+  "highlight": "template/block/highlight.html",
+
+  "meta_title": "Le générateur de site statique StaPy",
+  "meta_description": "StaPy est un mini générateur de site statique (SSG) développé en Python. Il est axé sur la simplicité et la portabilité.",
+  "title": "Le générateur de site statique StaPy",
+  "intro": "Il y a quelques mois j'ai entrepris de re-développer le site Magentix. Celui-ci utilisait un traditionnel PHP / MySQL. Mais au vue de la simplicité du site, le statique était beaucoup plus adapté.",
+  "date_fr": "15/11/2021",
+  "date": "2021-11-15",
+
+  "tags": ["post", "sitemap"]
+}

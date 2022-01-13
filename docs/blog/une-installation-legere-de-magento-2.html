@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<!--
+  __    __     ______     ______     ______     __   __     ______    __     __  __
+ /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
+ \ \ \-./\ \  \ \  __ \  \ \ \__ \  \ \  __\   \ \ \-.  \  \/_/\ \/  \ \ \  \/_/\_\/_
+  \ \_\ \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\\"\_\    \ \_\   \ \_\   /\_\/\_\
+   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Une installation légère de Magento 2</title>
+        <meta name="description" content="Magento 2 est proposé de base avec un nombre de modules extrêmement élevé. Beaucoup de ces modules peuvent être supprimés." />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+        <meta name="robots" content="INDEX,FOLLOW" />
+    </head>
+    <body>
+        <header>
+            <div id="header-content">
+                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
+                    <a href="https://www.magentix.fr/blog.html">Billets</a>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div id="main-content">
+<p><a href="https://www.magentix.fr/blog.html">Billets</a> : Une installation légère de Magento 2</p>
+<hr/>
+
+<h2>Une installation légère de Magento 2</h2>
+
+<p class="author"><span>Par Matthieu le 12/04/2021</span></p>
+
+<p>
+    <em>Magento 2 est proposé de base avec un nombre de modules extrêmement élevé. Pour de nombreux sites e-commerce il y en a finalement beaucoup trop. Voici comment obtenir une installation plus légère.</em>
+</p>
+
+<hr />
+<p>Avec le temps Magento s'alourdit. Les nouvelles releases proposent systématiquement de nouvelles fonctionnalités. Mais pour beaucoup de sites e-commerce elles ne sont pas toujours justifiées et alourdissent inutilement le code. Et moins il y en a, mieux c'est.</p>
+<p>Si vous souhaitez lancer un simple e-commerce avec l'essentiel des fonctionnalités (tout en bénéficiant de la richesse de l'écosystème Magento) un peu de ménage s'impose.</p>
+<p><strong>Composer</strong> permet d'ignorer un paquet enfant si vous estimez qu'un autre peut le remplacer. Dans notre cas nous les ignorons simplement.</p>
+<p>Ce <strong>replace</strong> est inspiré de celui proposé par <strong>yireo</strong> : <a href="https://github.com/yireo/magento2-replace-all/blob/magento-2.4.2/composer.json">yireo/magento2-replace-all</a>. Je l'ai enrichi avec d'autres modules non indispensables pour une installation basique (two-factor-auth, login-as-customer, re-captcha...).</p>
+<p>Il a été testé avec succès sur <strong>Magento Open-Source 2.4.3</strong>. À adapter selon vos besoins (on se rapproche ici des mêmes features de base d'un Magento 1.9).</p>
+<p class="info"><strong>Note :</strong> sur un site déjà en place une recette minutieuse est indispensable car aucune vérification sur les dépendances des modules spécifiques (<strong>app/code</strong>) n'est effectuée.</p>
+<p>Ajoutez le noeud <strong>replace</strong> au fichier <strong>composer.json</strong> à la racine avant d'exécuter un <code>composer install</code>.</p>
+<p><strong>Mises à jour :</strong></p>
+<ul>
+<li><strong>16/09/2021</strong> : 2.4.3 <em>+ 12 modules</em></li>
+<li><strong>18/06/2021</strong> : 2.4.2 <em>+ 1 module</em></li>
+<li><strong>05/05/2021</strong> : 2.4.2 <em>+ 31 modules</em></li>
+<li><strong>12/04/2021</strong> : 2.4.2 <em>+ 309 modules</em></li>
+</ul>
+<pre><code class="language-json">{
+    &quot;replace&quot;: {
+        &quot;amzn/amazon-pay-and-login-magento-2-module&quot;: &quot;*&quot;,
+        &quot;amzn/amazon-pay-and-login-with-amazon-core-module&quot;: &quot;*&quot;,
+        &quot;amzn/amazon-pay-module&quot;: &quot;*&quot;,
+        &quot;amzn/amazon-pay-sdk-php&quot;: &quot;*&quot;,
+        &quot;amzn/login-with-amazon-module&quot;: &quot;*&quot;,
+        &quot;astock/stock-api-libphp&quot;: &quot;*&quot;,
+        &quot;braintree/braintree&quot;: &quot;*&quot;,
+        &quot;braintree/braintree_php&quot;: &quot;*&quot;,
+        &quot;dotmailer/dotmailer-magento2-extension&quot;: &quot;*&quot;,
+        &quot;dotmailer/dotmailer-magento2-extension-b2b&quot;: &quot;*&quot;,
+        &quot;dotmailer/dotmailer-magento2-extension-chat&quot;: &quot;*&quot;,
+        &quot;dotmailer/dotmailer-magento2-extension-enterprise&quot;: &quot;*&quot;,
+        &quot;dotmailer/dotmailer-magento2-extension-package&quot;: &quot;*&quot;,
+        &quot;klarna/m2-payments&quot;: &quot;*&quot;,
+        &quot;klarna/module-core&quot;: &quot;*&quot;,
+        &quot;klarna/module-kp&quot;: &quot;*&quot;,
+        &quot;klarna/module-kp-graph-ql&quot;: &quot;*&quot;,
+        &quot;klarna/module-onsitemessaging&quot;: &quot;*&quot;,
+        &quot;klarna/module-ordermanagement&quot;: &quot;*&quot;,
+        &quot;magento/adobe-stock-integration&quot;: &quot;*&quot;,
+        &quot;magento/google-shopping-ads&quot;: &quot;*&quot;,
+        &quot;magento/inventory-composer-installer&quot;: &quot;*&quot;,
+        &quot;magento/inventory-composer-metapackage&quot;: &quot;*&quot;,
+        &quot;magento/inventory-metapackage&quot;: &quot;*&quot;,
+        &quot;magento/language-de_de&quot;: &quot;*&quot;,
+        &quot;magento/language-es_es&quot;: &quot;*&quot;,
+        &quot;magento/language-nl_nl&quot;: &quot;*&quot;,
+        &quot;magento/language-pt_br&quot;: &quot;*&quot;,
+        &quot;magento/language-zh_hans_cn&quot;: &quot;*&quot;,
+        &quot;magento/module-admin-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-adobe-ims&quot;: &quot;*&quot;,
+        &quot;magento/module-adobe-ims-api&quot;: &quot;*&quot;,
+        &quot;magento/module-adobe-stock-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-adobe-stock-asset&quot;: &quot;*&quot;,
+        &quot;magento/module-adobe-stock-asset-api&quot;: &quot;*&quot;,
+        &quot;magento/module-adobe-stock-client&quot;: &quot;*&quot;,
+        &quot;magento/module-adobe-stock-client-api&quot;: &quot;*&quot;,
+        &quot;magento/module-adobe-stock-image&quot;: &quot;*&quot;,
+        &quot;magento/module-adobe-stock-image-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-adobe-stock-image-api&quot;: &quot;*&quot;,
+        &quot;magento/module-advanced-pricing-import-export&quot;: &quot;*&quot;,
+        &quot;magento/module-amqp&quot;: &quot;*&quot;,
+        &quot;magento/module-amqp-store&quot;: &quot;*&quot;,
+        &quot;magento/module-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-authorizenet&quot;: &quot;*&quot;,
+        &quot;magento/module-authorizenet-acceptjs&quot;: &quot;*&quot;,
+        &quot;magento/module-authorizenet-cardinal&quot;: &quot;*&quot;,
+        &quot;magento/module-authorizenet-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-aws-s3&quot;: &quot;*&quot;,
+        &quot;magento/module-aws-s3-page-builder&quot;: &quot;*&quot;,
+        &quot;magento/module-braintree&quot;: &quot;*&quot;,
+        &quot;magento/module-braintree-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-bundle-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-bundle-import-export&quot;: &quot;*&quot;,
+        &quot;magento/module-bundle-import-export-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-bundle-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-bundle-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-cardinal-commerce&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-cms-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-customer-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-customer-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-import-export-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-inventory-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-inventory-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-page-builder-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-page-builder-analytics-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-rule-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-rule-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-rule-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-staging-page-builder&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-url-rewrite-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-catalog-url-rewrite-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-checkout-agreements-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-checkout-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-cms-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-cms-page-builder-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-cms-page-builder-analytics-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-cms-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-cms-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-cms-url-rewrite-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-configurable-product-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-configurable-product-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-configurable-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-compare-list-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-customer-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-customer-balance-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-customer-downloadable-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-customer-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-customer-import-export&quot;: &quot;*&quot;,
+        &quot;magento/module-customer-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-csp&quot;: &quot;*&quot;,
+        &quot;magento/module-cybersource&quot;: &quot;*&quot;,
+        &quot;magento/module-dhl&quot;: &quot;*&quot;,
+        &quot;magento/module-directory-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-downloadable-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-downloadable-import-export&quot;: &quot;*&quot;,
+        &quot;magento/module-downloadable-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-downloadable-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-eav-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-eway&quot;: &quot;*&quot;,
+        &quot;magento/module-fedex&quot;: &quot;*&quot;,
+        &quot;magento/module-gift-card-account-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-gift-card-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-gift-card-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-gift-message-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-gift-wrapping-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-gift-message-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-google-adwords&quot;: &quot;*&quot;,
+        &quot;magento/module-google-optimizer&quot;: &quot;*&quot;,
+        &quot;magento/module-google-optimizer-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-graph-ql-cache&quot;: &quot;*&quot;,
+        &quot;magento/module-grouped-import-export&quot;: &quot;*&quot;,
+        &quot;magento/module-grouped-product-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-grouped-product-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-grouped-product-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-advanced-checkout&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-bundle-import-export&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-bundle-product&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-bundle-product-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-bundle-product-indexer&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-cache&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-catalog&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-catalog-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-catalog-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-catalog-frontend-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-catalog-search&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-configurable-product&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-configurable-product-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-configurable-product-frontend-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-configurable-product-indexer&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-configuration&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-configuration-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-distance-based-source-selection&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-distance-based-source-selection-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-distance-based-source-selection-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-elasticsearch&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-export-stock&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-export-stock-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-grouped-product&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-grouped-product-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-grouped-product-indexer&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-import-export&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-frontend&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-multishipping&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-quote&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-quote-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-sales&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-sales-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-sales-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-shipping&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-shipping-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-shipping-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-in-store-pickup-webapi-extension&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-indexer&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-low-quantity-notification&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-low-quantity-notification-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-low-quantity-notification-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-multi-dimensional-indexer-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-product-alert&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-requisition-list&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-reservation-cli&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-reservations&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-reservations-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-sales&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-sales-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-sales-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-sales-frontend-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-setup-fixture-generator&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-shipping&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-shipping-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-source-deduction-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-source-selection&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-source-selection-api&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-swatches-frontend-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-visual-merchandiser&quot;: &quot;*&quot;,
+        &quot;magento/module-inventory-wishlist&quot;: &quot;*&quot;,
+        &quot;magento/module-layered-navigation-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-login-as-customer-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-login-as-customer&quot;: &quot;*&quot;,
+        &quot;magento/module-login-as-customer-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-login-as-customer-api&quot;: &quot;*&quot;,
+        &quot;magento/module-login-as-customer-assistance&quot;: &quot;*&quot;,
+        &quot;magento/module-login-as-customer-frontend-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-login-as-customer-log&quot;: &quot;*&quot;,
+        &quot;magento/module-login-as-customer-page-cache&quot;: &quot;*&quot;,
+        &quot;magento/module-login-as-customer-quote&quot;: &quot;*&quot;,
+        &quot;magento/module-login-as-customer-sales&quot;: &quot;*&quot;,
+        &quot;magento/module-marketplace&quot;: &quot;*&quot;,
+        &quot;magento/module-media-content&quot;: &quot;*&quot;,
+        &quot;magento/module-media-content-api&quot;: &quot;*&quot;,
+        &quot;magento/module-media-content-catalog&quot;: &quot;*&quot;,
+        &quot;magento/module-media-content-cms&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-ui-api&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-integration&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-synchronization&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-synchronization-api&quot;: &quot;*&quot;,
+        &quot;magento/module-media-content-synchronization&quot;: &quot;*&quot;,
+        &quot;magento/module-media-content-synchronization-api&quot;: &quot;*&quot;,
+        &quot;magento/module-media-content-synchronization-catalog&quot;: &quot;*&quot;,
+        &quot;magento/module-media-content-synchronization-cms&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-synchronization-metadata&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-metadata&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-metadata-api&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-catalog-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-cms-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-catalog-integration&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-catalog&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-renditions&quot;: &quot;*&quot;,
+        &quot;magento/module-media-gallery-renditions-api&quot;: &quot;*&quot;,
+        &quot;magento/module-msrp-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-msrp-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-multishipping&quot;: &quot;*&quot;,
+        &quot;magento/module-new-relic-reporting&quot;: &quot;*&quot;,
+        &quot;magento/module-newsletter-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-offline-shipping-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-page-builder&quot;: &quot;*&quot;,
+        &quot;magento/module-page-builder-admin-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-page-builder-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-payment-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-paypal-captcha&quot;: &quot;*&quot;,
+        &quot;magento/module-paypal-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-product-links-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-product-video-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-quote-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-quote-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-related-product-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-release-notification&quot;: &quot;*&quot;,
+        &quot;magento/module-review-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-review-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-review-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-review-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-reward-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-reward-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-admin-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-checkout&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-contact&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-customer&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-frontend-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-migration&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-newsletter&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-paypal&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-review&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-send-friend&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-store-pickup&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-user&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-validation&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-validation-api&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-version-2-checkbox&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-version-2-invisible&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-version-3-invisible&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-webapi-api&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-webapi-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-webapi-rest&quot;: &quot;*&quot;,
+        &quot;magento/module-re-captcha-webapi-ui&quot;: &quot;*&quot;,
+        &quot;magento/module-rma-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-rma-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-sales-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-sales-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-sales-rule-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-sales-rule-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-sales-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-search-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-securitytxt&quot;: &quot;*&quot;,
+        &quot;magento/module-send-friend&quot;: &quot;*&quot;,
+        &quot;magento/module-send-friend-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-signifyd&quot;: &quot;*&quot;,
+        &quot;magento/module-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-staging-page-builder&quot;: &quot;*&quot;,
+        &quot;magento/module-store-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-swagger&quot;: &quot;*&quot;,
+        &quot;magento/module-swagger-webapi&quot;: &quot;*&quot;,
+        &quot;magento/module-swagger-webapi-async&quot;: &quot;*&quot;,
+        &quot;magento/module-swatches-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-swatches-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-tax-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-tax-import-export&quot;: &quot;*&quot;,
+        &quot;magento/module-tax-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-theme-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-theme-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-two-factor-auth&quot;: &quot;*&quot;,
+        &quot;magento/module-ups&quot;: &quot;*&quot;,
+        &quot;magento/module-url-rewrite-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-usps&quot;: &quot;*&quot;,
+        &quot;magento/module-vault-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-version&quot;: &quot;*&quot;,
+        &quot;magento/module-weee-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-weee-staging&quot;: &quot;*&quot;,
+        &quot;magento/module-widget-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-wishlist-analytics&quot;: &quot;*&quot;,
+        &quot;magento/module-wishlist-graph-ql&quot;: &quot;*&quot;,
+        &quot;magento/module-wishlist-sample-data&quot;: &quot;*&quot;,
+        &quot;magento/module-worldpay&quot;: &quot;*&quot;,
+        &quot;magento/sample-data-media&quot;: &quot;*&quot;,
+        &quot;paypal/module-braintree&quot;: &quot;*&quot;,
+        &quot;paypal/module-braintree-core&quot;: &quot;*&quot;,
+        &quot;paypal/module-braintree-graph-ql&quot;: &quot;*&quot;,
+        &quot;temando/module-shipping&quot;: &quot;*&quot;,
+        &quot;temando/module-shipping-m2&quot;: &quot;*&quot;,
+        &quot;temando/module-shipping-remover&quot;: &quot;*&quot;,
+        &quot;vertexinc/module-address-validation&quot;: &quot;*&quot;,
+        &quot;vertexinc/module-address-validation-api&quot;: &quot;*&quot;,
+        &quot;vertexinc/module-tax&quot;: &quot;*&quot;,
+        &quot;vertexinc/module-tax-staging&quot;: &quot;*&quot;,
+        &quot;vertexinc/product-magento-module&quot;: &quot;*&quot;,
+        &quot;vertexinc/sdk&quot;: &quot;*&quot;,
+        &quot;yotpo/magento2-module-yotpo-reviews&quot;: &quot;*&quot;,
+        &quot;yotpo/magento2-module-yotpo-reviews-bundle&quot;: &quot;*&quot;
+    }
+}
+</code></pre>
+<p class="contact">
+    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
+</p>
+            </div>
+        </main>
+        <footer>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2022</p>
+                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
+        </footer>
+        <script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
+        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+    </body>
+</html>

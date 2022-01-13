@@ -1,0 +1,14 @@
+{
+  "template": "template/default.html",
+
+  "article": "template/block/blog/article.html",
+  "post.breadcrumb": "template/block/blog/post/breadcrumb.html",
+  "post.head": "template/block/blog/post/head.html",
+  "post.footer": "template/block/blog/post/footer.html",
+  "last": "template/block/blog/last.html",
+  "last.link": "template/block/blog/last/link.html",
+  "highlight": "",
+
+  "robots": "INDEX,FOLLOW",
+  "author": "Matthieu"
+}

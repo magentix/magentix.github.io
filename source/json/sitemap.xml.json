@@ -1,0 +1,5 @@
+{
+  "template": "template/sitemap.xml",
+
+  "page_url": "template/block/sitemap/url.xml"
+}

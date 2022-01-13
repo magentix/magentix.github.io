@@ -1,0 +1,14 @@
+{
+  "template": "template/post.html",
+  "content": "page/blog/les-regles-iptables-pour-securiser-au-maximum-un-serveur-web.md",
+  "highlight": "template/block/highlight.html",
+
+  "meta_title": "iptables : les règles pour sécuriser au maximum un serveur Web",
+  "meta_description": "Comment bloquer avec iptables l'ensemble du traffic INPUT sur tous les ports sauf 80 (http) et 443 (https).",
+  "title": "Les règles iptables pour sécuriser au maximum un serveur Web",
+  "intro": "Pour sécuriser un serveur Web, j'applique systèmatiquement le même comportement : bloquer l'ensemble du traffic sur tous les ports, sauf 80 (http) et 443 (https). Seuls quelques IPs sont autorisés à accéder au reste. Voici comment le mettre en place avec iptables.",
+  "date_fr": "06/01/2020",
+  "date": "2020-01-06",
+
+  "tags": ["post", "sitemap"]
+}

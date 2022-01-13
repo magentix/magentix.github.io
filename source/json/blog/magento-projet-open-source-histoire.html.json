@@ -1,0 +1,13 @@
+{
+  "template": "template/post.html",
+  "content": "page/blog/magento-projet-open-source-histoire.md",
+
+  "meta_title": "Magento, le projet Open Source qui a transformé le commerce électronique",
+  "meta_description": "Magento 1 est depuis le 30 juin 2020 en fin de vie, l'occasion de revenir sur l'histoire de Magento.",
+  "title": "Magento, le projet Open Source qui a transformé le commerce électronique",
+  "intro": "Magento 1 est depuis le 30 juin 2020 un projet officiellement obsolète (fin de vie), l'occasion de revenir sur son histoire. Ce billet et une traduction et une interprétation d'un article de Matt Asay.",
+  "date_fr": "30/06/2020",
+  "date": "2020-06-30",
+
+  "tags": ["post", "sitemap"]
+}

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<!--
+  __    __     ______     ______     ______     __   __     ______    __     __  __
+ /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
+ \ \ \-./\ \  \ \  __ \  \ \ \__ \  \ \  __\   \ \ \-.  \  \/_/\ \/  \ \ \  \/_/\_\/_
+  \ \_\ \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\\"\_\    \ \_\   \ \_\   /\_\/\_\
+   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Installer un serveur web à la maison</title>
+        <meta name="description" content="Ce billet expose les différentes étapes pour la mise en place d'un serveur Web à la maison : installation de l'OS, d'Apache et la configuration de la box." />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+        <meta name="robots" content="INDEX,FOLLOW" />
+    </head>
+    <body>
+        <header>
+            <div id="header-content">
+                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
+                    <a href="https://www.magentix.fr/blog.html">Billets</a>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div id="main-content">
+<p><a href="https://www.magentix.fr/blog.html">Billets</a> : Un serveur web à la maison</p>
+<hr/>
+
+<h2>Un serveur web à la maison</h2>
+
+<p class="author"><span>Par Matthieu le 23/06/2021</span></p>
+
+<p>
+    <em>Si vous disposez de la fibre et d'une freebox, vous pouvez installer votre propre serveur web et héberger facilement toutes vos applications à la maison. Ce billet expose les différentes étapes pour l'installation et la configuration du serveur.</em>
+</p>
+
+<hr />
+<p class="info">Cet article détaille l'installation complète d'un serveur Web avec <strong>Apache</strong> sous <strong>Debian</strong> derrière une connexion fibrée <strong>Free</strong>. Il peut être adapté avec n'importe quel système (Ubuntu, Fedora, FreeBSD...) et n'importe quel serveur (Nginx, node.js, Tomcat, Lighttpd...).</p>
+<h3 id="p0">Sommaire</h3>
+<ul>
+<li><a href="#p1">Introduction</a></li>
+<li><a href="#p2">Quels sont les risques ?</a></li>
+<li><a href="#p3">Free et la fibre</a></li>
+<li><a href="#p4">Quelle machine ?</a></li>
+<li><a href="#p5">Image d'installation</a></li>
+<li><a href="#p6">Préparer une clé USB bootable</a></li>
+<li><a href="#p7">Installation du système d'exploitation</a></li>
+<li><a href="#p8">Configuration du système</a></li>
+<li><a href="#p9">Installation du serveur Web</a></li>
+<li><a href="#p10">Redirection des ports 80 et 443</a></li>
+<li><a href="#p11">Configuration du vhost</a></li>
+<li><a href="#p12">Enregistrement DNS</a></li>
+<li><a href="#p13">Certificat SSL Let's Encrypt</a></li>
+</ul>
+<h3 id="p1">Introduction</h3>
+<p>Pour héberger un site perso, un site statique, un blog, échanger des ressources avec des proches, installer une application, gérer du code, se former, ou juste pour le fun, un serveur web maison est idéal. Pour une agence, c'est aussi un excellent moyen de mettre en place gratuitement et rapidement des instances de recette, proposer des démos aux clients, du bug tracking...</p>
+<p>Mais il y a également une question de souplesse et de liberté, vous faites absolument ce que vous souhaitez de la machine. Pas d'engagement, pas de condition, pas de paiement. Personne ne vous facturera 10€ par mois pour l'utilisation d'une version obsolète de PHP (la spécialité chez Ionos). Nos applications sont là, à proximité, et il suffit de débrancher une prise pour les déconnecter. Si vous visitez <a href="https://magentix.space/">magentix.space</a> (serveur d'expérimentation), vous n'êtes pas dans un data center à Roubaix ou à Francfort, non, vous êtes dans mon entrée, sur un meuble en rotin.</p>
+<p><img alt="Freebox Delta" src="https://www.magentix.fr/media/blog/articles/freebox.png" /></p>
+<h3 id="p2">Quels sont les risques ?</h3>
+<p>Au quotidien, nous ne sommes jamais à l'abri d'une coupure de courant ou d'un problème réseau.</p>
+<p>Pour les coupures de courant, un onduleur est assez efficace. Il garantit une continuité électrique et permet de se protéger des micros coupures ou des chutes de tension. J'ai acheté il y a quelques années un <strong>Eaton Ellipse ECO 650</strong>, 650VA, batterie 12V, 7Ah, soit au minimum 6h d'autonomie pour une machine de 10 Watts (marge de 20%) :</p>
+<pre><code>7Ah / ( 10w / 12v ) * 0.8 = 6.72h
+</code></pre>
+<p>Pour les longues coupures, liées par exemple aux intempéries, il faudra prendre votre mal en patience. Si vous utilisez le CPL pour communiquer avec des équipements réseaux (comme le boîtier TV), il n'est pas possible de brancher la box sur l'onduleur. Le CPL ne fonctionnera plus.</p>
+<p class="warning"><strong>Note :</strong> Une <strong>freebox delta</strong> (équipée d'un seul disque dur 2,5") consomme <strong>27,2 Watts</strong>. Avec le <strong>Eaton Ellipse ECO 650</strong> elle continuera de fonctionner environ <strong>2.5h</strong> si elle est branchée seule. Si la panne de courant concerne également le NRO il n'y aura plus la fibre non plus, mais les NRO sont également équipés d'un onduleur...</p>
+<p>Pour les problèmes réseaux entre le terminal optique du logement et les équipements de l'opérateur, cela reste assez rare. En 3 ans cela m'est arrivé à 2 reprises : un mauvais branchement du technicien lors d'une intervention sur la baie. Dans ce cas, la déconnexion peut durer plusieurs jours, le temps que le technicien se déplace pour constater la panne et réparer. Les pannes générales sur les répartiteurs sont souvent traitées rapidement. Les opérateurs ne laissent jamais plusieurs centaines d'abonnées sans connexion.</p>
+<p><strong>De manière générale, c'est à vous de juger l'intérêt d'une installation selon les pannes rencontrées dans votre région et l'utilisation que vous souhaitez faire du serveur.</strong> Si vous déménagez 2 fois par an cela risque d'être également un peu contraignant.</p>
+<p>Je pense qu'il faut éviter d'héberger à la maison un site ou une application pour lesquels une déconnexion peut avoir un impact important pour les utilisateurs, la visibilité et l'activité.</p>
+<h3 id="p3">Free et la fibre</h3>
+<p>Free est l'un des seules opérateurs en France à proposer depuis toujours l'attribution d'une IP v4 fixe (sur demande). Gratuitement. Pour monter un serveur c'est important. Dans le cadre d'une installation domotique pilotée à distance également. Chez Orange cela est réservé aux professionnels, chez les autres je ne sais pas mais il me semble que c'est impossible. Il faut dans ce cas se tourner vers des solutions DynDNS, mais je n'ai jamais expérimenté.</p>
+<p>Par défaut votre IP v4 chez Free est partagé avec 4 clients. L'opérateur réserve simplement une plage de ports différente. Cela permet de pallier (sans doute provisoirement) à la pénurie d'IP v4 que nous rencontrons actuellement. Pour 100000 clients, Free n'a plus besoin de 100000 IPs v4, mais de 25000. Cela convient parfaitement pour un usage traditionnel. Mais pour notre serveur, il faut demander une adresse IP fixe personnelle.</p>
+<p>Il est fort probable que nous soyons obligé un jour de basculer complétement vers de l'IP v6. Il est déjà possible de le faire si vos machines le supportent.</p>
+<p>Pour le moment nous resterons sur de l'IP v4. Il faut vérifier dans un premier temps que l'attribution d'une adresse IP fixe est possible depuis le compte client : <strong>Ma Freebox &gt; Demander une adresse IP fixe V4 full-stack</strong>.</p>
+<p><img alt="Free Adresse IP fixe V4 full-stack" src="https://www.magentix.fr/media/blog/articles/freebox-ipv4-fullstack.png" /></p>
+<p>Si vous n'avez pas l'option, il sera un peu plus compliqué d'accéder à distance à vos applications.</p>
+<p>Je recommande donc fortement une connexion fibrée chez Free...</p>
+<p>Niveau temps de réponse, c'est très bon, même excellent. Mieux que chez beaucoup d'hébergeurs.</p>
+<p><img alt="TTBF Freebox vs Netlify" src="https://www.magentix.fr/media/blog/articles/freebox-fibre-vs-netlify.png" /></p>
+<aside>Freebox FTTH vs Netlify</aside>
+
+<p>Ce graphique met en évidence le temps de latence pour des requêtes vers une <strong>Freebox FTTH</strong> (à gauche), puis <strong>Netlify</strong> (à droite). Les sondes sont situées à Roubaix et Londres. Chez Netlify c'est beaucoup plus cahotique.</p>
+<h3 id="p4">Quelle machine ?</h3>
+<p>C'est un vaste sujet... Cela dépend de ce que l'on souhaite héberger sur le serveur. Dans le passé, j'ai toujours eu tendance à prendre des machines surdimensionnées par rapport à l'usage que j'en avais. <em>"On ne sait jamais, ça peut servir"</em>. C'est une erreur. De l'argent dépensé inutilement.</p>
+<p>Il y a 4 critères à prendre en compte :</p>
+<ul>
+<li>Les applications web que l'on souhaite utiliser (Wordpress, Magento, site statique...)</li>
+<li>Le trafic estimé</li>
+<li>La consommation électrique nécessaire au fonctionnement de la machine</li>
+<li>La place dont vous disposez à proximité de la box</li>
+</ul>
+<p>La bonne nouvelle est que de manière générale une machine peu puissante suffi. Un simple Raspberry Pi avec Nginx sert parfaitement un site statique.</p>
+<p>Il faut simplement adapter en fonction des recommandations communiquées par les éditeurs. Anticiper si possible le nombre de connexions simultanées.</p>
+<p>Si c'est une machine recyclée qui n'avait plus d'utilité, c'est encore mieux.</p>
+<p>Ici j'ai souhaité une machine peu encombrante, presque invisible. Cette machine doit remplacer le serveur que j'utilise depuis 3 ans et pour lequel j'ai d'autres projets. La box est située dans l'entrée de la maison, je n'ai pas envie d'y mettre une tour. J'attache également beaucoup d'importance à la consommation électrique, la machine est allumée non stop. Pour finir, je ne souhaite héberger que des sites statiques (jekylls, Hugo...), avec un trafic très faible.</p>
+<p>Je suis un lecteur du site <a href="https://www.minimachines.net">minimachines.net</a>. Au moment de mes recherches <a href="https://twitter.com/PierreLecourt">Pierre Lecourt</a> publiait une offre pour un nouveau mini PC fanless, le <a href="https://www.minimachines.net/actu/mele-quieter2-98885">Mele Quieter2</a>. C'est ce genre de machine qu'il me fallait. Cerise sur le gâteau, le PC est insensible à la poussière.</p>
+<p>Mais sur un PC d'une marque chinoise peu connue on ne sait jamais très bien comment une distribution Linux va tourner. C'est un risque modéré car il n'y a généralement rien d'extravagant. Il faut surtout s'inquiéter de la finition générale de l'engin. Il m'est arrivé de me retrouver avec des machines au bruit insupportable ou avec des connecteurs défectueux. Toujours attendre un peu, n'acheter que s'il y a plusieurs retours positifs.</p>
+<p>Pour cet article, l'installation a donc été effectuée sur le Mele Quieter2. Il a également l'avantage de consommer <strong>moins de 1.5w</strong> quand il ne se passe rien (sans disque supplémentaire). Cela représente quelques centimes par mois.</p>
+<p>Comparatif de la consommation de 3 mini-machines (aucune activité) :</p>
+<p><img alt="Consommation électrique" src="https://www.magentix.fr/media/blog/articles/consommation-electrique.png" /></p>
+<table>
+<thead>
+<tr>
+<th>Machine</th>
+<th>OS</th>
+<th>Conso.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Raspberry Pi 4 (<em>Standard</em>)</td>
+<td>Raspberry Pi OS</td>
+<td><strong>2.5w</strong></td>
+</tr>
+<tr>
+<td>ASUS PN60 (<em>SSD 256Go - 32Go ram</em>)</td>
+<td>Debian</td>
+<td><strong>8.5w</strong></td>
+</tr>
+<tr>
+<td>Mele Quieter2 (<em>Standard</em>)</td>
+<td>Debian</td>
+<td><strong>1.2w</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Le <strong>Mele Quieter2</strong> est monté au maximum à <strong>5.1w</strong> avec <strong>283 requêtes HTTP par seconde</strong> sur un site statique.</p>
+<p>Héberger un site sur un Mele Quieter2 coûte moins de 2€ par an.</p>
+<p class="warning"><strong>Note :</strong> ce sont ici des mini-machines avec des composants à très faible consommation. Si vous utilisez une vielle tour qui traîne dans un coin, on pourrait facilement se situer aux alentours des 100w. Il existe de nombreux sites pour estimer la consommation d'un PC, par exemple <a href="https://outervision.com/power-supply-calculator">Power Supply Calculator</a>.</p>
+<h3 id="p5">Image d'installation</h3>
+<p>Pour le système d'exploitation c'est au choix, pour du serveur on peut par exemple trouver :</p>
+<ul>
+<li>Debian</li>
+<li>RHEL</li>
+<li>Ubuntu server</li>
+<li>FreeBSD</li>
+</ul>
+<p>Il en existe beaucoup d'autres. J'en ai essayé pas mal, mais j'ai une nette préférence pour Debian. J'y reviens toujours. C'est très personnel.</p>
+<p><strong>J'effectue dans cet article une installation Debian</strong>, mais vous pouvez adapter sans problème selon votre OS préféré.</p>
+<p>Je réalise l'installation de l'OS à partir d'une clé USB bootable. On peut utiliser n'importe quelle clé, avec une capacité suffisante pour accueillir l'image d'installation. J'ai une petite clé <strong>SanDisk de 16Go</strong>, ça coûte moins de 10€.</p>
+<p>Les systèmes fournissent des images de type <strong>img</strong> ou <strong>iso</strong>. Pour Debian on la télécharge via le lien suivant :</p>
+<p><a href="https://www.debian.org/CD/http-ftp/#stable">Télécharger les images de CD de Debian par HTTP ou par FTP</a></p>
+<p>Le téléchargement d'une image requiert de connaître le type de processeur. Dans la majorité des cas votre CPU est de type amd64. Pour faire simple, si la machine a moins 20 ans et peut faire tourner Windows c'est de l'amd64. Les choses vont peut-être changer dans le futur avec l'arrivée d'Apple M1 et du Lakefield chez Intel (ARM). Pour un Raspberry Pi 4 c'est de l'arm64, mais Raspberry Pi OS est basé sur Debian, il est préférable d'utiliser cet OS.</p>
+<p>Si vous avez la possibilité de relier le PC à la box en ethernet pendant l'installation, partez sur l'image <strong>debian-X.X.X-amd64-netinst.iso</strong>, sinon <strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong>. Il est fréquent que la configuration du wifi requiert des drivers spécifiques, toujours un peu galère pendant la phase d'installation.</p>
+<p>De mon côté j'ai la chance d'avoir un D-Link DAP-1360 (environ 30€) configuré en mode Wireless (le bureau est loin de la box), j'y branche simplement la machine en ethernet.</p>
+<p><img alt="Dlink DAP 1360" src="https://www.magentix.fr/media/blog/articles/dlink-dap-1360.png" /></p>
+<p>Mais vous pouvez sans problème effectuer l'installation sans Internet à partir de l'image CD complète (<strong>debian-X.X.X-amd64-xfce-CD-1.iso</strong>).</p>
+<h3 id="p6">Préparer une clé USB bootable</h3>
+<p>Pour créer une clé USB bootable à partir de l'image téléchargée, 2 solutions.</p>
+<h4>Depuis Windows</h4>
+<section>
+<p>Si vous êtes sous Windows, le logiciel <a href="https://rufus.ie/fr/">Rufus</a> est parfait.</p>
+<p><img alt="Logiciel Rufus" src="https://www.magentix.fr/media/blog/articles/rufus.png" /></p>
+<p>Il y a quelques options à paramétrer :</p>
+<ul>
+<li><strong>Périphérique :</strong> la clé USB</li>
+<li><strong>Type de démarrage :</strong> l'image d'installation précédemment téléchargée</li>
+<li><strong>Schéma de partition :</strong> GPT *</li>
+<li><strong>Système de destination :</strong> UEFI</li>
+<li><strong>Système de fichiers :</strong> FAT32</li>
+<li><strong>Taille d’unité d’allocation :</strong> Défaut</li>
+</ul>
+<p>* Je pars du principe que le futur serveur est une machine assez récente (après 2012) avec <strong>firmeware UEFI</strong> et disque avec <strong>partition GPT</strong>. Si vous doutez, il faut visualiser le <strong>setup</strong> de la carte mère. Au démarrage (splash screen) actionnez la touche d'accès au setup (<kbd>Esc</kbd>, <kbd>Suppr</kbd>, <kbd>F2</kbd>, <kbd>F10</kbd>...), généralement la touche est indiquée. Si vous êtes sur de l'UEFI cela est obligatoirement mentionné quelque part.</p>
+<p><img alt="Bios Legacy ou UEFI" src="https://www.magentix.fr/media/blog/articles/bios-uefi.png" /></p>
+<aside>UEFI du Asus PN60 (sur de nombreuses cartes mères Asus) et du Mele Quieter2 (Aptio setup utility, un classique)</aside>
+<p>Il peut arriver que le boot soit en mode BIOS Legacy. Revenez sur de l'UEFI si cela est le cas (même si le disque est en MBR il sera formaté intégralement).</p>
+<p>Après validation, il est possible que Rufus vous demande le mode d'écriture de l'image. Restez sur l'option recommandée (Ecrire en mode image ISO).</p>
+<p><img alt="Rufus mode d'écriture de l'image" src="https://www.magentix.fr/media/blog/articles/rufus-isohybrid.png" /></p>
+</section>
+<h4>Depuis un système UNIX</h4>
+<section>
+<p>Si vous êtes sous un système UNIX (Ubuntu, Debian, MacOS...), on peut passer par la commande <code>dd</code>.</p>
+<p>Il faut dans un premier temps identifier le fichier périphérique sur lequel la clé est accessible. J'utilise la commande <code>dmesg</code> juste après avoir branché la clé USB.</p>
+<pre><code class="language-bash">sudo dmesg
+</code></pre>
+<pre><code>[1129003.393918] usb-storage 2-4.3:1.0: USB Mass Storage device detected
+[1129003.394285] scsi host1: usb-storage 2-4.3:1.0
+[1129004.398960] scsi 1:0:0:0: Direct-Access     SanDisk  Ultra            1.00 PQ: 0 ANSI: 6
+[1129004.399389] sd 1:0:0:0: Attached scsi generic sg0 type 0
+[1129004.399661] sd 1:0:0:0: [sda] 30464000 512-byte logical blocks: (15.6 GB/14.5 GiB)
+[1129004.400584] sd 1:0:0:0: [sda] Write Protect is off
+[1129004.400588] sd 1:0:0:0: [sda] Mode Sense: 43 00 00 00
+[1129004.400897] sd 1:0:0:0: [sda] Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
+[1129004.422517] sda: sda1
+[1129004.423849] sd 1:0:0:0: [sda] Attached SCSI removable disk
+</code></pre>
+<p>On identifie ici clairement que nous sommes sur <code>/dev/sda</code> (ce peut être <strong>sdb</strong>, <strong>sdc</strong>... ou autre), avec une partition (sda1). Ce que l'on peut vérifier avec la commande <code>df</code>.</p>
+<pre><code class="language-bash">sudo df
+</code></pre>
+<pre><code>/dev/sda1    15G    8,0K   15G   1% /media/xxxxxxx/name
+</code></pre>
+<p>Ou encore la commande <code>lsblk</code>.</p>
+<pre><code class="language-bash">sudo lsblk
+</code></pre>
+<pre><code>NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda           8:0    0  14,5G   0 disk
+└─ sda1       8:1    0  14,5G   0 part /media/xxxxxxx/name
+</code></pre>
+<p><strong>Note :</strong> si c'est une clé toute neuve ou complétement formatée il n'y a pas forcement de partition (sdaX).</p>
+<p class="alert"><strong>Pour la suite n'oubliez pas de remplacer le fichier périphérique par celui identifié sur votre système (sda, sdb, sdc...) au risque de perdre toutes les informations contenues sur un disque.</strong></p>
+<p>Il nous reste, à l'aide de la commande <code>dd</code>, à copier l'image sur la clé USB. <strong>Ne pas oublier de démonter la clé au préalable.</strong></p>
+<pre><code class="language-bash">sudo umount /dev/sda1
+</code></pre>
+<aside>Si la partition est montée sur sda1</aside>
+<pre><code class="language-bash">sudo umount /dev/sda
+</code></pre>
+<aside>Si la clé USB est montée sur sda</aside>
+<pre><code class="language-bash">sudo dd if=debian-X.X.X-amd64-netinst.iso of=/dev/sda bs=1M
+</code></pre>
+<aside>Avec l'image <strong>Debian network install</strong> si la machine dispose d'une connexion Internet</aside>
+<pre><code class="language-bash">sudo dd if=debian-X.X.X-amd64-xfce-CD-1.iso of=/dev/sda bs=1M
+</code></pre>
+<aside>Avec l'image <strong>Debian CD</strong> si la machine ne peut être connectée à Internet</aside>
+<p>Si tout va bien on obtient après quelques secondes :</p>
+<pre><code class="language-bash">337+0 enregistrements lus
+337+0 enregistrements écrits
+353370112 bytes (353 MB, 337 MiB) copied, 29,0891 s, 12,1 MB/s
+</code></pre>
+</section>
+<p><strong>La clé USB est prête</strong>, on la branche sur le futur serveur.</p>
+<h3 id="p7">Installation du système d'exploitation</h3>
+<p>Au démarrage du système, au splash screen, on active rapidement la touche pour l'accès au setup. La touche diffère selon les constructeurs : <kbd>Esc</kbd>, <kbd>Suppr</kbd>, <kbd>F2</kbd>, <kbd>F10</kbd>... En général la touche est indiquée. Pour le <strong>Mele Quieter2</strong> c'est <kbd>Suppr</kbd>.</p>
+<p>Une fois sur le <strong>BIOS/UEFI</strong>, on se dirige vers la section <code>boot</code>, ou parfois <code>démarrage</code> en Français.</p>
+<p><img alt="UEFI Aptio Boot" src="https://www.magentix.fr/media/blog/articles/uefi-aptio-boot.png" /></p>
+<p>L'obectif et d'amorcer le démarrage sur la <strong>clé USB</strong> et non sur les autres disques, en lui accordant la priorité. On enregistre et on redémarre.</p>
+<p>Le système démarre sur la clé USB et si tout a bien fonctionné, l'écran d'installation du système d'exploitation est affiché.</p>
+<p><img alt="Installation du système d'exploitation Debian" src="https://www.magentix.fr/media/blog/articles/debian-install-screen.png" /></p>
+<p>J'effectue l'installation de <strong>Debian</strong>, si vous optez pour un autre système c'est généralement assez similaire.</p>
+<p>Par habitude je préfère l'installation classique (Install), je n'utilise jamais l'installation graphique. Mais les étapes sont exactement les mêmes.</p>
+<section>
+<ul>
+<li><strong>Language :</strong> French - Français</li>
+<li><strong>Pays :</strong> France</li>
+<li><strong>Disposition du clavier :</strong> Français</li>
+<li><strong>Wifi (optionnel) :</strong> si le réseau n'est pas accessible, Debian tente une connexion wifi qui échoue la plupart du temps en raison des drivers manquants. Passez cette étape puis sélectionnez "Ne pas configurer le réseau maintenant"</li>
+<li><strong>Nom de la machine :</strong> indiquez ce que vous souhaitez, de préférence un nom qui n'existe pas déjà sur le réseau, ce sera plus simple de l'identifier par la suite</li>
+<li><strong>Mot de passe root :</strong> mot de passe souhaité</li>
+<li><strong>Nom complet du nouvel utilisateur :</strong> votre identifiant</li>
+<li><strong>Forcer l'installation UEFI (optionnel) :</strong> Debian peut détecter un système installé en mode de compatibilité BIOS. On force alors l'UEFI.</li>
+<li><strong>Partitionner les disques :</strong> sauf pour des cas très particuliers, vous pouvez choisir "Utiliser un disque entier", puis "tous dans une seule partition (recommandé pour les débutants)". On applique enfin les changements sur les disques.</li>
+</ul>
+<p>L'installation du système de base commence. Il reste à configurer l'outil de gestion des paquets (sans miroir sur le réseau si vous êtes offline), et enfin la <strong>sélection des logiciels</strong>.</p>
+<p>A cette étape <strong>ne sélectionnez que 2 options</strong> :</p>
+<pre><code>[ ] environnement de bureau Debian
+[ ] serveur web
+[ ] serveur d'impression
+[*] serveur SSH
+[*] utilitaires usuels du système
+</code></pre>
+<ul>
+<li><strong>Serveur SSH</strong> car la connexion au serveur se fera à distance. Une fois l'installation et la configuration terminées on branche la machine sur la box et elle n'en bougera plus.</li>
+<li><strong>Utilitaires usuels du système</strong> comprend une série d'applications pour gérer le système d'exploitation.</li>
+</ul>
+<p>Je ne sélectionne jamais <strong>serveur web</strong>, je préfère une installation manuelle par la suite.</p>
+</section>
+<p>Le système est installé, on redémarre.</p>
+<h3 id="p8">Configuration du système</h3>
+<h4>Editeur de texte</h4>
+<p>Pour éditer les fichiers de configuration, utilisez un éditeur que vous appréciez. Par défaut nous n'avons que <code>vi</code>. Cela convient aux puristes mais <code>nano</code> facilite grandement la tâche.</p>
+<p>Si vous êtes en mode offline, utilisez <code>vi</code> à l'étape suivante (Adresse IP), vous pourrez installer autre chose par la suite.</p>
+<pre><code class="language-bash">apt-get update
+apt-get install nano
+</code></pre>
+<h4>Adresse IP</h4>
+<p>Nous devons attribuer à la machine une adresse IP fixe en dehors de la plage d'adresses IP réservées par la box pour le DHCP.</p>
+<p>Contrôlez cette plage d'adresses dans la configuration de la freebox en vous connectant depuis le navigateur sur <a href="http://mafreebox.freebox.fr">http://mafreebox.freebox.fr</a>.</p>
+<p>Dans le menu <strong>Paramètres de la freebox &gt; Réseau local &gt; DHCP</strong>, on visualise le début et la fin de la plage d'adresses :</p>
+<p><img alt="Freebox configuration du DHCP" src="https://www.magentix.fr/media/blog/articles/freebox-dhcp.png" /></p>
+<p>Le DHCP est configuré ici pour attribuer des adresses entre <strong>192.168.1.2</strong> et <strong>192.168.1.50</strong>.</p>
+<p class="warning">Il est également possible dans la configuration de la freebox d'attribuer un bail DHCP statique selon l'adresse mac de la machine, mais par expérience évitez d'utiliser ce système.</p>
+<p>Sur le serveur, connectez vous au compte <strong>root</strong> via la commande <code>su</code>, puis éditez le fichier <code>/etc/network/interfaces</code>.</p>
+<pre><code class="language-bash">su
+nano /etc/network/interfaces
+</code></pre>
+<p>Nous devrions trouver <strong>dhcp</strong> pour l'interface réseau. Par exemple :</p>
+<pre><code class="language-bash">iface enp2s0 inet dhcp
+</code></pre>
+<aside>L'interface est ici enp2s0, diffère selon les systèmes</aside>
+
+<p>On remplace avec une IP fixe en dehors de la plage d'adresses DHCP de la box. J'ai choisi <strong>192.168.1.60</strong>.</p>
+<pre><code># This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto enp2s0
+allow-hotplug enp2s0
+iface enp2s0 inet static
+    address 192.168.1.60
+    netmask 255.255.255.0
+    gateway 192.168.1.254
+    broadcast 192.168.1.255
+</code></pre>
+<aside>/etc/network/interfaces</aside>
+
+<p>On peut redémarrer :</p>
+<pre><code class="language-bash">/etc/init.d/networking restart
+</code></pre>
+<p>On vérifie que l'adresse IP a bien été attribuée avec la commande <code>ip a</code> :</p>
+<pre><code class="language-bash">ip a
+</code></pre>
+<p><strong>Nous pouvons maintenant relier définitivement la machine à la box (sans écran ni clavier) et utiliser n'importe quel PC pour s'y connecter à distance.</strong></p>
+<p>Petite vérification au préalable :</p>
+<pre><code class="language-bash">systemctl status ssh
+</code></pre>
+<p>Nous avions installer le serveur SSH lors du choix des logiciels à l'installation de Debian. Si vous avez omis cette étape il faut l'installer maintenant : <code>apt-get install openssh-server</code>.</p>
+<p>Par défaut le serveur SSH n'accepte pas de connexion directe au compte <strong>root</strong>. C'est une configuration que l'on peut modifier en éditant le fichier <code>/etc/ssh/sshd_config</code> (<strong>PermitRootLogin</strong>). Mais si vous souhaitez autoriser les connexions SSH depuis l'extérieur je le déconseille fortement. Pensez également dans ce cas à modifier le port de connexion par défaut (22).</p>
+<p>Une fois la machine connectée en ethernet à la box, utilisez d'importe quelle machine avec un client ssh pour vous y connecter. Depuis windows 10 vous pouvez utiliser directement la commande <code>ssh</code> dans le <strong>command prompt</strong>. Pour les versions antérieures vous pouvez passer par <a href="https://www.putty.org/">putty</a>. Pour les systèmes UNIX c'est la commande <code>ssh</code>.</p>
+<pre><code class="language-bash">ssh username@192.168.1.60
+</code></pre>
+<h3 id="p9">Installation du serveur Web</h3>
+<p>Apache, Nginx, Node.js... On y met ce que l'on souhaite. Pour mes sites statiques je vais rester sur un traditionnel Apache.</p>
+<p>Pour cet article je ne vais pas plus loin, je reste sur l'hébergement d'un site statique. Je n'installe aucun langage (PHP, Python, Java, Ruby...) ni serveur de base de données.</p>
+<p>Une fois connecté au serveur via ssh, on installe Apache :</p>
+<pre><code class="language-bash">apt-get install apache2
+</code></pre>
+<p class="warning">Les commandes de type <strong>a2enmod</strong>, <strong>a2enconf</strong>, <strong>a2enmod</strong>... sont propres à Debian (et donc tous les systèmes basés sur Debian comme Ubuntu). Les opérations que j'effectue via ces commandes sont à réaliser manuellement si vous avez opté pour un système tel que FreeBSD. Le paquet Apache sur les systèmes Debian propose un panel d'outils et une façon particulière de gérer les configurations.</p>
+<p>On active de suite les module classiques :</p>
+<pre><code class="language-bash">a2enmod ssl
+a2enmod rewrite
+a2enmod expires
+a2enmod headers
+a2enmod http2
+</code></pre>
+<pre><code class="language-bash">service apache2 restart
+</code></pre>
+<p>On peut enfin vérifier qu'Apache communique bien sur les ports 80 et 443 :</p>
+<pre><code class="language-bash">lsof -i -P -n | grep LISTEN
+</code></pre>
+<p>A ce stade, depuis n'importe quel PC ou smartphone connecté au réseau, on accéde au serveur depuis le navigateur à l'adresse <code>http://192.168.1.60</code> (adaptez selon l'IP que vous avez choisi).</p>
+<p><img alt="Page Apache par défaut" src="https://www.magentix.fr/media/blog/articles/apache-it-works.png" /></p>
+<p>J'ajoute une configuration custom pour sécuriser un peu mes applications et activer HTTP/2. A adapter selon vos besoins.</p>
+<pre><code class="language-bash">nano /etc/apache2/conf-available/custom.conf
+</code></pre>
+<pre><code class="language-apache">Timeout 60
+FileETag None
+ServerTokens Prod
+ServerSignature Off
+TraceEnable Off
+
+AddDefaultCharset utf-8
+
+&lt;Directory /var/www&gt;
+    Options -Indexes
+    &lt;LimitExcept GET POST HEAD&gt;
+        Require all denied
+    &lt;/LimitExcept&gt;
+&lt;/Directory&gt;
+
+&lt;IfModule mod_headers.c&gt;
+    Header set Content-Security-Policy &quot;default-src 'self'; style-src 'self' 'unsafe-inline'; base-uri 'self';&quot;
+    Header set X-XSS-Protection &quot;1; mode=block&quot;
+    Header set X-Content-Type-Options: &quot;nosniff&quot;
+    Header set X-Frame-Options: &quot;sameorigin&quot;
+&lt;/IfModule&gt;
+
+&lt;IfModule mod_ssl.c&gt;
+    Protocols h2 http/1.1
+&lt;/IfModule&gt;
+</code></pre>
+<aside>/etc/apache2/conf-available/custom.conf</aside>
+
+<pre><code class="language-bash">a2enconf custom
+service apache2 restart
+</code></pre>
+<p>Pour aller plus loin dans la sécuristation d'Apache, je recommande le <a href="https://geekflare.com/fr/apache-web-server-hardening-security/">guide de renforcement et de sécurité du serveur Web Apache</a> sur geekflare.</p>
+<p>Pour la configuration du CSP (Content-Security-Policy), consultez l'article <a href="https://www.magentix.fr/blog/strategie-de-securite-du-contenu-content-security-policy.html">Utiliser une stratégie de sécurité du contenu (Content Security Policy)</a></p>
+<h3 id="p10">Redirection des ports 80 et 443</h3>
+<p>Lorsque qu'un client effectue une requête HTTP sur l'IP assignée par Free, le routeur de la freebox doit être en mesure de rediriger les ports 80 et 443 (SSL) vers le serveur.</p>
+<p>Ouvrez la configuration de la freebox depuis le navigateur (<a href="http://mafreebox.freebox.fr">http://mafreebox.freebox.fr</a>). Accédez ensuite au menu <em>Paramètres de la freebox &gt; Gestion des ports</em>.</p>
+<p><img alt="Gestion des ports sur la freebox Delta" src="https://www.magentix.fr/media/blog/articles/freebox-gestion-des-ports.png" /></p>
+<p>Ajoutez 2 redirections pour les ports 80 et 443 vers l'IP de votre serveur.</p>
+<p><img alt="Freebox redirection du port 80" src="https://www.magentix.fr/media/blog/articles/freebox-redirection-port.png" /></p>
+<h4>Port 80</h4>
+<ul>
+<li><strong>Ip Destination :</strong> 192.168.1.60 (adaptez selon l'IP que vous avez choisi)</li>
+<li><strong>Redirection active :</strong> ✓</li>
+<li><strong>IP source :</strong> Toutes (ou une adresse IP spécifique)</li>
+<li><strong>Protocole :</strong> TCP</li>
+<li><strong>Port de début :</strong> 80</li>
+<li><strong>Port de fin :</strong> 80</li>
+<li><strong>Port de destination :</strong> 80</li>
+<li><strong>Commentaire :</strong> Server Web</li>
+</ul>
+<h4>Port 443</h4>
+<ul>
+<li><strong>Ip Destination :</strong> 192.168.1.60 (adaptez selon l'IP que vous avez choisi)</li>
+<li><strong>Redirection active :</strong> ✓</li>
+<li><strong>IP source :</strong> Toutes (ou une adresse IP spécifique)</li>
+<li><strong>Protocole :</strong> TCP</li>
+<li><strong>Port de début :</strong> 443</li>
+<li><strong>Port de fin :</strong> 443</li>
+<li><strong>Port de destination :</strong> 443</li>
+<li><strong>Commentaire :</strong> Server Web Secure</li>
+</ul>
+<p>Cette configuration ne nécessite pas le redémarrage de la box.</p>
+<p><strong>Le serveur est maintenant accessible depuis l'extérieur avec l'IP assignée par free.</strong> Testez la configuration en indiquant l'IP dans le navigateur de votre téléphone depuis une connexion 4G.</p>
+<h3 id="p11">Configuration du vhost</h3>
+<p>Je considère que le nom de domaine est <code>example.com</code>.</p>
+<p>Ajoutons dans un premier temps une page à la racine du futur site <code>/var/www/example</code> :</p>
+<pre><code class="language-bash">mkdir /var/www/example
+echo &quot;Hello World!&quot; &gt; /var/www/example/index.html
+</code></pre>
+<p>On indique un nouvel host dans <code>/etc/hosts</code> :</p>
+<pre><code>127.0.0.1       localhost
+127.0.1.1       machine
+
+127.0.0.1       example.com
+
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+</code></pre>
+<aside>/etc/hosts</aside>
+
+<p>On ajoute ensuite le fichier vhost Apache dans <code>/etc/apache2/sites-available</code>. Je nomme le fichier <code>example.com.conf</code>.</p>
+<pre><code class="language-apache">&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@localhost
+
+    DocumentRoot /var/www/example
+    ServerName example.com
+
+    &lt;Directory /var/www/example&gt;
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    LogLevel warn
+&lt;/VirtualHost&gt;
+</code></pre>
+<aside>/etc/apache2/sites-available/example.com.conf</aside>
+
+<p>Pour finir on active la configuration :</p>
+<pre><code class="language-bash">a2ensite example.com
+service apache2 restart
+</code></pre>
+<h3 id="p12">Enregistrement DNS</h3>
+<p>Chez le registrar depuis lequel votre domaine est géré (OVH, Ionos, Gandi, GoDaddy, Google domains...), nous allons modifier l'IP pour l'enregistrement DNS de type A (enregistrement d'hôte).</p>
+<p>L'accès à la zone DNS du domaine diffère selon les bureaux d'enregistrement. Vous la trouverez certainement en sélectionnant votre nom de domaine, puis sur une action du type <em>"Modifier la zone DNS"</em>.</p>
+<p><img alt="Zone DNS chez Ionos" src="https://www.magentix.fr/media/blog/articles/dns-ionos.png" /></p>
+<aside>Exemple de configuration de zone DNS chez Ionos</aside>
+
+<p>Les enregistrements qui nous intéressent sont ceux de <strong>type A</strong> (vous trouverez certainement des enregistrements de type AAAA dédiés à l'IPv6 et MX pour le serveur de messagerie).</p>
+<p>Il y a autant d'enregistrements de type A qu'il existe de sous domaine. Le nom d'hôte <strong>www</strong> est un sous domaine.</p>
+<p>Dans la majorité des cas, on ajoute un enregistrement pour le domaine principal (<code>example.com</code>) et le sous domaine www (<code>www.example.com</code>). C'est ensuite le serveur (Apache dans notre cas) qui se charge de rediriger l'un vers l'autre selon l'adresse que vous souhaitez exploiter).</p>
+<p class="warning">L'utilisation du sous domaine <strong>www</strong> est historique. C'est un moyen de faire comprendre immédiatement qu'il s'agit d'un site, si par exemple le domaine apparaît sur une affiche ou une carte de visite. Un domaine peut être utilisé pour une multitude de service. Je recommande généralement l'utilisation du sous domaine <strong>www</strong> avec une redirection du domaine principal (example.com vers www.example.com).</p>
+<p>Pour les hôtes <strong>@</strong> et <strong>www</strong>, modifiez ou ajoutez l'enregistrement de <strong>type A</strong> avec votre IP publique Free. La modification peut prendre plusieurs heures (propagation DNS).</p>
+<p>Nous y sommes ! En indiquant l'adresse <code>http://example.com</code> nous visualisons notre site !</p>
+<p><img alt="Site Internet dans le navigateur" src="https://www.magentix.fr/media/blog/articles/site.png" /></p>
+<p>Si vous souhaitez utiliser <code>www.example.com</code> avec redirection de <code>example.com</code>, je vous conseille d'ajouter 2 fichiers de configuration vhost :</p>
+<pre><code class="language-apache"># example.com.conf
+
+&lt;VirtualHost *:80&gt;
+    ServerName example.com
+    Redirect permanent / http://www.example.com
+&lt;/VirtualHost&gt;
+</code></pre>
+<aside>/etc/apache2/sites-available/example.com.conf</aside>
+
+<pre><code class="language-apache"># www.example.com.conf
+
+&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@localhost
+
+    DocumentRoot /var/www/example
+    ServerName www.example.com
+
+    &lt;Directory /var/www/example&gt;
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/error.example.com.log
+    CustomLog ${APACHE_LOG_DIR}/access.example.com.log combined
+
+    LogLevel warn
+&lt;/VirtualHost&gt;
+</code></pre>
+<aside>/etc/apache2/sites-available/www.example.com.conf</aside>
+
+<h3 id="p13">Certificat SSL Let's Encrypt</h3>
+<p>Notre site n'est actuellement pas sécurisé. C'est aujourd'hui indispensable.</p>
+<p>La génération d'un certificat SSL Let's Encrypt s'effectue très simplement avec <strong>certbot</strong>.</p>
+<pre><code class="language-bash">apt-get install certbot python-certbot-apache
+</code></pre>
+<p>Le commande <code>certbot</code> vous propose l'activation de HTTPS pour les adresses de votre choix :</p>
+<pre><code class="language-bash">certbot
+
+Which names would you like to activate HTTPS for?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: example.com
+2: www.example.com
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate numbers separated by commas and/or spaces, or leave input
+blank to select all options shown (Enter 'c' to cancel): 1,2
+</code></pre>
+<p>La deuxième étape consiste à forcer ou non la redirection de <strong>http</strong> vers <strong>https</strong>. Je vous conseille fortement de l'activer (option 2).</p>
+<pre><code class="language-bash">Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+</code></pre>
+<p>Certbot se charge automatiquement de l'ajout des vhosts pour le port 443 avec configuration du certificat. Une fois la commande exécutée vous trouverez les nouvelles configurations :</p>
+<pre><code>-rw-r--r-- 1 root root 659 mai   27 17:01 example.com.conf
+-rw-r--r-- 1 root root 847 mai   27 17:17 example.com-le-ssl.conf
+-rw-r--r-- 1 root root 268 mai   27 17:02 www.example.com.conf
+-rw-r--r-- 1 root root 385 mai   27 17:17 www.example.com-le-ssl.conf
+</code></pre>
+<aside>/etc/apache2/sites-available</aside>
+
+<p>Le site est maintenant accessible à l'adresse <code>https://example.com</code> (ou <code>https://www.example.com</code>).</p>
+<p><img alt="Site Internet sécurisé dans le navigateur" src="https://www.magentix.fr/media/blog/articles/site-secure.png" /></p>
+<p class="toolbar"><a href="#p0">Sommaire</a></p>
+<p class="contact">
+    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
+</p>
+            </div>
+        </main>
+        <footer>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2022</p>
+                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
+        </footer>
+        <script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
+        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+    </body>
+</html>

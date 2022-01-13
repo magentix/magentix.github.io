@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!--
+  __    __     ______     ______     ______     __   __     ______    __     __  __
+ /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
+ \ \ \-./\ \  \ \  __ \  \ \ \__ \  \ \  __\   \ \ \-.  \  \/_/\ \/  \ \ \  \/_/\_\/_
+  \ \_\ \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\\"\_\    \ \_\   \ \_\   /\_\/\_\
+   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Publier gratuitement un site statique, quelle solution choisir ?</title>
+        <meta name="description" content="Comparatif entre Github, Gitlab, Netlify, Vercel et Render pour le déploiement gratuit d'un site statique : focus sur la configuration et les temps de réponse (TTFB)." />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+        <meta name="robots" content="INDEX,FOLLOW" />
+    </head>
+    <body>
+        <header>
+            <div id="header-content">
+                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
+                    <a href="https://www.magentix.fr/blog.html">Billets</a>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div id="main-content">
+<p><a href="https://www.magentix.fr/blog.html">Billets</a> : Publier gratuitement un site statique, quelle solution choisir ?</p>
+<hr/>
+
+<h2>Publier gratuitement un site statique, quelle solution choisir ?</h2>
+
+<p class="author"><span>Par Matthieu le 22/10/2021</span></p>
+
+<p>
+    <em>Il existe de nombreux avantages à créer un site statique. L'un d'entre eux concerne l'hébergement. Une fois le site généré, il est possible de l'héberger facilement n'importe où. Et pour un site personnel de taille modeste, cela peut ne rien coûter.</em>
+</p>
+
+<hr />
+<p><img alt="Datacenter" height="250" src="https://www.magentix.fr/media/blog/articles/datacenter.jpg" width="800" /></p>
+<p>Il n'est pas rare avec les solutions de déploiement automatisé de sites statiques de trouver des offres gratuites. Ce sont souvent des offres d'appel, limitées, pour vendre ensuite une solution plus complète.</p>
+<p>Mais dans de nombreux cas ces offres suffisent largement. Les sites de votre plombier, de votre ostéopathe ou du restaurant japonais au bas de la rue pourraient bien souvent être hébergés gratuitement s'ils étaient statiques (on trouve très souvent du Wordpress). Sans parler de l'impact écologique.</p>
+<p>Un thread sur twitter de Arnaud Ligny (créateur du SSG <a href="https://cecil.app/">Cecil</a>) résume parfaitement la situation :</p>
+<blockquote>
+<p>Je vois beaucoup de sites Web dont le contenu change très rarement, servi par un backend qui est potentiellement appelé à chaque visite : quel gâchis de ressources ! (...) L'autre intérêt d'un site statique c'est sa capacité à être migré en cas de soucis d'hébergement : n'importe serveur Web fera l'affaire si vous maîtrisez le nom de domaine. Sans parler de la monter en charge : sans BDD il devient très facile de déployer un site sur un réseau CDN.</p>
+</blockquote>
+<aside><a href="https://twitter.com/ArnaudLigny/status/1447146996960215041">Lire le thread complet</a></aside>
+
+<p>Je me suis intéressé aux offres gratuites des solutions d'hébergement sur un CDN.</p>
+<h2>Sélection des solutions</h2>
+<p>Je n'ai pas utilisé les services de build des solutions de déploiement. Je génère le site statique localement et pousse le résultat sur Github. Il ne reste plus qu'à trouver un espace sur le web pour partager les fichiers.</p>
+<p>J'ai retenu <strong>6 solutions</strong> : Github Pages, Gitlab Pages, Netlify, Vercel, Render et Cloudflare Pages.</p>
+<p>Pour les tests j'ai utilisé le site Magentix (celui que vous lisez actuellement) que j'ai hébergé (temporairement) sur 6 sous-domaines :</p>
+<ul>
+<li><a href="#github"><strong>Github Pages</strong></a> : github.magentix.fr</li>
+<li><a href="#gitlab"><strong>Gitlab Pages</strong></a> : gitlab.magentix.fr</li>
+<li><a href="#netlify"><strong>Netlify</strong></a> : netlify.magentix.fr</li>
+<li><a href="#vercel"><strong>Vercel</strong></a> : vercel.magentix.fr</li>
+<li><a href="#render"><strong>Render</strong></a> : render.magentix.fr</li>
+<li><a href="#cloudflare"><strong>Cloudflare Pages</strong></a> : cloudflare.magentix.fr</li>
+</ul>
+<p>Ces 6 solutions proposent toutes gratuitement les fonctionnalités qui m'intéressent :</p>
+<ul>
+<li>Publication automatique d'une branche du dépôt</li>
+<li>Nom de domaine personnalisé via l'ajout d'un enregistrement CNAME sur la zone DNS</li>
+<li>Génération automatique du certificat SSL</li>
+<li>Page d'erreur 404 personnalisable</li>
+<li>Cache local des ressources</li>
+<li>HTTP 2</li>
+</ul>
+<p>Les bandes passantes sont souvent limitées à 100GB. Cela correspond à 1.000.000 de pages vues par mois pour des pages de 100ko. Cette bande passante est partagée par <strong>tous les sites</strong> de votre compte.</p>
+<p>Petite exception avec <strong>Cloudflare Pages</strong> qui propose une bande passante illimitée dans son offre gratuite.</p>
+<p>Les tests vont s'attarder sur les points suivants :</p>
+<ul>
+<li>Facilité de configuration</li>
+<li>En-têtes HTTP personnalisables</li>
+<li>Stockage</li>
+<li>Temps de latence</li>
+</ul>
+<p>Le temps de latence est un critère primordial : le site est dans le cloud, AWS, cloudflare, Digital Ocean, Azure... Si le serveur est à l'autre bout de la planète c'est un peu moins intéressant pour moi. Je trouve un peu dommage d'attendre 400ms juste pour récupérer un fichier statique de 5ko.</p>
+<p>Il est important de se rapprocher au maximum des utilisateurs, mais n'oublions pas que nous sommes sur des offres gratuites, plus limitées.</p>
+<p>J'effectue les tests de TTFB (Time To First Byte) depuis chez moi avec des requêtes toutes les 30 secondes sur les 6 sous-domaines.</p>
+<p class="info"><strong>Note :</strong> je publie des fichiers statiques avec les offes <strong>gratuites</strong> des solutions de déploiement automatisés. Ce comparatif ne s'attarde pas sur les outils de build ni sur les avantages des offres payantes. <strong>La conclusion serait alors complétement différente</strong>.</p>
+<h2>Analyses</h2>
+<h3 id="github">Github Pages</h3>
+<p>Pour utiliser <strong>Github Pages</strong> gratuitement, il faut accepter que son site soit déposé sur un repository public. C'est le gros point noir de l'offre gratuite.</p>
+<p>Il n'est pas possible de customiser les en-têtes HTTP, pour ajouter par exemple une <a href="https://www.magentix.fr/blog/strategie-de-securite-du-contenu-content-security-policy.html">directive CSP</a> ou X-Frame-Options.</p>
+<p>Pour le reste c'est assez fluide, il m'a fallu environ 10 minutes pour mettre le site en ligne. Pas besoin d'un outil supplémentaire qui viendrait cloner le dépôt.</p>
+<p>Les fichiers statiques sont disponibles sur le dépôt (username.github.io) et on ajoute l'entrée CNAME sur la zone DNS.</p>
+<p>Le site ne doit pas excéder les 1GB. Les temps de réponse sont très bons et réguliers, avec une moyenne de <strong>59ms</strong> sur 7 jours.</p>
+<hr />
+<ul>
+<li class="compare positive">Temps de réponse excellent</li>
+<li class="compare positive">Mise en ligne très simple</li>
+<li class="compare positive">Pas d'outil supplémentaire</li>
+<li class="compare negative">Dépôt public</li>
+<li class="compare negative">En-têtes HTTP non personnalisables</li>
+</ul>
+<hr />
+<h3 id="gitlab">Gitlab Pages</h3>
+<p>Contrairement à son concurrent Github, Gitlab permet de publier un site sur un dépôt privé. On peut donc gérer le site et le déployer sur la même plateforme, le tout gratuitement.</p>
+<p>La mise en ligne n'a pas posé de problèmes particuliers mais je suis plutôt habitué à utiliser Gitlab. J'ai cependant toujours trouvé l'interface moins ergonomique que celle de Github. La configuration du site statique reste plus complexe qu'avec les autres solutions, moins facile d'accès.</p>
+<p>Il n'est pas possible de customiser les en-têtes HTTP. Celles-ci sont par contre peu nombreuses (8 contre une vingtaine pour Github). Notez que Gitlab ajoute de base la directive <code>permissions-policy: interest-cohort=()</code> pour la désactivation de l'algorithme Google FLoC.</p>
+<p>Gitlab accuse un temps de réponse très élevé, avec depuis la France un TTFB moyen de <strong>387ms</strong> sur 7 jours. Avec une sonde depuis les US ce n'est pas beaucoup mieux, le TTFB moyen obtenu est de <strong>317ms</strong>.</p>
+<p>La compression des ressources (gzip) n'est pas effectuée par défaut, il faut l'ajouter au script de déploiement :</p>
+<pre><code>pages:
+  # Other directives
+  script:
+  - find public -type f -regex '.*\.\(html\|js\|css\)$' -exec gzip -f -k {} \;
+</code></pre>
+<aside>.gitlab-ci.yml</aside>
+
+<hr />
+<ul>
+<li class="compare positive">Pas d'outil supplémentaire</li>
+<li class="compare positive">Dépôt privé</li>
+<li class="compare negative">Temps de réponse très élevé</li>
+<li class="compare negative">Configuration complexe</li>
+<li class="compare negative">En-têtes HTTP non personnalisables</li>
+</ul>
+<hr />
+<h3 id="netlify">Netlify</h3>
+<p>Netlify est le CDN que j'ai choisi il y a quelques mois pour héberger Magentix. je n'avais pas vraiment réalisé de comparatif. En quelques minutes le site était en ligne et c'était très satisfaisant (clone du dépôt Github et modification du CNAME). L'expérience utilisateur de l'outil est excellente.</p>
+<p>Mais j'ai constaté sur Netlify des changements de serveur et de localisation : parfois aux US avec un TTFB d'environ 200ms, parfois en Allemagne avec TTFB de 130ms. Parfois sur un cloud AWS, parfois sur un cloud Digital Ocean. Il en résulte des inégalités dans la délivrabilité des pages. En moyenne sur 7 jours j'obtiens un TTFB de <strong>147ms</strong>.</p>
+<p>Il est possible de customiser les en-têtes HTTP avec un simple fichier <code>_headers</code> à la racine du site.</p>
+<pre><code>/*
+  X-Frame-Options: DENY
+</code></pre>
+<hr />
+<ul>
+<li class="compare positive">Mise en ligne très simple</li>
+<li class="compare positive">En-têtes HTTP personnalisables</li>
+<li class="compare negative">Temps de réponse élevé et irrégulier</li>
+</ul>
+<hr />
+<h3 id="render">Render</h3>
+<p>Render présente une offre gratuite dans la moyenne. Les temps de réponse sont acceptables : 50ms et 300ms toutes les 5 minutes, pour une moyenne de <strong>105ms</strong> sur 7 jours.</p>
+<p>L'installation du site est facile (environ 10 minutes : clone du dépôt et ajout du CNAME), il est possible de customiser les headers directement sur l'interface, ce qui est plutôt pratique.</p>
+<p>Il est tout de même obligatoire d'enregistrer une carte bancaire pour continuer d'utiliser le service, même si vous n'utilisez que l'offre gratuite. C'est un frein pour beaucoup.</p>
+<hr />
+<ul>
+<li class="compare positive">Mise en ligne très simple</li>
+<li class="compare positive">En-têtes HTTP personnalisables</li>
+<li class="compare negative">CB obligatoire même pour l'offre gratuite</li>
+<li class="compare negative">Temps de réponse moyen</li>
+</ul>
+<hr />
+<h3 id="vercel">Vercel</h3>
+<p>Vercel présente un très bon TTFB. Les réponses sont constantes, avec une moyenne de <strong>69ms</strong> sur 7 jours. C'est la seule solution de ce comparatif à répondre depuis un serveur Français (AWS Paris), depuis chez moi.</p>
+<p>L'interface est épurée, la configuration du site très facile (clone du dépôt, ajout du CNAME).</p>
+<p>Il est tout à fait possible de modifier les en-têtes HTTP via un fichier <code>vercel.json</code> à la racine du projet (nécessite un déploiement avec vercel CLI).</p>
+<pre><code class="language-json">{
+  &quot;headers&quot;: [
+    {
+      &quot;source&quot;: &quot;/(.*)&quot;,
+      &quot;headers&quot; : [
+        {
+          &quot;key&quot; : &quot;X-Frame-Options&quot;,
+          &quot;value&quot; : &quot;DENY&quot;
+        }
+      ]
+    }
+}
+</code></pre>
+<hr />
+<ul>
+<li class="compare positive">Temps de réponse très bon</li>
+<li class="compare positive">Mise en ligne très simple</li>
+<li class="compare positive">En-têtes HTTP personnalisables</li>
+</ul>
+<hr />
+<h3 id="cloudflare">Cloudflare Pages</h3>
+<p>La solution de déploiement <strong>Cloudflare Pages</strong> a été lancée en avril 2021. Cloudflare est le spécialiste du CDN et dispose de sa propre infrastructure, c'est un énorme avantage.</p>
+<p>En 15 minutes le site était en ligne, l'interface est sobre et va à l'essentiel. On peut simplement noter un temps de build supérieur aux concurrents. Il faut compter environ 3 minutes pour déployer le site (soit 3 minutes entre un commit et la publication des modifications).</p>
+<p>J'ai obtenu un TTFB moyen depuis la France de <strong>80ms</strong>, ce qui représente un très bon résultat.</p>
+<p>Cloudflare propose la customisation des en-têtes HTTP depuis un simple fichier <code>_headers</code> à la racine du site.</p>
+<pre><code>/*
+  X-Frame-Options: DENY
+</code></pre>
+<hr />
+<ul>
+<li class="compare positive">Temps de réponse très bon</li>
+<li class="compare positive">Mise en ligne très simple</li>
+<li class="compare positive">En-têtes HTTP personnalisables</li>
+</ul>
+<hr />
+<h2>Conclusion</h2>
+<p>Mon premier choix pour l'hébergement gratuit d'un site statique est <strong>Vercel</strong>. Un très bon temps de réponse et une interface au top.</p>
+<p>Suivi de très près par <strong>Cloudflare Pages</strong> avec un temps de réponse légèrement supérieur.</p>
+<p><strong>Github Pages</strong> vient en troisième position mais c'est une excellente alternative dans le cas où le dépôt public ne serait pas une contrainte. Il est tout de même dommage de ne pas pouvoir modifier les headers.</p>
+<p>Je place <strong>Netlify</strong> en quatrième position, pénalisé par un temps de réponse depuis la France assez médiocre par rapport aux concurrents.</p>
+<p>Pour finir <strong>Gitlab Pages</strong> avec un temps de réponse très mauvais, suivi de <strong>Render</strong> avec un temps de réponse moyen et l'obligation de renseigner une carte bancaire.</p>
+<p><img alt="Temps de réponse moyen hébergement" height="600" src="https://www.magentix.fr/media/blog/articles/static-website-tools-ttfb.jpg" width="850" /></p>
+<p>Il est possible que les offres ne restent pas gratuites indéfiniment ou que les solutions disparaissent un jour. Ce fût par exemple le cas de <strong>fast.io</strong>, qui a tout simplement mis fin à son service de déploiement de sites statiques. Si cela devait arriver, il serait tout de même très facile et rapide de changer de solution.</p>
+<p class="contact">
+    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
+</p>
+            </div>
+        </main>
+        <footer>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2022</p>
+                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
+        </footer>
+        
+        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+    </body>
+</html>

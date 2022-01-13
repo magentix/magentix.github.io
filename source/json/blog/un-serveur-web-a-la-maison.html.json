@@ -1,0 +1,14 @@
+{
+  "template": "template/post.html",
+  "content": "page/blog/un-serveur-web-a-la-maison.md",
+  "highlight": "template/block/highlight.html",
+
+  "meta_title": "Installer un serveur web à la maison",
+  "meta_description": "Ce billet expose les différentes étapes pour la mise en place d'un serveur Web à la maison : installation de l'OS, d'Apache et la configuration de la box.",
+  "title": "Un serveur web à la maison",
+  "intro": "Si vous disposez de la fibre et d'une freebox, vous pouvez installer votre propre serveur web et héberger facilement toutes vos applications à la maison. Ce billet expose les différentes étapes pour l'installation et la configuration du serveur.",
+  "date_fr": "23/06/2021",
+  "date": "2021-06-23",
+
+  "tags": ["post", "sitemap"]
+}

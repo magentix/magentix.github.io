@@ -1,0 +1,14 @@
+{
+  "template": "template/post.html",
+  "content": "page/blog/strategie-de-securite-du-contenu-content-security-policy.md",
+  "highlight": "template/block/highlight.html",
+
+  "meta_title": "CSP : utiliser une stratégie de sécurité du contenu (Content Security Policy)",
+  "meta_description": "Comment améliorer la sécurité du site avec les CSP Content Security Policy dont les attaques XSS et les injections de contenu. Apprenez par un exemple à définir une stratégie de sécurité.",
+  "title": "Utiliser une stratégie de sécurité du contenu (Content Security Policy)",
+  "intro": "Le CSP (Content Security Policy) est un excellent moyen de diminuer les attaques XSS et les injections de contenu. Vous décidez des resources internes et externes que le navigateur a le droit de charger. Configurer une stratégie CSP nécessite simplement d'utiliser un en-tête HTTP Content-Security-Policy.",
+  "date_fr": "28/01/2020",
+  "date": "2020-01-28",
+
+  "tags": ["post", "sitemap"]
+}
