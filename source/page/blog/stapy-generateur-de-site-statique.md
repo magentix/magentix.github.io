@@ -125,9 +125,7 @@ Le bloc **analytics** est ici affiché uniquement sur l'environnement **prod**.
 
 Markdown est très pratique, je me suis longuement intérrogé sur son implémentation. Il est un véritable atout pour la portabilité, l'interopérabilité et la pérennité des contenus.
 
-Mais il m'oblige à dépendre d'une librairie externe, et j'aime la liberté qu'offre le HTML dans la rédaction des articles. Il m'arrive souvent d'ajouter un attribut **class** ou **id** sur un élément pour un rendu spécifique.
-
-L'idée serait pour ce point de laisser la liberté d'implémenter Markdown sous forme de plugin externe sur le moteur de template, **prévu dans la version 1.9**.
+L'idée est pour ce point de laisser la liberté d'implémenter Markdown sous forme de plugin externe sur le moteur de template, **prévu dans la version 1.9**.
 
 ### Légèreté
 
@@ -145,7 +143,7 @@ StaPy peut être forké, modifié et partagé très facilement.
     - ~~Blank thème responsive ultra léger sans javascript pour le blogging~~
 
 - **1.9**
-    - Template plugin (Markdown)
+    - ~~Template plugin (Markdown)~~
 
 ---
 
