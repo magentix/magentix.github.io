@@ -8,9 +8,9 @@ The [docs](docs) directory contains the static website hosted by Github Pages.
 
 ## Licences
 
-**Blog content** is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/)
+[Blog content](source/page/blog) is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/)
 
-**Static files** are licensed under simplified BSD license (see [LICENSE](LICENCE) for details)
+Other files are licensed under simplified BSD license (see [LICENSE](LICENCE) for details)
 
 ## Installation
 
