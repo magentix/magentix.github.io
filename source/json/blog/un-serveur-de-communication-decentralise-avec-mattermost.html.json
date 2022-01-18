@@ -1,0 +1,14 @@
+{
+  "template": "template/post.html",
+  "content": "page/blog/un-serveur-de-communication-decentralise-avec-mattermost.md",
+  "highlight": "template/block/highlight.html",
+
+  "meta_title": "Un serveur de communication décentralisé avec Mattermost",
+  "meta_description": "Sur un serveur dédié, installez le serveur de communication Mattermost : l'alternative OpenSource à Slack.",
+  "title": "Un serveur de communication décentralisé avec Mattermost",
+  "intro": "Mattermost est un serveur de communication, l'alternative OpenSource et auto-hébergé à Slack. Il est parfait pour garder le contrôle de ses données. Cet article présente l'installation de Mattermost sur une distribution Debian, Ubuntu ou dérivée.",
+  "date_fr": "18/01/2022",
+  "date": "2022-01-18",
+
+  "tags": ["post", "sitemap"]
+}

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<!--
+  __    __     ______     ______     ______     __   __     ______    __     __  __
+ /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
+ \ \ \-./\ \  \ \  __ \  \ \ \__ \  \ \  __\   \ \ \-.  \  \/_/\ \/  \ \ \  \/_/\_\/_
+  \ \_\ \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\\"\_\    \ \_\   \ \_\   /\_\/\_\
+   \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Un serveur de communication décentralisé avec Mattermost</title>
+        <meta name="description" content="Sur un serveur dédié, installez le serveur de communication Mattermost : l'alternative OpenSource à Slack." />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+        <meta name="robots" content="INDEX,FOLLOW" />
+    </head>
+    <body>
+        <header>
+            <div id="header-content">
+                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+                <p>Développeur Magento indépendant depuis 2009</p>
+                <nav>
+                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
+                    <a href="https://www.magentix.fr/blog.html">Billets</a>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div id="main-content">
+<p><a href="https://www.magentix.fr/blog.html">Billets</a> : Un serveur de communication décentralisé avec Mattermost</p>
+<hr/>
+
+<h2>Un serveur de communication décentralisé avec Mattermost</h2>
+
+<p class="author"><span>Par Matthieu le 18/01/2022</span></p>
+
+<p>
+    <em>Mattermost est un serveur de communication, l'alternative OpenSource et auto-hébergé à Slack. Il est parfait pour garder le contrôle de ses données. Cet article présente l'installation de Mattermost sur une distribution Debian, Ubuntu ou dérivée.</em>
+</p>
+
+<hr />
+<p>Sur un serveur dédié (chez un prestataire ou <a href="https://www.magentix.fr/blog/un-serveur-web-a-la-maison.html">à la maison</a>), vous pouvez installer le serveur de communication <strong>Mattermost</strong>, l'alternative OpenSource à <strong>Slack</strong>.</p>
+<p>Si vous avez l'habitude d'utiliser <strong>Slack</strong>, vous ne serez pas dépaysé, l'interface est très similaire.</p>
+<p><img alt="Mattermost desktop application" height="465" src="https://www.magentix.fr/media/blog/articles/mattermost.png" width="772" /></p>
+<p><strong>Mattermost</strong> présente une version <strong>communautaire</strong> (team) et une version <strong>entreprise</strong> sous licence. Cette dernière intègre des fonctionnalités supplémentaires adaptées aux grosses structures (AD/LDAP, Elasticsearch, data retention policy, permissions avancées, analytics, support dédié...). C'est un fonctionnement assez classique pour les applications OpenSource et que j'apprécie particulièrement.</p>
+<p>Vous pouvez installer la version <strong>entreprise</strong> ou la version <strong>team</strong>, au choix. Les 2 versions sont strictement identiques, mais la version <strong>team</strong> ne permet pas de débloquer les fonctionnalités <strong>entreprise</strong> si besoin. L'éditeur recommande donc de partir dans tous les cas sur la version entreprise.</p>
+<p><strong>Mattermost</strong> dispose d'une <a href="https://mattermost.com/marketplace/">marketplace</a> pour l'intégration d'applications tiers. On y trouve la majorité des plateformes utilisées dans le monde du logiciel : Github, Gitlab, Bitbucket, Jira, Confluence, Jenkins... Mais aussi les systèmes de <strong>visio</strong> et de <strong>call</strong>, comme Appear.in, Jitsi, Microsoft teams ou encore Zoom. <strong>Mattermost</strong> démarre une réunion puis dirige l'utilisateur vers la plateforme correspondante (application ou navigateur), ou de façon transparente directement sur l'interface.</p>
+<p>L'installation de <strong>Mattermost</strong> ne présente pas de difficultés particulières, il tourne parfaitement sur une petite machine avec simplement Apache et MySQL. C'est un énorme avantage. Pour une petite équipe ou une entreprise qui souhaite garder le contrôle de ses données, c'est l'idéal !</p>
+<p class="info">Cet article présente l'installation de <strong>Mattermost</strong> avec <strong>Apache</strong> et <strong>MariaDB</strong> / <strong>MySQL</strong>  sur une distribution <strong>Debian</strong> 10 / 11 ou <strong>Ubuntu</strong> (ou dérivée).</p>
+<p class="info">Je n'ai pas indiqué de <code>sudo</code> dans les commandes, vous pouvez l'ajouter ou utiliser <code>su -</code> / <code>sudo su -</code> le temps de l'installation.</p>
+<h3>Serveur de base de données</h3>
+<h4>Installation</h4>
+<p>Si cela n'est pas déjà fait, on procède à l'installation de <strong>MariaDB</strong> (ou de MySQL si vous préférez) :</p>
+<pre><code class="language-bash">apt-get install mariadb-server
+</code></pre>
+<p>Sécurisez le serveur en utilisant le script <strong>mysql_secure_installation</strong>. Ce script permet de supprimer les utilisateurs anonymes, d'interdire la connexion root à distance et de supprimer la base de données de test :</p>
+<pre><code class="language-bash">mysql_secure_installation
+</code></pre>
+<h4>Base et utilisateur</h4>
+<p>On ajoute une nouvelle base de données et un nouvel utilisateur :</p>
+<pre><code class="language-bash">mysql -u root -p
+</code></pre>
+<pre><code class="language-mysql">CREATE SCHEMA mattermost;
+CREATE USER 'mattermost'@'%';
+SET PASSWORD FOR 'mattermost'@'%' = PASSWORD('MyPassword!');
+GRANT ALL ON mattermost.* TO 'mattermost'@'%' IDENTIFIED BY 'MyPassword!' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+</code></pre>
+<h3>Serveur Mattermost</h3>
+<h4>Installation</h4>
+<p>On télécharge la dernière version de <strong>Mattermost</strong>. La liste des versions est disponible dans la documentation : <a href="https://docs.mattermost.com/upgrade/version-archive.html#mattermost-team-edition">Version Archive</a>. Récupérez le lien correspondant à la version souhaitée, ici <strong>entreprise 6.3.0</strong> :</p>
+<pre><code class="language-bash">wget https://releases.mattermost.com/6.3.0/mattermost-6.3.0-linux-amd64.tar.gz
+</code></pre>
+<p>On extrait le contenu de l'archive dans le dossier <strong>/opt</strong> :</p>
+<pre><code class="language-bash">tar xvzf mattermost-6.3.0-linux-amd64.tar.gz -C /opt/
+</code></pre>
+<p>On ajoute un dossier <strong>data</strong>. C'est dans ce dossier que les fichiers envoyés et échangés par les utilisateurs sont stockés :</p>
+<pre><code class="language-bash">mkdir /opt/mattermost/data
+</code></pre>
+<p class="info"><strong>Note :</strong> C'est ici le chemin par défaut, vous pouvez définir un autre emplacement, par exemple sur un disque ou une partition spécifique (voir <strong>configuration</strong>).</p>
+<p>On ajoute un nouveau groupe et un nouvel utilisateur, auquels on attribut les droits sur les fichiers :</p>
+<pre><code class="language-bash">useradd --system --user-group mattermost
+chown -R mattermost:mattermost /opt/mattermost
+chmod -R g+w /opt/mattermost
+</code></pre>
+<p class="warning">Pour mettre à jour <strong>Matermost</strong>, réitérez ces opérations en prenant soin de conserver les données ! Les dossiers suivants ne doivent jamais être supprimés : <strong>config</strong>, <strong>logs</strong>, <strong>plugins</strong>, <strong>client/plugins</strong> et <strong>data</strong>. Voir la documentation officielle : <a href="https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html">Upgrading Mattermost Server</a>.</p>
+<h4>Configuration</h4>
+<p>On édite le fichier de configuration de <strong>Mattermost</strong> :</p>
+<pre><code class="language-bash">nano /opt/mattermost/config/config.json
+</code></pre>
+<p>Adaptez les clés suivantes :</p>
+<pre><code class="language-json">{
+    &quot;ServiceSettings&quot;: {
+        &quot;SiteURL&quot;: &quot;https://mattermost.example.com&quot;,
+        ...
+    },
+    ...
+    &quot;SqlSettings&quot;: {
+        &quot;DriverName&quot;: &quot;mysql&quot;,
+        &quot;DataSource&quot;: &quot;mattermost:MyPaword!@tcp(localhost:3306)/mattermost?charset=utf8mb4,utf8&amp;readTimeout=30s&amp;writeTimeout=30s&quot;,
+        ...
+    },
+    ...
+    &quot;FileSettings&quot;: {
+        &quot;Directory&quot;: &quot;./data/&quot;,
+        ...
+    },
+    ...
+    &quot;PluginSettings&quot;: {
+        &quot;Directory&quot;: &quot;/opt/mattermost/plugins&quot;,
+        &quot;ClientDirectory&quot;: &quot;/opt/mettermost/client/plugins&quot;,
+        ...
+    },
+    ...
+}
+</code></pre>
+<ul>
+<li>
+<p><strong>ServiceSettings</strong></p>
+<ul>
+<li><strong>SiteURL</strong> : URL de votre application. Vous pouvez utiliser l'IP du serveur si vous ne disposez pas de domaine.</li>
+</ul>
+</li>
+<li>
+<p><strong>SqlSettings</strong></p>
+<ul>
+<li><strong>DriverName</strong> : nous utilisons le driver mysql</li>
+<li><strong>DataSource</strong> : information de connexion à la base de données. Adaptez le nom de l'utilisateur et le mot de passe</li>
+</ul>
+</li>
+<li>
+<p><strong>FileSettings</strong></p>
+<ul>
+<li><strong>Directory</strong> : adaptez si vous utilisez un emplacement spécifique pour le stockage des fichiers, sinon laisser la valeur par défaut.</li>
+</ul>
+</li>
+<li>
+<p><strong>PluginSettings</strong></p>
+<ul>
+<li><strong>Directory</strong> : chemin des plugins, la valeur par défaut provoque chez moi des erreurs au démarrage du serveur, il semble préférable d'indiquer le chemin absolu.</li>
+<li><strong>ClientDirectory</strong> : chemin des plugins client, la valeur par défaut provoque chez moi des erreurs au démarrage du serveur, il semble préférable d'indiquer le chemin absolu.</li>
+</ul>
+</li>
+</ul>
+<h4>Service</h4>
+<p>On ajoute un nouveau service avec <strong>systemd</strong> :</p>
+<pre><code class="language-bash">nano /lib/systemd/system/mattermost.service
+</code></pre>
+<p>Copiez dans le fichier le contenu suivant :</p>
+<pre><code>[Unit]
+Description=Mattermost
+After=network.target
+After=mysql.service
+Requires=mysql.service
+
+[Service]
+Type=notify
+User=mattermost
+Group=mattermost
+ExecStart=/opt/mattermost/bin/mattermost
+TimeoutStartSec=3600
+Restart=always
+RestartSec=10
+WorkingDirectory=/opt/mattermost
+LimitNOFILE=49152
+
+[Install]
+WantedBy=mariadb.service
+</code></pre>
+<p>On recharge le processus <strong>systemd</strong> :</p>
+<pre><code class="language-bash">systemctl daemon-reload
+</code></pre>
+<p>On active ensuite le service pour qu'il soit pris en compte par le système et lancé à chaque démarrage :</p>
+<pre><code class="language-bash">systemctl enable mattermost
+</code></pre>
+<p>On démarre <strong>Mattermost</strong> :</p>
+<pre><code class="language-bash">systemctl start mattermost
+</code></pre>
+<p>On vérifie enfin que <strong>Mattermost</strong> est bien démarré :</p>
+<pre><code class="language-bash">systemctl status mattermost.service
+</code></pre>
+<p>Vous devez obtenir :</p>
+<pre><code class="language-bash">mattermost.service - Mattermost
+   Loaded: loaded (/lib/systemd/system/mattermost.service; enabled; vendor preset: enabled)
+   Active: active (running) since Mon 2022-01-17 10:02:28 CET; 24min ago
+ Main PID: 704 (mattermost)
+    Tasks: 15 (limit: 4915)
+   Memory: 123.9M
+   CGroup: /system.slice/mattermost.service
+           └─704 /opt/mattermost/bin/mattermost
+</code></pre>
+<h3>Serveur Apache</h3>
+<h4>Installation</h4>
+<p>Si votre système ne dispose pas encore d'Apache, on effectue l'installation :</p>
+<pre><code class="language-bash">apt-get install apache2
+</code></pre>
+<p class="info"><strong>Note :</strong> vous pouvez également choisir d'utilisez <strong>nginx</strong>. La configuration est disponible dans la documentation officielle : <a href="https://docs.mattermost.com/install/config-proxy-nginx.html">Configuring NGINX as a proxy for Mattermost Server</a></p>
+<p>On active les modules suivants :</p>
+<pre><code class="language-bash">a2enmod ssl
+a2enmod rewrite
+a2enmod expires
+a2enmod headers
+a2enmod http2
+a2enmod proxy
+a2enmod proxy_http
+a2enmod proxy_wstunnel
+</code></pre>
+<h4>Nouveau Vhost</h4>
+<p>Apache est utilisé comme proxy vers le serveur <strong>Mattermost</strong>. Il facilite l'accès au service. Je considère que le domaine est <strong>example.com</strong> et que l'on souhaite contacter le service via le sous domaine <strong>mattermost.example.com</strong>.</p>
+<p>On ajoute le nouveau <strong>VirtualHost</strong> :</p>
+<pre><code class="language-bash">nano /etc/apache2/sites-available/mattermost.example.com.conf
+</code></pre>
+<pre><code class="language-apache">&lt;VirtualHost *:80&gt;
+ServerAdmin webmaster@localhost
+ServerName mattermost.example.com
+
+ProxyPreserveHost On
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI} /api/v[0-9]+/(users/)?websocket [NC]
+RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]
+RewriteCond %{HTTP:CONNECTION} \bUpgrade\b [NC]
+RewriteRule .* ws://127.0.0.1:8065%{REQUEST_URI} [P,QSA,L]
+
+&lt;Location /&gt;
+Require all granted
+ProxyPass http://127.0.0.1:8065/
+ProxyPassReverse http://127.0.0.1:8065/
+ProxyPassReverseCookieDomain 127.0.0.1 mattermost.example.com
+&lt;/Location&gt;
+
+RewriteCond %{SERVER_NAME} =mattermost.example.com
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+&lt;/VirtualHost&gt;
+</code></pre>
+<p>Remplacez les 3 entrées <strong>mattermost.example.com</strong> avec votre domaine.</p>
+<p>On active le site :</p>
+<pre><code class="language-bash">a2ensite mattermost.example.com
+</code></pre>
+<pre><code>systemctl reload apache2
+</code></pre>
+<p>On édite ensuite la <strong>zone DNS</strong> du domaine en ajoutant une entrée de type A (IP v4) pour le sous domaine (ici <strong>mattermost</strong>).</p>
+<p>Pour finir, on active <strong>SSL</strong>. Installez <strong>Let's Encrypt</strong> si nécessaire :</p>
+<pre><code class="language-bash">apt-get install certbot python-certbot-apache
+</code></pre>
+<p>Puis exécutez la commande <code>certbot</code>.</p>
+<p>Vous pouvez maintenant accéder facilement à la messagerie via le <strong>navigateur</strong>, l'application <strong>desktop</strong> ou <strong>mobile</strong>.</p>
+<h3>Data Retention Policy</h3>
+<p>La configuration de la durée de préservation des messages est une feature <strong>entreprise</strong>. Si vous ne souhaitez pas alourdir la base de données avec des échanges obsolètes, vous pouvez faire le ménage facilement :</p>
+<pre><code class="language-mysql">DELETE FROM Posts WHERE CreateAt &gt; DATE_FORMAT(NOW() - INTERVAL 30 DAY, &quot;%Y-%m-%d 00:00:00&quot;);
+</code></pre>
+<p>Cette requête supprime l'intégralité des messages de plus de <strong>30 jours</strong>. À automatiser si besoin.</p>
+<p class="contact">
+    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
+</p>
+            </div>
+        </main>
+        <footer>
+            <div id="footer-content">
+                <p><strong>Magentix</strong> © 2009 / 2022</p>
+                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
+            </div>
+        </footer>
+        <script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
+        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+    </body>
+</html>
