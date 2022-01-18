@@ -659,7 +659,7 @@ La génération d'un certificat SSL Let's Encrypt s'effectue très simplement av
 apt-get install certbot python-certbot-apache
 ```
 
-Le commande `certbot` vous propose l'activation de HTTPS pour les adresses de votre choix :
+La commande `certbot` vous propose l'activation de HTTPS pour les adresses de votre choix :
 
 ```bash
 certbot
