@@ -136,14 +136,14 @@ StaPy peut être forké, modifié et partagé très facilement.
 ### Roadmap
 
 - **1.7**
-    - ~~Système de JSON query~~
-    - ~~Enrichissement de l'API (récupération des contenus)~~
+  - ~~Système de JSON query~~
+  - ~~Enrichissement de l'API (récupération des contenus)~~
 
 - **1.8**
-    - ~~Blank thème responsive ultra léger sans javascript pour le blogging~~
+  - ~~Blank thème responsive ultra léger sans javascript pour le blogging~~
 
 - **1.9**
-    - ~~Template plugin (Markdown)~~
+  - ~~Template plugin (Markdown)~~
 
 ---
 

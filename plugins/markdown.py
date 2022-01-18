@@ -16,7 +16,7 @@ def file_content_opened(content: str, args: dict) -> str:
     if _get_file_extension(args['path']) != 'md':
         return content
     extensions = ['fenced_code', 'tables', 'attr_list', 'md_in_html', 'pymdownx.tilde']
-    return _preformatted_special_chars(markdown.markdown(content, extensions=extensions))
+    return _preformatted_special_chars(markdown.markdown(content, tab_length=2, extensions=extensions))
 
 
 def _preformatted_special_chars(content: str) -> str:
