@@ -52,7 +52,11 @@
     return highlight;
 }));
 
+let exclude = ['language-gemtext'];
+
 let codeElements = document.querySelectorAll('pre > code');
 for (let i = 0; i < codeElements.length; i++) {
-    highlight.tokenize(codeElements[i]);
+    if (exclude.indexOf(codeElements[i].className) === -1) {
+        highlight.tokenize(codeElements[i]);
+    }
 }

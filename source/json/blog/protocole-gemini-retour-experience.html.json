@@ -1,0 +1,14 @@
+{
+  "template": "template/post.html",
+  "content": "page/blog/protocole-gemini-retour-experience.md",
+  "highlight": "template/block/highlight.html",
+
+  "meta_title": "Protocole Gemini : retour d'expérience",
+  "meta_description": "Gemini est un protocole dédié à la diffusion de contenu, imaginé pour être simple et respectueux de la vie privée.",
+  "title": "Protocole Gemini : retour d'expérience",
+  "intro": "Gemini est un protocole dédié à la diffusion de contenu. Une alternative à HTTP imaginé pour être simple et respectueux de la vie privée. L'idée a du sens mais le protocole souffre de quelques défauts...",
+  "date_fr": "03/02/2022",
+  "date": "2022-02-03",
+
+  "tags": ["post", "sitemap"]
+}
