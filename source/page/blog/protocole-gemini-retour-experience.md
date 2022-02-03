@@ -1,4 +1,4 @@
-Pour bien comprendre la philosophie de **Gemini** (si vous ne connaissez pas le protocole), le plus simple est de le comparer avec **HTTP** dans une utilisation classique de partage d'un document XHTML à destination d'un navigateur.
+Pour bien comprendre la philosophie de **Gemini**, comparons le avec **HTTP**.
 
 ### HTTP vs Gemini
 
@@ -8,12 +8,14 @@ Pour bien comprendre la philosophie de **Gemini** (si vous ne connaissez pas le 
 
 **Requête :**
 
+```
 GET /index.html HTTP/1.1
-*Host: example.com*
-*Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,/;q=0.8*
-*Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3*
-*Accept-Encoding: gzip, deflate, b*
-*X-What-I-Want: Foo*
+Host: example.com
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate, br
+X-What-I-Want: Foo
+```
 
 **Réponse :**
 
@@ -39,9 +41,11 @@ X-What-I-Want: Bar
 #### Gemini
 
 <section markdown="1">
-**Requête :**
 
+**Requête :**
+```
 gemini://example.com/index.gmi
+```
 
 **Réponse :**
 
@@ -61,13 +65,13 @@ C'est une réponse extrême aux dérives du web. Gemini est parfaitement présen
 
 ### Retour d'expérience
 
-Nous sommes sur un exemple parfait d'idéologie à des années lumières de ce qu'est le web et de ce que qu'il tend à devenir. C'est un mouvement protestataire, initié par un certain [Solderpunk](https://www.circumlunar.space/~solderpunk/) et relayé par quelques personnalités comme Drew DeVault : [What is this Gemini thing anyway, and why am I excited about it?](https://drewdevault.com/2020/11/01/What-is-Gemini-anyway.html) ou Stéphane Bortzmeyer : [Le protocole Gemini, revenir à du simple et sûr pour distribuer l'information en ligne ?](https://www.bortzmeyer.org/gemini.html). On parle également de Gemini dans quelques débats sur [Hacker News](https://news.ycombinator.com/).
+Nous sommes sur un exemple parfait d'idéologie à des années-lumières de ce qu'est le web et de ce qu'il tend à devenir. C'est un mouvement protestataire, initié par un certain [Solderpunk](https://www.circumlunar.space/~solderpunk/) et relayé par quelques personnalités comme Drew DeVault : [What is this Gemini thing anyway, and why am I excited about it?](https://drewdevault.com/2020/11/01/What-is-Gemini-anyway.html) ou Stéphane Bortzmeyer : [Le protocole Gemini, revenir à du simple et sûr pour distribuer l'information en ligne ?](https://www.bortzmeyer.org/gemini.html). On parle également de Gemini dans quelques débats sur [Hacker News](https://news.ycombinator.com/).
 
 En naviguant sur les capsules (sites Gemini), on découvre le partage de technophiles altruistes, de philosophes, de poètes (beaucoup d'haiku), d'écrivains amateurs, d'artistes ASCII Art, ou encore d'écologistes low-tech. On y trouve quelques fans de [Gopher](https://fr.wikipedia.org/wiki/Gopher), habitués à ces espaces cachés, loin de toute agitation.
 
 Pour partager du contenu via le protocole Gemini, il faut un serveur à disposition et quelques connaissances en administration système. Certains proposent un service d'hébergement, mais c'est de mon point de vue un peu délicat de poser des fichiers sur un serveur dont on ignore s'il sera encore à disposition le lendemain.
 
-On déplore malheureusement beaucoup de capsules à l'abandon, fermées ou juste là pour le challenge technique. Pour ma part je me suis trouvé rapidement limité par le Gemtext très simpliste, avec l'impossibilité même d'afficher un texte en gras. Pour la rédaction d'articles techniques ou scientifiques le format n'est pas adapté. Trop limité et austère. Les capsules manquent finalement d'identité. Les raisons de la création du Gemtext sont longuement expliquées dans la [FAQ](https://gemini.circumlunar.space/docs/faq.html) (2.9, 2.10 et 2.11). Un Markdown simplifié pourquoi pas, mais je ne suis pas convaincu de la suppression des styles de texte (gras, italique, souligné, barré...).
+On déplore malheureusement beaucoup de capsules à l'abandon, fermées ou juste là pour le challenge technique. Pour ma part, je me suis trouvé rapidement limité par le Gemtext très simpliste, avec l'impossibilité même d'afficher un texte en gras. Pour la rédaction d'articles techniques ou scientifiques, le format n'est pas adapté. Trop limité et austère. Les capsules manquent finalement d'identité.
 
 Il faut donc accepter de partager simplement une idée, une opinion, un état d'âme ou une histoire, sans échange ni retour. Une bouteille à la mer.
 
@@ -79,9 +83,9 @@ Solderpunk, après pluieurs mois d'absence, a également mis les choses au point
 
 > Additional capacities in the gemtext format are not necessary. That's not just, like, my opinion, man, that's an empirical fact. Geminispace is there. It's *exactly* the kind of space I originally envisaged.
 
-Gemini restera donc ce qu'il est. Pour ma part il ne convient pas pour ce que je souhaite partager, mais je continue d'y naviguer à mes heures perdues.
+Gemini restera donc ce qu'il est. Il ne convient pas pour ce que je souhaite partager, mais je continue d'y naviguer à mes heures perdues.
 
-Mais le protocole est techniquement intéressant : il permet de mettre en place son propre serveur, le maîtriser de A à Z. Gemini laisse place à la créativité.
+Techniquement, le protocole est plutôt intéressant : il permet de mettre en place son propre serveur, le maîtriser de A à Z. Gemini laisse place à la créativité.
 
 ### Un serveur Gemini
 
@@ -115,13 +119,11 @@ while true ; do echo -e "20 text/gemini\r\nHello!" | ncat -lvnp 1965 --ssl --ssl
 Hello!
 ```
 
-Ou en ligne de commande avec **ncat** :
+On peut également transmettre une requête en ligne de commande avec **ncat** ou **openssl** :
 
 ```bash
 echo "gemini://127.0.0.1/" | ncat --ssl 127.0.0.1 1965
 ```
-
-Ou en ligne de commande avec **openssl** :
 
 ```bash
 echo "gemini://127.0.0.1/" | openssl s_client -connect 127.0.0.1:1965 -crlf -quiet -ign_eof 2> /dev/null
