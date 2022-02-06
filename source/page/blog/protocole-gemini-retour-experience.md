@@ -63,6 +63,8 @@ Gemini se veut simple, léger, rapide, mais surtout... fermé. Il a pour unique 
 
 C'est une réponse extrême aux dérives du web. Gemini est parfaitement présenté par [Ploum](http://ploum.net/) dans l'article [Gemini, le protocole du slow web](https://ploum.net/gemini-le-protocole-du-slow-web/).
 
+![Gemini via le navigateur Lagrange]({{ url }}media/blog/articles/gemini-lagrange.png){: width="776" height="488" }
+
 ### Retour d'expérience
 
 Nous sommes sur un exemple parfait d'idéologie à des années-lumières de ce qu'est le web et de ce qu'il tend à devenir. C'est un mouvement protestataire, initié par un certain [Solderpunk](https://www.circumlunar.space/~solderpunk/) et relayé par quelques personnalités comme Drew DeVault : [What is this Gemini thing anyway, and why am I excited about it?](https://drewdevault.com/2020/11/01/What-is-Gemini-anyway.html) ou Stéphane Bortzmeyer : [Le protocole Gemini, revenir à du simple et sûr pour distribuer l'information en ligne ?](https://www.bortzmeyer.org/gemini.html). On parle également de Gemini dans quelques débats sur [Hacker News](https://news.ycombinator.com/).
@@ -101,7 +103,7 @@ Pour tester rapidement, on installe **nmap** (ou **ncat** directement si disponi
 apt install nmap
 ```
 
-On génère un certificat auto-signé (sans passphrase) :
+On génère un certificat auto-signé (sans passphrase, avec le FQDN du serveur) :
 
 ```bash
 openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
@@ -158,19 +160,22 @@ Les codes de statut sont sur 2 digits, il y en a 18 au total (le *11 SENSITIVE I
 
 Les autres statuts ont un intérêt dans des cas particuliers, je ne m'y attarde pas.
 
-On suffixe systématiquement l'en-tête avec CRLF (\r\n). 
+On suffixe systématiquement l'en-tête avec CRLF (\r\n).
 
 #### Corps de la réponse
 
-Le corps de la réponse ne peut contenir que du Gemtext, rien d'autre.
+Le corps de la réponse contient du texte, encodé en UTF-8. Pour le Gemtext on indique le mimetype **text/gemini**.
 
 ```gemtext
+20 text/gemini
 # Hello!
 
 Welcome to my capsule.
 
 => ./about.gmi Who am I?
 ```
+
+On pourrait envoyer n'importe quel type de fichier (image/png, audio/mpeg...), avec les données binaires. Mais cela implique que le client puisse les lire ou les proposer au téléchargement. Ce n'est pas le but de Gemini. Peu de clients le font.
 
 #### Un peu de code...
 
