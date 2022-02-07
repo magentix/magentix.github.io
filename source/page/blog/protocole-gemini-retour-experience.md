@@ -115,7 +115,7 @@ On ouvre enfin une connexion TCP sur le port 1965 via ncat :
 while true ; do echo -e "20 text/gemini\r\nHello!" | ncat -lvnp 1965 --ssl --ssl-key key.pem --ssl-cert cert.pem ; done
 ```
 
- L'accès au serveur via n'importe quel client Gemini (par exemple [deedum](https://play.google.com/store/apps/details?id=ca.snoe.deedum&hl=fr&gl=US) sur Android) affiche :
+ L'accès au serveur via n'importe quel client Gemini (par exemple [Lagrange](https://github.com/skyjake/lagrange) ou [deedum](https://play.google.com/store/apps/details?id=ca.snoe.deedum&hl=fr&gl=US) sur Android) affiche :
 
 ```
 Hello!
