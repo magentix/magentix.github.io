@@ -2,18 +2,21 @@
 	font-family: 'Liberation Sans';
     font-style: normal;
     font-weight: 400;
+    font-display: swap;
 	src: url(../fonts/LiberationSans-Regular.woff) format('woff');
 }
 @font-face {
 	font-family: 'Liberation Sans';
     font-style: normal;
     font-weight: 700;
+    font-display: swap;
 	src: url(../fonts/LiberationSans-Bold.woff) format('woff');
 }
 @font-face {
 	font-family: 'Liberation Sans';
     font-style: italic;
     font-weight: 400;
+    font-display: swap;
 	src: url(../fonts/LiberationSans-Italic.woff) format('woff');
 }
 
