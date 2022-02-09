@@ -81,7 +81,7 @@ Des demandes ont été formulées pour faire évoluer les [spécifications](http
 
 > Gemini is not a protocol for publishing. We use a different protocol for that, like git or rsync. It's not interactive, either, at least not in the same sense as the web is. It is a protocol for consumption: for reading hyperlinked Gemtext documents.
 
-Solderpunk, après pluieurs mois d'absence, a également mis les choses au point. Concernant le Gemtext il annonce :
+Solderpunk, après plusieurs mois d'absence, a également mis les choses au point. Concernant le Gemtext il annonce :
 
 > Additional capacities in the gemtext format are not necessary. That's not just, like, my opinion, man, that's an empirical fact. Geminispace is there. It's *exactly* the kind of space I originally envisaged.
 
