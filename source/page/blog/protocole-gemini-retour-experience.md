@@ -184,6 +184,8 @@ On dispose maintenant de suffisamment d'informations pour coder un serveur Gemin
 ```php
 <?php
 
+declare(strict_types=1);
+
 const ROOT = __DIR__ . '/';
 
 $resource = stream_context_create(
@@ -208,7 +210,7 @@ while (true) {
     $url = parse_url(trim(fread($fSocket, 1024)));
     stream_set_blocking($fSocket, false);
 
-    fwrite($fSocket, getContent($url));
+    fwrite($fSocket, getContent($url ?: []));
     fclose($fSocket);
 }
 
@@ -250,6 +252,18 @@ Dans le même dossier que le script on génère le certificat (indiquez gemini p
 
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+```
+
+```
+Enter PEM pass phrase: gemini
+Verifying - Enter PEM pass phrase: gemini
+Country Name (2 letter code) [AU]: US
+State or Province Name (full name) [Some-State]: Washington
+Locality Name (eg, city) []: Olympia
+Organization Name (eg, company) [Internet Widgits Pty Ltd]: MyCompany
+Organizational Unit Name (eg, section) []: IT
+Common Name (e.g. server FQDN or YOUR name) []: example.com
+Email Address []: hello@example.com
 ```
 
 Puis on démarre le serveur :
