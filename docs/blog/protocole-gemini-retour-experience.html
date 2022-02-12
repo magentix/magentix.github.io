@@ -237,9 +237,17 @@ Organizational Unit Name (eg, section) []: IT
 Common Name (e.g. server FQDN or YOUR name) []: example.com
 Email Address []: hello@example.com
 </code></pre>
-<p>Puis on démarre le serveur :</p>
+<p>Le dossier <strong>capsule</strong> contient les fichiers <strong>gemtext</strong>. Le serveur retourne par défaut le contenu du fichier <strong>index.gmi</strong> :</p>
+<pre><code class="language-gemtext"># It works!
+
+Start your new amazing capsule.
+</code></pre>
+<aside>capsule/index.gmi</aside>
+
+<p>On démarre enfin le serveur :</p>
 <pre><code class="language-bash">php server.php &amp;
 </code></pre>
+<p><a href="https://github.com/magentix/leo">Code source</a> sur Github.</p>
 <h3>Conclusion</h3>
 <p>L'idée d'un protocole simple, plus sûre et respectueux de la vie privée a du sens. Mais Gemini est de mon point de vue un peu extrême. Le Gemtext est bien trop limité pour apporter du dynamisme à une lecture, de l'identité à une capsule. Il facilite le développement du client, c'est là le but recherché. Mais proposer un Markdown plus complet aurait été bien plus intéressant.</p>
 <p>Travailler sur le protocole est tout de même inspirant. On est au plus bas de la couche application (socket), idéal pour un développement hyper léger, optimisé et maîtrisé. On peut tout imaginer. Un ingénieur logiciel, <a href="https://mozz.us/">Michael Lazar</a>, s'est amusé à écrire une <a href="https://portal.mozz.us/spartan/spartan.mozz.us/specification.gmi">spécification</a> (The Spartan Protocol) très inspirée de Gemini.</p>
