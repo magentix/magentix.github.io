@@ -266,11 +266,23 @@ Common Name (e.g. server FQDN or YOUR name) []: example.com
 Email Address []: hello@example.com
 ```
 
-Puis on démarre le serveur :
+Le dossier **capsule** contient les fichiers **gemtext**. Le serveur retourne par défaut le contenu du fichier **index.gmi** :
+
+```gemtext
+# It works!
+
+Start your new amazing capsule.
+```
+
+<aside>capsule/index.gmi</aside>
+
+On démarre enfin le serveur :
 
 ```bash
 php server.php &
 ```
+
+[Code source](https://github.com/magentix/leo) sur Github.
 
 ### Conclusion
 
