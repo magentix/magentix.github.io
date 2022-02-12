@@ -27,9 +27,17 @@ Other files are licensed under simplified BSD license (see [LICENSE](LICENCE) fo
 - [Markdown](https://pypi.org/project/Markdown/)
 - [pymdown-extensions](https://pypi.org/project/pymdown-extensions/)
 
+ ```
+pip install rcssmin jsmin Markdown pymdown-extensions
+ ```
+
 ## Github Pages
 
-We need to publish the website in the **docs** directory. A symlink from **web/prod** to **docs** must be created:
+We need to publish the website in the **docs** directory. A symlink from **web/prod** to **docs** must be created.
+
+### Unix
+
+Start a terminal and navigate to the root of the project. Then:
 
 ```shell
 mkdir docs
@@ -37,5 +45,18 @@ cd web
 rm -rf prod
 ln -s ../docs prod
 cd ..
-python3 tools/crawler.py
+python tools/crawler.py
+```
+
+### Windows
+
+Start a command prompt as administrator and navigate to the root of the project. Then:
+
+```msdos
+md docs
+cd web
+rmdir prod
+mklink /d prod ..\docs
+cd ..
+python tools/crawler.py
 ```
