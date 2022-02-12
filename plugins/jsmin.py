@@ -47,7 +47,7 @@ def _get_current_directory() -> str:
 
 
 def _get_file_content(source: str) -> str:
-    file = open(os.path.normpath(source), 'r')
+    file = open(os.path.normpath(source), 'r', encoding="utf-8")
     content = file.read()
     file.close()
     return content
