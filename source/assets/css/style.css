@@ -185,7 +185,7 @@ nav a:first-child {
 #main-content,
 #footer-content {
     margin: auto;
-    max-width: 800px;
+    max-width: 900px;
     padding: 2rem 1.3rem;
 }
 
@@ -200,7 +200,7 @@ nav a:first-child {
 
 #main-content {
     min-height: 400px;
-    background: url(../images/tree.png) no-repeat 20px bottom;
+    background: url(../images/tree.png) no-repeat 40px bottom;
     padding-bottom: 340px;
 }
 
