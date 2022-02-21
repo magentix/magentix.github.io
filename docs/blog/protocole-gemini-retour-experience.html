@@ -84,16 +84,16 @@ This is a page
 </code></pre>
 </section>
 <h3>Philosophie</h3>
-<p>Gemini se veut simple, léger, rapide, mais surtout... fermé. Il a pour unique vocation de servir du texte dans un format Markdown simplifié appelé <a href="https://gemini.circumlunar.space/docs/gemtext.gmi">Gemtext</a>. La requête et l'en-tête de réponse sont sur une seule ligne, empêchant toute extensibilité. Il est impossible avec le protocole Gemini de créer quelque chose qui s'apparente à un cookie. Pas de session ni de traçage des internautes.</p>
+<p>Gemini se veut simple, léger, rapide, mais surtout... fermé. Il a pour unique vocation de servir du texte dans un format Markdown simplifié appelé <a href="https://gitlab.com/gemini-specification/gemini-text">Gemtext</a>. La requête et l'en-tête de réponse sont sur une seule ligne, empêchant toute extensibilité. Il est impossible avec le protocole Gemini de créer quelque chose qui s'apparente à un cookie. Pas de session ni de traçage des internautes.</p>
 <p>C'est une réponse extrême aux dérives du web. Gemini est parfaitement présenté par <a href="http://ploum.net/">Ploum</a> dans l'article <a href="https://ploum.net/gemini-le-protocole-du-slow-web/">Gemini, le protocole du slow web</a>.</p>
 <p><img alt="Gemini via le navigateur Lagrange" height="488" src="https://www.magentix.fr/media/blog/articles/gemini-lagrange.png" width="776" /></p>
 <h3>Retour d'expérience</h3>
 <p>Nous sommes sur un exemple parfait d'idéologie à des années-lumières de ce qu'est le web et de ce qu'il tend à devenir. C'est un mouvement protestataire, initié par un certain <a href="https://www.circumlunar.space/~solderpunk/">Solderpunk</a> et relayé par quelques personnalités comme Drew DeVault : <a href="https://drewdevault.com/2020/11/01/What-is-Gemini-anyway.html">What is this Gemini thing anyway, and why am I excited about it?</a> ou Stéphane Bortzmeyer : <a href="https://www.bortzmeyer.org/gemini.html">Le protocole Gemini, revenir à du simple et sûr pour distribuer l'information en ligne ?</a>. On parle également de Gemini dans quelques débats sur <a href="https://news.ycombinator.com/">Hacker News</a>.</p>
 <p>En naviguant sur les capsules (sites Gemini), on découvre le partage de technophiles altruistes, de philosophes, de poètes (beaucoup d'haiku), d'écrivains amateurs, d'artistes ASCII Art, ou encore d'écologistes low-tech. On y trouve quelques fans de <a href="https://fr.wikipedia.org/wiki/Gopher">Gopher</a>, habitués à ces espaces cachés, loin de toute agitation.</p>
-<p>Pour partager du contenu via le protocole Gemini, il faut un serveur à disposition et quelques connaissances en administration système. Certains proposent un service d'hébergement, mais c'est de mon point de vue un peu délicat de poser des fichiers sur un serveur dont on ignore s'il sera encore à disposition le lendemain.</p>
+<p>Pour partager du contenu via le protocole Gemini, il faut un serveur à disposition et quelques connaissances en administration système. Certains proposent un service d'hébergement (<a href="https://flounder.online/">Flounder</a>, <a href="https://pollux.casa/">pollux.casa</a>), mais c'est de mon point de vue un peu délicat de poser des fichiers sur un serveur dont on ignore s'il sera encore à disposition le lendemain.</p>
 <p>On déplore malheureusement beaucoup de capsules à l'abandon, fermées ou juste là pour le challenge technique. Pour ma part, je me suis trouvé rapidement limité par le Gemtext très simpliste, avec l'impossibilité même d'afficher un texte en gras. Pour la rédaction d'articles techniques ou scientifiques, le format n'est pas adapté. Trop limité et austère. Les capsules manquent finalement d'identité.</p>
 <p>Il faut donc accepter de partager simplement une idée, une opinion, un état d'âme ou une histoire, sans échange ni retour. Une bouteille à la mer.</p>
-<p>Des demandes ont été formulées pour faire évoluer les <a href="https://gemini.circumlunar.space/docs/specification.gmi">spécifications</a> : ajouter des fonctionnalités comme des formulaires, le partage de fichiers ou de l'échange par message. Cela est sujet à des débats sans fin. Pour Drew DeVault cela n'a pas de sens :</p>
+<p>Des demandes ont été formulées pour faire évoluer les <a href="https://gitlab.com/gemini-specification/protocol">spécifications</a> : ajouter des fonctionnalités comme des formulaires, le partage de fichiers ou de l'échange par message. Cela est sujet à des débats sans fin. Pour Drew DeVault cela n'a pas de sens :</p>
 <blockquote>
 <p>Gemini is not a protocol for publishing. We use a different protocol for that, like git or rsync. It's not interactive, either, at least not in the same sense as the web is. It is a protocol for consumption: for reading hyperlinked Gemtext documents.</p>
 </blockquote>
@@ -105,7 +105,7 @@ This is a page
 <p>Techniquement, le protocole est plutôt intéressant : il permet de mettre en place son propre serveur, le maîtriser de A à Z. Gemini laisse place à la créativité.</p>
 <h3>Un serveur Gemini</h3>
 <h4>TCP</h4>
-<p>La lecture des <a href="https://gemini.circumlunar.space/docs/specification.gmi">spécifications</a> ne demande que quelques minutes. Ce pourrait être un parfait sujet de TP dans le cadre d'une formation en réseau et développement : "développer un serveur et un client respectant les spécifications décrites dans ce document". La simplicité a d'ailleurs séduit une multitude de développeurs, on trouve des serveurs et clients Gemini dans tous les langages : Java, Python, Rust, Go, PHP, C, Perl, shell, Kotlin, Ruby, Erlang... Certains ultra légers, d'autres plus complets avec par exemple la gestion d'une authentification TOFU ou l'utilisation de scripts CGI.</p>
+<p>La lecture des <a href="https://gitlab.com/gemini-specification/protocol">spécifications</a> ne demande que quelques minutes. Ce pourrait être un parfait sujet de TP dans le cadre d'une formation en réseau et développement : "développer un serveur et un client respectant les spécifications décrites dans ce document". La simplicité a d'ailleurs séduit une multitude de développeurs, on trouve des serveurs et clients Gemini dans tous les langages : Java, Python, Rust, Go, PHP, C, Perl, shell, Kotlin, Ruby, Erlang... Certains ultra légers, d'autres plus complets avec par exemple la gestion d'une authentification TOFU ou l'utilisation de scripts CGI.</p>
 <p>Le serveur consiste en l'intégration d'un socket à l'écoute des requêtes envoyées au port 1965, et d'y répondre avec le contenu sollicité. Comme pour HTTP 1 et 2, Gemini utilise TCP comme couche de transport. Un aspect sécurité est bien attendu à prendre en compte, car il ne s'agit pas d'exposer au monde l'intégralité des fichiers d'une machine. Notez qu'avec Gemini, TLS est obligatoire. Il faut générer un certificat (auto-signé ou non) au préalable.</p>
 <p>Pour tester rapidement, on installe <strong>nmap</strong> (ou <strong>ncat</strong> directement si disponible) :</p>
 <pre><code class="language-bash">apt install nmap
@@ -133,7 +133,7 @@ This is a page
 <li><strong>path</strong> : chemin de la page</li>
 </ul>
 <p>Par exemple : <code>gemini://example.com/index.gmi</code></p>
-<pre><code class="language-bash">echo &quot;gemini://gemini.circumlunar.space/&quot; | ncat --ssl gemini.circumlunar.space 1965
+<pre><code class="language-bash">echo &quot;gemini://magentix.space/index.gmi&quot; | ncat --ssl magentix.space 1965
 </code></pre>
 <h4>En-tête de réponse</h4>
 <p>Les codes de statut sont sur 2 digits, il y en a 18 au total (le <em>11 SENSITIVE INPUT</em> est cependant sur la sellette car non approprié au concept). On retiendra les statuts suivants :</p>
@@ -197,7 +197,7 @@ while (true) {
  * @param string[] $url
  * $url = [
  *     'scheme' =&gt; (string) scheme name (gemini)
- *     'host'   =&gt; (string) host name (gemini.circumlunar.space)
+ *     'host'   =&gt; (string) host name (magentix.space)
  *     'path'   =&gt; (string) requested page (/about.gmi)
  * ]
  *
@@ -256,7 +256,7 @@ Start your new amazing capsule.
 <ul>
 <li><a href="https://github.com/kr1sp1n/awesome-gemini">Awesome Gemini</a></li>
 <li><a href="https://geminiquickst.art/">Gemini Quickstart!</a></li>
-<li><a href="https://gemini.circumlunar.space/">Project Gemini (circumlunar.space)</a></li>
+<li><a href="https://gitlab.com/gemini-specification">Spécification Gemini</a></li>
 </ul>
 <p class="contact">
     <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
