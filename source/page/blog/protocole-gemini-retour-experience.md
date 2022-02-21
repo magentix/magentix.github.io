@@ -85,7 +85,7 @@ Solderpunk, après plusieurs mois d'absence, a également mis les choses au poin
 
 > Additional capacities in the gemtext format are not necessary. That's not just, like, my opinion, man, that's an empirical fact. Geminispace is there. It's *exactly* the kind of space I originally envisaged.
 
-Gemini restera donc ce qu'il est. Il ne convient pas pour ce que je souhaite partager, mais je continue d'y naviguer à mes heures perdues.
+Gemini restera visiblement ce qu'il est (sauf si **Solderpunk** et **Sean Conner** passe le relais). Il ne convient pas pour ce que je souhaite partager, mais je continue d'y naviguer à mes heures perdues.
 
 Techniquement, le protocole est plutôt intéressant : il permet de mettre en place son propre serveur, le maîtriser de A à Z. Gemini laisse place à la créativité.
 
@@ -216,7 +216,7 @@ while (true) {
  * @param string[] $url
  * $url = [
  *     'scheme' => (string) scheme name (gemini)
- *     'host'   => (string) host name (gemini.circumlunar.space)
+ *     'host'   => (string) host name (magentix.space)
  *     'path'   => (string) requested page (/about.gmi)
  * ]
  *
@@ -244,7 +244,7 @@ function getContent(array $url): string
 
 <aside>server.php</aside>
 
-Dans le même dossier que le script on génère le certificat (indiquez gemini pour la passphrase et le FQDN du serveur pour le nom commun) :
+Dans le même dossier que le script on génère le certificat (indiquez le FQDN du serveur pour le nom commun) :
 
 ```bash
 openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
