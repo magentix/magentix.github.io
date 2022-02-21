@@ -93,11 +93,11 @@ This is a page
 <p>Pour partager du contenu via le protocole Gemini, il faut un serveur à disposition et quelques connaissances en administration système. Certains proposent un service d'hébergement (<a href="https://flounder.online/">Flounder</a>, <a href="https://pollux.casa/">pollux.casa</a>), mais c'est de mon point de vue un peu délicat de poser des fichiers sur un serveur dont on ignore s'il sera encore à disposition le lendemain.</p>
 <p>On déplore malheureusement beaucoup de capsules à l'abandon, fermées ou juste là pour le challenge technique. Pour ma part, je me suis trouvé rapidement limité par le Gemtext très simpliste, avec l'impossibilité même d'afficher un texte en gras. Pour la rédaction d'articles techniques ou scientifiques, le format n'est pas adapté. Trop limité et austère. Les capsules manquent finalement d'identité.</p>
 <p>Il faut donc accepter de partager simplement une idée, une opinion, un état d'âme ou une histoire, sans échange ni retour. Une bouteille à la mer.</p>
-<p>Des demandes ont été formulées pour faire évoluer les <a href="https://gitlab.com/gemini-specification/protocol">spécifications</a> : ajouter des fonctionnalités comme des formulaires, le partage de fichiers ou de l'échange par message. Cela est sujet à des débats sans fin. Pour Drew DeVault cela n'a pas de sens :</p>
+<p>Des demandes ont été formulées pour faire évoluer les <a href="https://gitlab.com/gemini-specification/protocol">spécifications</a> : ajouter des fonctionnalités comme des formulaires, le partage de fichiers ou de l'échange par message. Pour Drew DeVault cela n'a pas de sens :</p>
 <blockquote>
 <p>Gemini is not a protocol for publishing. We use a different protocol for that, like git or rsync. It's not interactive, either, at least not in the same sense as the web is. It is a protocol for consumption: for reading hyperlinked Gemtext documents.</p>
 </blockquote>
-<p>Solderpunk, après plusieurs mois d'absence, a également mis les choses au point. Concernant le Gemtext il annonce :</p>
+<p>Solderpunk, après plusieurs mois d'absence, a également mis les choses au point. Concernant le Gemtext et Gemini il annonce :</p>
 <blockquote>
 <p>Additional capacities in the gemtext format are not necessary. That's not just, like, my opinion, man, that's an empirical fact. Geminispace is there. It's <em>exactly</em> the kind of space I originally envisaged.</p>
 </blockquote>
@@ -180,11 +180,10 @@ $resource = stream_context_create(
 $socket = stream_socket_server(address: 'tlsv1.3://0:1965', context: $resource);
 
 while (true) {
-    if (!($fSocket = stream_socket_accept($socket, -1))) {
-        continue;
+    if ($fSocket = stream_socket_accept($socket, -1)) {
+        fwrite($fSocket, getContent(parse_url(trim(fread($fSocket, 512) ?: '')) ?: []));
+        fclose($fSocket);
     }
-    fwrite($fSocket, getContent(parse_url(trim(fread($fSocket, 1024) ?: '')) ?: []));
-    fclose($fSocket);
 }
 
 /**
@@ -205,13 +204,11 @@ function getContent(array $url): string
         return &quot;59 bad request\r\n&quot;;
     }
 
-    $path = $url['path'] ?? '/index.gmi';
-    if (!str_ends_with($path, '.gmi')) {
+    if (!str_ends_with($path = $url['path'] ?? '/index.gmi', '.gmi')) {
         $path = rtrim($path, '/') . '/index.gmi';
     }
 
-    $file = ROOT . 'capsule' . str_replace('../', '', $path);
-    if (!file_exists($file)) {
+    if (!file_exists($file = ROOT . 'capsule' . str_replace('../', '', $path))) {
         return &quot;51 Not found\r\n&quot;;
     }
 

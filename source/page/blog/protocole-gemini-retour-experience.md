@@ -77,11 +77,11 @@ On déplore malheureusement beaucoup de capsules à l'abandon, fermées ou juste
 
 Il faut donc accepter de partager simplement une idée, une opinion, un état d'âme ou une histoire, sans échange ni retour. Une bouteille à la mer.
 
-Des demandes ont été formulées pour faire évoluer les [spécifications](https://gitlab.com/gemini-specification/protocol) : ajouter des fonctionnalités comme des formulaires, le partage de fichiers ou de l'échange par message. Cela est sujet à des débats sans fin. Pour Drew DeVault cela n'a pas de sens :
+Des demandes ont été formulées pour faire évoluer les [spécifications](https://gitlab.com/gemini-specification/protocol) : ajouter des fonctionnalités comme des formulaires, le partage de fichiers ou de l'échange par message. Pour Drew DeVault cela n'a pas de sens :
 
 > Gemini is not a protocol for publishing. We use a different protocol for that, like git or rsync. It's not interactive, either, at least not in the same sense as the web is. It is a protocol for consumption: for reading hyperlinked Gemtext documents.
 
-Solderpunk, après plusieurs mois d'absence, a également mis les choses au point. Concernant le Gemtext il annonce :
+Solderpunk, après plusieurs mois d'absence, a également mis les choses au point. Concernant le Gemtext et Gemini il annonce :
 
 > Additional capacities in the gemtext format are not necessary. That's not just, like, my opinion, man, that's an empirical fact. Geminispace is there. It's *exactly* the kind of space I originally envisaged.
 
@@ -203,11 +203,10 @@ $resource = stream_context_create(
 $socket = stream_socket_server(address: 'tlsv1.3://0:1965', context: $resource);
 
 while (true) {
-    if (!($fSocket = stream_socket_accept($socket, -1))) {
-        continue;
+    if ($fSocket = stream_socket_accept($socket, -1)) {
+        fwrite($fSocket, getContent(parse_url(trim(fread($fSocket, 512) ?: '')) ?: []));
+        fclose($fSocket);
     }
-    fwrite($fSocket, getContent(parse_url(trim(fread($fSocket, 1024) ?: '')) ?: []));
-    fclose($fSocket);
 }
 
 /**
@@ -228,13 +227,11 @@ function getContent(array $url): string
         return "59 bad request\r\n";
     }
 
-    $path = $url['path'] ?? '/index.gmi';
-    if (!str_ends_with($path, '.gmi')) {
+    if (!str_ends_with($path = $url['path'] ?? '/index.gmi', '.gmi')) {
         $path = rtrim($path, '/') . '/index.gmi';
     }
-    
-    $file = ROOT . 'capsule' . str_replace('../', '', $path);
-    if (!file_exists($file)) {
+
+    if (!file_exists($file = ROOT . 'capsule' . str_replace('../', '', $path))) {
         return "51 Not found\r\n";
     }
 
