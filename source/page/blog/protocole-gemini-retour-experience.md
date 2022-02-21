@@ -186,6 +186,8 @@ On dispose maintenant de suffisamment d'informations pour coder un serveur Gemin
 
 declare(strict_types=1);
 
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+
 const ROOT = __DIR__ . '/';
 
 $resource = stream_context_create(
@@ -193,24 +195,18 @@ $resource = stream_context_create(
         'ssl' => [
             'local_cert' => ROOT . 'cert.pem',
             'local_pk' => ROOT . 'key.pem',
-            'passphrase' => 'gemini',
             'allow_self_signed' => true,
             'verify_peer' => false,
         ]
     ]
 );
-$socket = stream_socket_server(address: 'tcp://0:1965', context: $resource);
-stream_socket_enable_crypto($socket, false);
+$socket = stream_socket_server(address: 'tlsv1.3://0:1965', context: $resource);
 
 while (true) {
-    $fSocket = stream_socket_accept($socket, -1);
-
-    stream_set_blocking($fSocket, true);
-    @stream_socket_enable_crypto($fSocket, true, STREAM_CRYPTO_METHOD_TLSv1_3_SERVER);
-    $url = parse_url(trim(fread($fSocket, 1024)));
-    stream_set_blocking($fSocket, false);
-
-    fwrite($fSocket, getContent($url ?: []));
+    if (!($fSocket = stream_socket_accept($socket, -1))) {
+        continue;
+    }
+    fwrite($fSocket, getContent(parse_url(trim(fread($fSocket, 1024) ?: '')) ?: []));
     fclose($fSocket);
 }
 
@@ -220,7 +216,7 @@ while (true) {
  * @param string[] $url
  * $url = [
  *     'scheme' => (string) scheme name (gemini)
- *     'host'   => (string) host name (magentix.space)
+ *     'host'   => (string) host name (gemini.circumlunar.space)
  *     'path'   => (string) requested page (/about.gmi)
  * ]
  *
@@ -229,16 +225,16 @@ while (true) {
 function getContent(array $url): string
 {
     if (($url['scheme'] ?? '') !== 'gemini') {
-        return "53 Proxy Request Refused\r\n";
+        return "59 bad request\r\n";
     }
 
-    $path = $url['path'] ?? '/';
-    if (str_ends_with($path, '/')) {
-        $path .= 'index.gmi';
+    $path = $url['path'] ?? '/index.gmi';
+    if (!str_ends_with($path, '.gmi')) {
+        $path = rtrim($path, '/') . '/index.gmi';
     }
+    
     $file = ROOT . 'capsule' . str_replace('../', '', $path);
-
-    if (!str_ends_with($file, 'gmi') || !file_exists($file)) {
+    if (!file_exists($file)) {
         return "51 Not found\r\n";
     }
 
@@ -251,12 +247,10 @@ function getContent(array $url): string
 Dans le même dossier que le script on génère le certificat (indiquez gemini pour la passphrase et le FQDN du serveur pour le nom commun) :
 
 ```bash
-openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
 ```
 
 ```
-Enter PEM pass phrase: gemini
-Verifying - Enter PEM pass phrase: gemini
 Country Name (2 letter code) [AU]: US
 State or Province Name (full name) [Some-State]: Washington
 Locality Name (eg, city) []: Olympia
