@@ -59,7 +59,7 @@ This is a page
 
 ### Philosophie
 
-Gemini se veut simple, léger, rapide, mais surtout... fermé. Il a pour unique vocation de servir du texte dans un format Markdown simplifié appelé [Gemtext](https://gitlab.com/gemini-specification/gemini-text). La requête et l'en-tête de réponse sont sur une seule ligne, empêchant toute extensibilité. Il est impossible avec le protocole Gemini de créer quelque chose qui s'apparente à un cookie. Pas de session ni de traçage des internautes.
+Gemini se veut simple, léger, rapide, mais surtout... fermé. Il a pour unique vocation de servir du texte dans un format Markdown simplifié appelé [Gemtext](https://gemini.circumlunar.space/docs/gemtext.gmi). La requête et l'en-tête de réponse sont sur une seule ligne, empêchant toute extensibilité. Il est impossible avec le protocole Gemini de créer quelque chose qui s'apparente à un cookie. Pas de session ni de traçage des internautes.
 
 C'est une réponse extrême aux dérives du web. Gemini est parfaitement présenté par [Ploum](http://ploum.net/) dans l'article [Gemini, le protocole du slow web](https://ploum.net/gemini-le-protocole-du-slow-web/).
 
@@ -77,7 +77,7 @@ On déplore malheureusement beaucoup de capsules à l'abandon, fermées ou juste
 
 Il faut donc accepter de partager simplement une idée, une opinion, un état d'âme ou une histoire, sans échange ni retour. Une bouteille à la mer.
 
-Des demandes ont été formulées pour faire évoluer les [spécifications](https://gitlab.com/gemini-specification/protocol) : ajouter des fonctionnalités comme des formulaires, le partage de fichiers ou de l'échange par message. Pour Drew DeVault cela n'a pas de sens :
+Des demandes ont été formulées pour faire évoluer les [spécifications](https://gemini.circumlunar.space/docs/specification.gmi) : ajouter des fonctionnalités comme des formulaires, le partage de fichiers ou de l'échange par message. Pour Drew DeVault cela n'a pas de sens :
 
 > Gemini is not a protocol for publishing. We use a different protocol for that, like git or rsync. It's not interactive, either, at least not in the same sense as the web is. It is a protocol for consumption: for reading hyperlinked Gemtext documents.
 
@@ -93,7 +93,7 @@ Techniquement, le protocole est plutôt intéressant : il permet de mettre en pl
 
 #### TCP
 
-La lecture des [spécifications](https://gitlab.com/gemini-specification/protocol) ne demande que quelques minutes. Ce pourrait être un parfait sujet de TP dans le cadre d'une formation en réseau et développement : "développer un serveur et un client respectant les spécifications décrites dans ce document". La simplicité a d'ailleurs séduit une multitude de développeurs, on trouve des serveurs et clients Gemini dans tous les langages : Java, Python, Rust, Go, PHP, C, Perl, shell, Kotlin, Ruby, Erlang... Certains ultra légers, d'autres plus complets avec par exemple la gestion d'une authentification TOFU ou l'utilisation de scripts CGI.
+La lecture des [spécifications](https://gemini.circumlunar.space/docs/specification.gmi) ne demande que quelques minutes. Ce pourrait être un parfait sujet de TP dans le cadre d'une formation en réseau et développement : "développer un serveur et un client respectant les spécifications décrites dans ce document". La simplicité a d'ailleurs séduit une multitude de développeurs, on trouve des serveurs et clients Gemini dans tous les langages : Java, Python, Rust, Go, PHP, C, Perl, shell, Kotlin, Ruby, Erlang... Certains ultra légers, d'autres plus complets avec par exemple la gestion d'une authentification TOFU ou l'utilisation de scripts CGI.
 
 Le serveur consiste en l'intégration d'un socket à l'écoute des requêtes envoyées au port 1965, et d'y répondre avec le contenu sollicité. Comme pour HTTP 1 et 2, Gemini utilise TCP comme couche de transport. Un aspect sécurité est bien attendu à prendre en compte, car il ne s'agit pas d'exposer au monde l'intégralité des fichiers d'une machine. Notez qu'avec Gemini, TLS est obligatoire. Il faut générer un certificat (auto-signé ou non) au préalable.
 
@@ -287,4 +287,4 @@ Pour allez plus loin avec Gemini :
 
 - [Awesome Gemini](https://github.com/kr1sp1n/awesome-gemini)
 - [Gemini Quickstart!](https://geminiquickst.art/)
-- [Spécification Gemini](https://gitlab.com/gemini-specification)
+- [Gemini protocol documentation](https://gemini.circumlunar.space/docs/)
