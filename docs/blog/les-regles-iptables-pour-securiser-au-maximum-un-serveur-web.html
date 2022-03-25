@@ -92,7 +92,7 @@ COMMIT
 </code></pre>
 <h3>Application</h3>
 <p>Une fois les règles écrites, il ne reste plus qu'à les appliquer :</p>
-<pre><code class="language-bash">sudo iptables-restore &gt; /etc/iptables.custom.rules
+<pre><code class="language-bash">sudo iptables-restore &lt; /etc/iptables.custom.rules
 </code></pre>
 <p>On vérifie que les règles sont bien appliquées :</p>
 <pre><code class="language-bash">sudo iptables -L

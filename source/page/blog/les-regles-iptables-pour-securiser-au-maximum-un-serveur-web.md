@@ -72,7 +72,7 @@ N'oubliez pas de remplacer la whitelist par vos IPs.
 Une fois les règles écrites, il ne reste plus qu'à les appliquer :
 
 ```bash
-sudo iptables-restore > /etc/iptables.custom.rules
+sudo iptables-restore < /etc/iptables.custom.rules
 ```
 
 On vérifie que les règles sont bien appliquées :
