@@ -15,6 +15,7 @@ Ajoutez le noeud **replace** au fichier **composer.json** à la racine avant d'e
 
 **Mises à jour :**
 
+- **24/04/2022** : 2.4.4 *+ 2 modules*
 - **16/09/2021** : 2.4.3 *+ 12 modules*
 - **18/06/2021** : 2.4.2 *+ 1 module*
 - **05/05/2021** : 2.4.2 *+ 31 modules*
@@ -255,6 +256,7 @@ Ajoutez le noeud **replace** au fichier **composer.json** à la racine avant d'e
         "magento/module-page-builder": "*",
         "magento/module-page-builder-admin-analytics": "*",
         "magento/module-page-builder-analytics": "*",
+        "magento/module-payment-graph-ql": "*",
         "magento/module-payment-staging": "*",
         "magento/module-paypal-captcha": "*",
         "magento/module-paypal-graph-ql": "*",
@@ -272,6 +274,7 @@ Ajoutez le noeud **replace** au fichier **composer.json** à la racine avant d'e
         "magento/module-reward-staging": "*",
         "magento/module-re-captcha-admin-ui": "*",
         "magento/module-re-captcha-checkout": "*",
+        "magento/module-re-captcha-checkout-sales-rule": "*",
         "magento/module-re-captcha-contact": "*",
         "magento/module-re-captcha-customer": "*",
         "magento/module-re-captcha-frontend-ui": "*",
