@@ -33,6 +33,7 @@ Leafiny est un CMS modulaire OpenSource simple et rapide. Il est conçu pour fon
 
 Le projet a débuté en 2014 avec une première version stable publique en novembre 2020.
 
+- [Site officiel Leafiny](https://www.leafiny.com)
 - [Leafiny CMS sur Github](https://github.com/leafiny/cms)
 
 ![Stapy]({{ url }}media/logo/stapy.png){: width="150" height="69" }
