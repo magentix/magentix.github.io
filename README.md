@@ -29,7 +29,7 @@ Other files are licensed under simplified BSD license (see [LICENSE](LICENCE) fo
 - [pymdown-extensions](https://pypi.org/project/pymdown-extensions/)
 
  ```
-pip install rcssmin jsmin Markdown pymdown-extensions
+pip install rcssmin jsmin pytidylib Markdown pymdown-extensions
  ```
 
 ## Github Pages
