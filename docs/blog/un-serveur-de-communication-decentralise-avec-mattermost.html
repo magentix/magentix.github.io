@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
   __    __     ______     ______     ______     __   __     ______    __     __  __
  /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
@@ -7,42 +8,33 @@
    \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Un serveur de communication décentralisé avec Mattermost</title>
-        <meta name="description" content="Sur un serveur dédié, installez le serveur de communication Mattermost : l'alternative OpenSource à Slack." />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
-        <meta name="robots" content="INDEX,FOLLOW" />
-        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
-    </head>
-    <body>
-        <header>
-            <div id="header-content">
-                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
-                <p>Développeur Magento indépendant depuis 2009</p>
-                <nav>
-                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
-                    <a href="https://www.magentix.fr/blog.html">Billets</a>
-                </nav>
-            </div>
-        </header>
-        <main>
-            <div id="main-content">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Un serveur de communication décentralisé avec Mattermost</title>
+<meta name="description" content="Sur un serveur dédié, installez le serveur de communication Mattermost : l'alternative OpenSource à Slack." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+<meta name="robots" content="INDEX,FOLLOW" />
+<link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
+</head>
+<body>
+<header>
+<div id="header-content">
+<h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+<p>Développeur Magento indépendant depuis 2009</p>
+<nav><a href="https://www.magentix.fr/">Accueil</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+</div>
+</header>
+<main>
+<div id="main-content">
 <p><a href="https://www.magentix.fr/blog.html">Billets</a> : Un serveur de communication décentralisé avec Mattermost</p>
-<hr/>
-
+<hr />
 <h2>Un serveur de communication décentralisé avec Mattermost</h2>
-
 <p class="author"><span>Par Matthieu le 18/01/2022</span></p>
-
-<p>
-    <em>Mattermost est un serveur de communication, l'alternative OpenSource et auto-hébergé à Slack. Il est parfait pour garder le contrôle de ses données. Cet article présente l'installation de Mattermost sur une distribution Debian, Ubuntu ou dérivée.</em>
-</p>
-
+<p><em>Mattermost est un serveur de communication, l'alternative OpenSource et auto-hébergé à Slack. Il est parfait pour garder le contrôle de ses données. Cet article présente l'installation de Mattermost sur une distribution Debian, Ubuntu ou dérivée.</em></p>
 <hr />
 <p>Sur un serveur dédié (chez un prestataire ou <a href="https://www.magentix.fr/blog/un-serveur-web-a-la-maison.html">à la maison</a>), vous pouvez installer le serveur de communication <strong>Mattermost</strong>, l'alternative OpenSource à <strong>Slack</strong>.</p>
 <p>Si vous avez l'habitude d'utiliser <strong>Slack</strong>, vous ne serez pas dépaysé, l'interface est très similaire.</p>
@@ -51,7 +43,7 @@
 <p>Vous pouvez installer la version <strong>entreprise</strong> ou la version <strong>team</strong>, au choix. Les 2 versions sont strictement identiques, mais la version <strong>team</strong> ne permet pas de débloquer les fonctionnalités <strong>entreprise</strong> si besoin. L'éditeur recommande donc de partir dans tous les cas sur la version entreprise.</p>
 <p><strong>Mattermost</strong> dispose d'une <a href="https://mattermost.com/marketplace/">marketplace</a> pour l'intégration d'applications tiers. On y trouve la majorité des plateformes utilisées dans le monde du logiciel : Github, Gitlab, Bitbucket, Jira, Confluence, Jenkins... Mais aussi les systèmes de <strong>visio</strong> et de <strong>call</strong>, comme Appear.in, Jitsi, Microsoft teams ou encore Zoom. <strong>Mattermost</strong> démarre une réunion puis dirige l'utilisateur vers la plateforme correspondante (application ou navigateur), ou de façon transparente directement sur l'interface.</p>
 <p>L'installation de <strong>Mattermost</strong> ne présente pas de difficultés particulières, il tourne parfaitement sur une petite machine avec simplement Apache et MySQL. C'est un énorme avantage. Pour une petite équipe ou une entreprise qui souhaite garder le contrôle de ses données, c'est l'idéal !</p>
-<p class="info">Cet article présente l'installation de <strong>Mattermost</strong> avec <strong>Apache</strong> et <strong>MariaDB</strong> / <strong>MySQL</strong>  sur une distribution <strong>Debian</strong> 10 / 11 ou <strong>Ubuntu</strong> (ou dérivée).</p>
+<p class="info">Cet article présente l'installation de <strong>Mattermost</strong> avec <strong>Apache</strong> et <strong>MariaDB</strong> / <strong>MySQL</strong> sur une distribution <strong>Debian</strong> 10 / 11 ou <strong>Ubuntu</strong> (ou dérivée).</p>
 <p class="info">Je n'ai pas indiqué de <code>sudo</code> dans les commandes, vous pouvez l'ajouter ou utiliser <code>su -</code> / <code>sudo su -</code> le temps de l'installation.</p>
 <h3>Serveur de base de données</h3>
 <h4>Installation</h4>
@@ -95,25 +87,25 @@ chmod -R g+w /opt/mattermost
 </code></pre>
 <p>Adaptez les clés suivantes :</p>
 <pre><code class="language-json">{
-    &quot;ServiceSettings&quot;: {
-        &quot;SiteURL&quot;: &quot;https://mattermost.example.com&quot;,
+    "ServiceSettings": {
+        "SiteURL": "https://mattermost.example.com",
         ...
     },
     ...
-    &quot;SqlSettings&quot;: {
-        &quot;DriverName&quot;: &quot;mysql&quot;,
-        &quot;DataSource&quot;: &quot;mattermost:MyPaword!@tcp(localhost:3306)/mattermost?charset=utf8mb4,utf8&amp;readTimeout=30s&amp;writeTimeout=30s&quot;,
+    "SqlSettings": {
+        "DriverName": "mysql",
+        "DataSource": "mattermost:MyPaword!@tcp(localhost:3306)/mattermost?charset=utf8mb4,utf8&amp;readTimeout=30s&amp;writeTimeout=30s",
         ...
     },
     ...
-    &quot;FileSettings&quot;: {
-        &quot;Directory&quot;: &quot;./data/&quot;,
+    "FileSettings": {
+        "Directory": "./data/",
         ...
     },
     ...
-    &quot;PluginSettings&quot;: {
-        &quot;Directory&quot;: &quot;/opt/mattermost/plugins&quot;,
-        &quot;ClientDirectory&quot;: &quot;/opt/mettermost/client/plugins&quot;,
+    "PluginSettings": {
+        "Directory": "/opt/mattermost/plugins",
+        "ClientDirectory": "/opt/mettermost/client/plugins",
         ...
     },
     ...
@@ -252,22 +244,20 @@ RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 <p>Vous pouvez maintenant accéder facilement à la messagerie via le <strong>navigateur</strong>, l'application <strong>desktop</strong> ou <strong>mobile</strong>.</p>
 <h3>Data Retention Policy</h3>
 <p>La configuration de la durée de préservation des messages est une feature <strong>entreprise</strong>. Si vous ne souhaitez pas alourdir la base de données avec des échanges obsolètes, vous pouvez faire le ménage facilement :</p>
-<pre><code class="language-mysql">DELETE FROM Posts WHERE CreateAt &gt; DATE_FORMAT(NOW() - INTERVAL 30 DAY, &quot;%Y-%m-%d 00:00:00&quot;);
+<pre><code class="language-mysql">DELETE FROM Posts WHERE CreateAt &gt; DATE_FORMAT(NOW() - INTERVAL 30 DAY, "%Y-%m-%d 00:00:00");
 </code></pre>
 <p>Cette requête supprime l'intégralité des messages de plus de <strong>30 jours</strong>. À automatiser si besoin.</p>
-<p class="contact">
-    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
-</p>
-            </div>
-        </main>
-        <footer>
-            <div id="footer-content">
-                <p><strong>Magentix</strong> © 2009 / 2022</p>
-                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
-                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
-            </div>
-        </footer>
-        <script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
-        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
-    </body>
+<p class="contact"><strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span></p>
+</div>
+</main>
+<footer>
+<div id="footer-content">
+<p><strong>Magentix</strong> © 2009 / 2022</p>
+<p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> • <a href="/blog.html">Billets</a></nav>
+</div>
+</footer>
+<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script> 
+<script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+</body>
 </html>

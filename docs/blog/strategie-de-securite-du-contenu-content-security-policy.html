@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
   __    __     ______     ______     ______     __   __     ______    __     __  __
  /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
@@ -7,42 +8,33 @@
    \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CSP : utiliser une stratégie de sécurité du contenu (Content Security Policy)</title>
-        <meta name="description" content="Comment améliorer la sécurité du site avec les CSP Content Security Policy dont les attaques XSS et les injections de contenu. Apprenez par un exemple à définir une stratégie de sécurité." />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
-        <meta name="robots" content="INDEX,FOLLOW" />
-        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
-    </head>
-    <body>
-        <header>
-            <div id="header-content">
-                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
-                <p>Développeur Magento indépendant depuis 2009</p>
-                <nav>
-                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
-                    <a href="https://www.magentix.fr/blog.html">Billets</a>
-                </nav>
-            </div>
-        </header>
-        <main>
-            <div id="main-content">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CSP : utiliser une stratégie de sécurité du contenu (Content Security Policy)</title>
+<meta name="description" content="Comment améliorer la sécurité du site avec les CSP Content Security Policy dont les attaques XSS et les injections de contenu. Apprenez par un exemple à définir une stratégie de sécurité." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+<meta name="robots" content="INDEX,FOLLOW" />
+<link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
+</head>
+<body>
+<header>
+<div id="header-content">
+<h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+<p>Développeur Magento indépendant depuis 2009</p>
+<nav><a href="https://www.magentix.fr/">Accueil</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+</div>
+</header>
+<main>
+<div id="main-content">
 <p><a href="https://www.magentix.fr/blog.html">Billets</a> : Utiliser une stratégie de sécurité du contenu (Content Security Policy)</p>
-<hr/>
-
+<hr />
 <h2>Utiliser une stratégie de sécurité du contenu (Content Security Policy)</h2>
-
 <p class="author"><span>Par Matthieu le 28/01/2020</span></p>
-
-<p>
-    <em>Le CSP (Content Security Policy) est un excellent moyen de diminuer les attaques XSS et les injections de contenu. Vous décidez des resources internes et externes que le navigateur a le droit de charger. Configurer une stratégie CSP nécessite simplement d'utiliser un en-tête HTTP Content-Security-Policy.</em>
-</p>
-
+<p><em>Le CSP (Content Security Policy) est un excellent moyen de diminuer les attaques XSS et les injections de contenu. Vous décidez des resources internes et externes que le navigateur a le droit de charger. Configurer une stratégie CSP nécessite simplement d'utiliser un en-tête HTTP Content-Security-Policy.</em></p>
 <hr />
 <p>La mise en place d'une stratégie de sécurité du contenu avec CSP est extrêmement efficace. CSP vous permet d'éliminer les moyens de réaliser des attaques XSS en permettant de spécifier les domaines autorisés à fournir des ressources (scripts, images, CSS...) pour la page visitée.</p>
 <h3>Configuration</h3>
@@ -50,43 +42,43 @@
 <h4>Configuration Apache</h4>
 <pre><code class="language-apache"># Content-Security-Policy
 &lt;IfModule mod_headers.c&gt;
-    Header set Content-Security-Policy &quot;default-src 'self'&quot;
+    Header set Content-Security-Policy "default-src 'self'"
 &lt;/IfModule&gt;
 # /Content-Security-Policy
 </code></pre>
 <h4>Configuration Nginx</h4>
-<pre><code class="language-nginx">add_header Content-Security-Policy &quot;default-src 'self';&quot;
+<pre><code class="language-nginx">add_header Content-Security-Policy "default-src 'self';"
 </code></pre>
 <h4>Fichier .htaccess</h4>
 <pre><code class="language-htaccess"># Content-Security-Policy
 &lt;IfModule mod_headers.c&gt;
-    Header set Content-Security-Policy &quot;default-src 'self'&quot;
+    Header set Content-Security-Policy "default-src 'self'"
 &lt;/IfModule&gt;
 # /Content-Security-Policy
 </code></pre>
 <h4>Header (PHP)</h4>
-<pre><code class="language-php">header(&quot;Content-Security-Policy: default-src 'self'&quot;);
+<pre><code class="language-php">header("Content-Security-Policy: default-src 'self'");
 </code></pre>
 <h4>Meta Tag</h4>
-<pre><code class="language-html">&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src 'self'&quot; /&gt;
+<pre><code class="language-html">&lt;meta http-equiv="Content-Security-Policy" content="default-src 'self'" /&gt;
 </code></pre>
 <h3>Page d'exemple</h3>
 <p>Pour notre article, nous utilisons la page suivante :</p>
 <pre><code class="language-html">&lt;!doctype html&gt;
-&lt;html lang=&quot;fr&quot;&gt;
+&lt;html lang="fr"&gt;
     &lt;head&gt;
         &lt;title&gt;Content Security Policy&lt;/title&gt;
 
         &lt;!-- Content Security Policy --&gt;
-        &lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src 'self'&quot; /&gt;
+        &lt;meta http-equiv="Content-Security-Policy" content="default-src 'self'" /&gt;
 
         &lt;!-- Local resources --&gt;
-        &lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot; type=&quot;text/css&quot; /&gt;
-        &lt;script type=&quot;text/javascript&quot; src=&quot;js/script.js&quot;&gt;&lt;/script&gt;
+        &lt;link rel="stylesheet" href="css/style.css" type="text/css" /&gt;
+        &lt;script type="text/javascript" src="js/script.js"&gt;&lt;/script&gt;
 
         &lt;!-- External resources --&gt;
-        &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/default.min.css&quot; type=&quot;text/css&quot; /&gt;
-        &lt;script type=&quot;text/javascript&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js&quot;&gt;&lt;/script&gt;
+        &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/default.min.css" type="text/css" /&gt;
+        &lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"&gt;&lt;/script&gt;
 
         &lt;!-- Inline CSS --&gt;
         &lt;style&gt;
@@ -99,13 +91,13 @@
         &lt;h1&gt;CSP Page&lt;/h1&gt;
 
         &lt;!-- Inline CSS --&gt;
-        &lt;p style=&quot;font-weight: bold&quot;&gt;Content Security Policy example page&lt;/p&gt;
+        &lt;p style="font-weight: bold"&gt;Content Security Policy example page&lt;/p&gt;
 
         &lt;!-- External image --&gt;
-        &lt;img src=&quot;https://fr.wikipedia.org/static/images/project-logos/frwiki.png&quot; alt=&quot;Wikipedia&quot; /&gt;
+        &lt;img src="https://fr.wikipedia.org/static/images/project-logos/frwiki.png" alt="Wikipedia" /&gt;
 
         &lt;!-- Inline Script --&gt;
-        &lt;script type=&quot;text/javascript&quot;&gt;
+        &lt;script type="text/javascript"&gt;
             console.log('ok');
         &lt;/script&gt;
     &lt;/body&gt;
@@ -125,12 +117,12 @@
 </code></pre>
 <p>Nous indiquons ici au navigateur de ne charger que les ressources locales, c'est à dire les fichiers Javascript et CSS herbergés sur notre serveur. Dans notre page d'exemple cela correspond à :</p>
 <pre><code class="language-html">&lt;!-- Local resources --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot; type=&quot;text/css&quot; /&gt;
-&lt;script type=&quot;text/javascript&quot; src=&quot;js/script.js&quot;&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="css/style.css" type="text/css" /&gt;
+&lt;script type="text/javascript" src="js/script.js"&gt;&lt;/script&gt;
 </code></pre>
 <p><strong>Cette stratégie est la plus restrictive et sécurisée qui soit</strong> (après la valeur "none" mais c'est un peu excessif). Par défaut nous n'autorisons que les ressources locales, les scripts et CSS inline sont ignorés.</p>
 <h4>Style inline</h4>
-<p>Notre page contient des styles en ligne dans le header et dans la page. Avec la directive précedente ils sont ignorés. Nous pouvons autoriser le style inline grâce à la valeur <strong>unsafe-inline</strong> de la directive  <strong>style-src</strong> :</p>
+<p>Notre page contient des styles en ligne dans le header et dans la page. Avec la directive précedente ils sont ignorés. Nous pouvons autoriser le style inline grâce à la valeur <strong>unsafe-inline</strong> de la directive <strong>style-src</strong> :</p>
 <pre><code>default-src 'self'; style-src 'self' 'unsafe-inline'
 </code></pre>
 <p>Avec cette stratégie, nos styles en ligne sont maintenant interprétés :</p>
@@ -142,7 +134,7 @@
 &lt;/style&gt;
 </code></pre>
 <pre><code class="language-html">&lt;!-- Inline CSS --&gt;
-&lt;p style=&quot;font-weight: bold&quot;&gt;Content Security Policy example page&lt;/p&gt;
+&lt;p style="font-weight: bold"&gt;Content Security Policy example page&lt;/p&gt;
 </code></pre>
 <h4>Script inline</h4>
 <p>Notre page contient un script en ligne ignoré avec notre politique par défaut. Il est cependant possible d'accepter les scripts inline par le biais de la valeur <strong>unsafe-inline</strong> de la directive <strong>script-src</strong> :</p>
@@ -150,7 +142,7 @@
 </code></pre>
 <p>Nous autorisons ainsi la portion de code suivante :</p>
 <pre><code class="language-html">&lt;!-- Inline Script --&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
+&lt;script type="text/javascript"&gt;
     console.log('ok');
 &lt;/script&gt;
 </code></pre>
@@ -161,7 +153,7 @@
 </code></pre>
 <p>Cette stratégie nous permet de charger le CSS externe spécifié dans le header :</p>
 <pre><code class="language-html">&lt;!-- External resources --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/.../styles/default.min.css&quot; type=&quot;text/css&quot; /&gt;
+&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/.../styles/default.min.css" type="text/css" /&gt;
 </code></pre>
 <h4>Script externe</h4>
 <p>Nous souhaitons charger un script herbergé sur un serveur distant : <code>cdnjs.cloudflare.com</code>. Cette ressource est bloquée par défaut. Il nous faut l'autoriser :</p>
@@ -169,14 +161,14 @@
 </code></pre>
 <p>Cette stratégie nous permet de charger le Script spécifié dans le header :</p>
 <pre><code class="language-html">&lt;!-- External resources --&gt;
-&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdnjs.cloudflare.com/ajax.../highlight.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax.../highlight.min.js"&gt;&lt;/script&gt;
 </code></pre>
 <h4>Image externe</h4>
 <p>Pour finir, une image externe doit apparaître dans la page. Elle est également bloquée par défaut. Nous l'autorisons via <strong>img-src</strong> :</p>
 <pre><code>default-src 'self'; img-src 'self' fr.wikipedia.org
 </code></pre>
 <p>Nous acceptons ainsi l'affichage des images issues du domaine <code>fr.wikipedia.org</code> :</p>
-<pre><code class="language-html">&lt;img src=&quot;https://fr.wikipedia.org/static/images/project-logos/frwiki.png&quot; alt=&quot;Wikipedia&quot; /&gt;
+<pre><code class="language-html">&lt;img src="https://fr.wikipedia.org/static/images/project-logos/frwiki.png" alt="Wikipedia" /&gt;
 </code></pre>
 <h3>Stratégie de sécurité</h3>
 <p>Pour afficher complétement notre page d'exemple, nous arrivons finalement à la stratégie de sécurité suivante :</p>
@@ -207,19 +199,17 @@
 <p>Si comme une grande majorité de sites vous implémentez Google Analytics, vous pouvez appliquer la stratégie de base suivante :</p>
 <pre><code>default-src 'self'; script-src 'self' 'unsafe-inline' www.googletagmanager.com www.google-analytics.com; img-src 'self' www.google-analytics.com
 </code></pre>
-<p class="contact">
-    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
-</p>
-            </div>
-        </main>
-        <footer>
-            <div id="footer-content">
-                <p><strong>Magentix</strong> © 2009 / 2022</p>
-                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
-                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
-            </div>
-        </footer>
-        <script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
-        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
-    </body>
+<p class="contact"><strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span></p>
+</div>
+</main>
+<footer>
+<div id="footer-content">
+<p><strong>Magentix</strong> © 2009 / 2022</p>
+<p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> • <a href="/blog.html">Billets</a></nav>
+</div>
+</footer>
+<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script> 
+<script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+</body>
 </html>

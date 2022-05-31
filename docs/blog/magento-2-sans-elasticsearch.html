@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
   __    __     ______     ______     ______     __   __     ______    __     __  __
  /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
@@ -7,52 +8,43 @@
    \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Utiliser Magento 2 sans Elasticsearch</title>
-        <meta name="description" content="Depuis la version 2.4 de Magento, Elasticsearch est imposé nativement. Il est cependant possible de le désactiver." />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
-        <meta name="robots" content="INDEX,FOLLOW" />
-        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
-    </head>
-    <body>
-        <header>
-            <div id="header-content">
-                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
-                <p>Développeur Magento indépendant depuis 2009</p>
-                <nav>
-                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
-                    <a href="https://www.magentix.fr/blog.html">Billets</a>
-                </nav>
-            </div>
-        </header>
-        <main>
-            <div id="main-content">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Utiliser Magento 2 sans Elasticsearch</title>
+<meta name="description" content="Depuis la version 2.4 de Magento, Elasticsearch est imposé nativement. Il est cependant possible de le désactiver." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+<meta name="robots" content="INDEX,FOLLOW" />
+<link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
+</head>
+<body>
+<header>
+<div id="header-content">
+<h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+<p>Développeur Magento indépendant depuis 2009</p>
+<nav><a href="https://www.magentix.fr/">Accueil</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+</div>
+</header>
+<main>
+<div id="main-content">
 <p><a href="https://www.magentix.fr/blog.html">Billets</a> : Magento 2 sans Elasticsearch</p>
-<hr/>
-
+<hr />
 <h2>Magento 2 sans Elasticsearch</h2>
-
 <p class="author"><span>Par Matthieu le 06/05/2021</span></p>
-
-<p>
-    <em>Depuis la version 2.4, Elasticsearch est imposé nativement. L'installation de Magento n'aboutira pas si Elasticsearch n'est pas disponible. Mais il est tout à fait possible de s'en passer...</em>
-</p>
-
+<p><em>Depuis la version 2.4, Elasticsearch est imposé nativement. L'installation de Magento n'aboutira pas si Elasticsearch n'est pas disponible. Mais il est tout à fait possible de s'en passer...</em></p>
 <hr />
 <p>Pour certains sites e-commerce le moteur de recherche n'est pas une priorité. Par exemple si le site ne dispose que de quelques produits, voir même s'il est mono-produit. En imposant <strong>Elasticsearch</strong> il est également plus complexe d'installer Magento, ce n'est pas forcement adapté pour les commerçants avec un faible budget alloué à l'hébergement. Car Magento 2 peut parfaitement fonctionner sur un serveur à faible coût, à condition évidemment de rester sur des fonctionnalités classiques et de disposer d'un catalogue assez peu volumineux.</p>
 <p>Se séparer d'<strong>Elasticsearch</strong> est donc adapté dans des cas très particuliers (sinon il serait dommage de s'en priver).</p>
 <p>Pour supprimer <strong>Elasticsearch</strong> de Magento, ajoutez au noeud <strong>replace</strong> du fichier <strong>composer.json</strong> les lignes suivantes :</p>
 <pre><code class="language-json">{
-    &quot;replace&quot;: {
-        &quot;magento/module-elasticsearch&quot;: &quot;*&quot;,
-        &quot;magento/module-elasticsearch-6&quot;: &quot;*&quot;,
-        &quot;magento/module-elasticsearch-7&quot;: &quot;*&quot;,
-        &quot;magento/module-inventory-elasticsearch&quot;: &quot;*&quot;
+    "replace": {
+        "magento/module-elasticsearch": "*",
+        "magento/module-elasticsearch-6": "*",
+        "magento/module-elasticsearch-7": "*",
+        "magento/module-inventory-elasticsearch": "*"
     }
 }
 </code></pre>
@@ -70,65 +62,63 @@
 <h3>2. Vous souhaitez supprimer le moteur de recherche</h3>
 <p>Si vous n'avez pas besoin d'un moteur de recherche, plusieurs modules sont à désactiver. La fonctionnalité <strong>staging</strong> ne sera plus disponible.</p>
 <pre><code class="language-json">{
-    &quot;replace&quot;: {
-        &quot;magento/module-elasticsearch&quot;: &quot;*&quot;,
-        &quot;magento/module-elasticsearch-6&quot;: &quot;*&quot;,
-        &quot;magento/module-elasticsearch-7&quot;: &quot;*&quot;,
-        &quot;magento/module-inventory-elasticsearch&quot;: &quot;*&quot;,
-        &quot;magento/module-advanced-search&quot;: &quot;*&quot;,
-        &quot;magento/module-catalog-search&quot;: &quot;*&quot;,
-        &quot;magento/module-search&quot;: &quot;*&quot;,
-        &quot;magento/module-inventory-catalog-search&quot;: &quot;*&quot;,
-        &quot;magento/module-search-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-bundle-import-export-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-bundle-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-catalog-import-export-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-catalog-inventory-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-catalog-page-builder-analytics-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-catalog-rule-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-catalog-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-catalog-staging-page-builder&quot;: &quot;*&quot;,
-        &quot;magento/module-catalog-url-rewrite-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-checkout-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-cms-page-builder-analytics-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-cms-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-configurable-product-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-downloadable-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-gift-card-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-gift-message-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-gift-wrapping-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-google-optimizer-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-grouped-product-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-layered-navigation-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-msrp-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-payment-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-product-video-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-review-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-reward-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-rma-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-sales-rule-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-search-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-staging&quot;: &quot;*&quot;,
-        &quot;magento/module-staging-page-builder&quot;: &quot;*&quot;,
-        &quot;magento/module-weee-staging&quot;: &quot;*&quot;
+    "replace": {
+        "magento/module-elasticsearch": "*",
+        "magento/module-elasticsearch-6": "*",
+        "magento/module-elasticsearch-7": "*",
+        "magento/module-inventory-elasticsearch": "*",
+        "magento/module-advanced-search": "*",
+        "magento/module-catalog-search": "*",
+        "magento/module-search": "*",
+        "magento/module-inventory-catalog-search": "*",
+        "magento/module-search-staging": "*",
+        "magento/module-bundle-import-export-staging": "*",
+        "magento/module-bundle-staging": "*",
+        "magento/module-catalog-import-export-staging": "*",
+        "magento/module-catalog-inventory-staging": "*",
+        "magento/module-catalog-page-builder-analytics-staging": "*",
+        "magento/module-catalog-rule-staging": "*",
+        "magento/module-catalog-staging": "*",
+        "magento/module-catalog-staging-page-builder": "*",
+        "magento/module-catalog-url-rewrite-staging": "*",
+        "magento/module-checkout-staging": "*",
+        "magento/module-cms-page-builder-analytics-staging": "*",
+        "magento/module-cms-staging": "*",
+        "magento/module-configurable-product-staging": "*",
+        "magento/module-downloadable-staging": "*",
+        "magento/module-gift-card-staging": "*",
+        "magento/module-gift-message-staging": "*",
+        "magento/module-gift-wrapping-staging": "*",
+        "magento/module-google-optimizer-staging": "*",
+        "magento/module-grouped-product-staging": "*",
+        "magento/module-layered-navigation-staging": "*",
+        "magento/module-msrp-staging": "*",
+        "magento/module-payment-staging": "*",
+        "magento/module-product-video-staging": "*",
+        "magento/module-review-staging": "*",
+        "magento/module-reward-staging": "*",
+        "magento/module-rma-staging": "*",
+        "magento/module-sales-rule-staging": "*",
+        "magento/module-search-staging": "*",
+        "magento/module-staging": "*",
+        "magento/module-staging-page-builder": "*",
+        "magento/module-weee-staging": "*"
     }
 }
 </code></pre>
 <p>Pour les sites <strong>Adobe Commerce</strong>, prévoyez également de vous séparer de <code>magento/module-quick-order</code> (B2B) et de <code>magento/module-elasticsearch-catalog-permissions</code>.</p>
 <p>Cette fois le champ de recherche natif n'apparaît plus.</p>
-<p class="contact">
-    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
-</p>
-            </div>
-        </main>
-        <footer>
-            <div id="footer-content">
-                <p><strong>Magentix</strong> © 2009 / 2022</p>
-                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
-                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
-            </div>
-        </footer>
-        <script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
-        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
-    </body>
+<p class="contact"><strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span></p>
+</div>
+</main>
+<footer>
+<div id="footer-content">
+<p><strong>Magentix</strong> © 2009 / 2022</p>
+<p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> • <a href="/blog.html">Billets</a></nav>
+</div>
+</footer>
+<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script> 
+<script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+</body>
 </html>

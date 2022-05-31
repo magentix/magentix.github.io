@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
   __    __     ______     ______     ______     __   __     ______    __     __  __
  /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
@@ -7,42 +8,33 @@
    \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>iptables : les règles pour sécuriser au maximum un serveur Web</title>
-        <meta name="description" content="Comment bloquer avec iptables l'ensemble du traffic INPUT sur tous les ports sauf 80 (http) et 443 (https)." />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
-        <meta name="robots" content="INDEX,FOLLOW" />
-        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
-    </head>
-    <body>
-        <header>
-            <div id="header-content">
-                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
-                <p>Développeur Magento indépendant depuis 2009</p>
-                <nav>
-                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
-                    <a href="https://www.magentix.fr/blog.html">Billets</a>
-                </nav>
-            </div>
-        </header>
-        <main>
-            <div id="main-content">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>iptables : les règles pour sécuriser au maximum un serveur Web</title>
+<meta name="description" content="Comment bloquer avec iptables l'ensemble du traffic INPUT sur tous les ports sauf 80 (http) et 443 (https)." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+<meta name="robots" content="INDEX,FOLLOW" />
+<link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
+</head>
+<body>
+<header>
+<div id="header-content">
+<h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+<p>Développeur Magento indépendant depuis 2009</p>
+<nav><a href="https://www.magentix.fr/">Accueil</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+</div>
+</header>
+<main>
+<div id="main-content">
 <p><a href="https://www.magentix.fr/blog.html">Billets</a> : Les règles iptables pour sécuriser au maximum un serveur Web</p>
-<hr/>
-
+<hr />
 <h2>Les règles iptables pour sécuriser au maximum un serveur Web</h2>
-
 <p class="author"><span>Par Matthieu le 06/01/2020</span></p>
-
-<p>
-    <em>Pour sécuriser un serveur Web, j'applique systèmatiquement le même comportement : bloquer l'ensemble du traffic sur tous les ports, sauf 80 (http) et 443 (https). Seuls quelques IPs sont autorisés à accéder au reste. Voici comment le mettre en place avec iptables.</em>
-</p>
-
+<p><em>Pour sécuriser un serveur Web, j'applique systèmatiquement le même comportement : bloquer l'ensemble du traffic sur tous les ports, sauf 80 (http) et 443 (https). Seuls quelques IPs sont autorisés à accéder au reste. Voici comment le mettre en place avec iptables.</em></p>
 <hr />
 <p>Sur un serveur accessible à distance, les scans de port et les tentatives de connexion SSH sont légions. La solution la plus radicale est de tout bloquer, sauf les ports dont le serveur a besoin pour le ou les services qu'il propose.</p>
 <p><strong>Attention :</strong> il est indispensable pour un serveur distant (serveur dédié par exemple) d'autoriser l'accès SSH (port 22 par défaut) à plusieurs IPs fixes : la votre et des IPs de secours. <strong>Si vous ne disposez pas d'IP fixe ne bloquez pas l'accès à SSH et proposez le service sur un autre port que 22.</strong></p>
@@ -128,19 +120,17 @@ COMMIT
 <p>Si vous souhaitez restaurer les règles par défaut (ACCEPT), utilisez la commande suivante :</p>
 <pre><code class="language-bash">sudo iptables -F
 </code></pre>
-<p class="contact">
-    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
-</p>
-            </div>
-        </main>
-        <footer>
-            <div id="footer-content">
-                <p><strong>Magentix</strong> © 2009 / 2022</p>
-                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
-                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
-            </div>
-        </footer>
-        <script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
-        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
-    </body>
+<p class="contact"><strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span></p>
+</div>
+</main>
+<footer>
+<div id="footer-content">
+<p><strong>Magentix</strong> © 2009 / 2022</p>
+<p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> • <a href="/blog.html">Billets</a></nav>
+</div>
+</footer>
+<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script> 
+<script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+</body>
 </html>

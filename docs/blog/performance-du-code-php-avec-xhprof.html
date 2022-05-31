@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
   __    __     ______     ______     ______     __   __     ______    __     __  __
  /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
@@ -7,49 +8,40 @@
    \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>XHProf : profiling et performance du code PHP</title>
-        <meta name="description" content="Pour le profiling rapide d'une application PHP, XHProf est une excellente extension. Elle permet en quelques secondes de détecter les fuites de mémoire." />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
-        <meta name="robots" content="INDEX,FOLLOW" />
-        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
-    </head>
-    <body>
-        <header>
-            <div id="header-content">
-                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
-                <p>Développeur Magento indépendant depuis 2009</p>
-                <nav>
-                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
-                    <a href="https://www.magentix.fr/blog.html">Billets</a>
-                </nav>
-            </div>
-        </header>
-        <main>
-            <div id="main-content">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>XHProf : profiling et performance du code PHP</title>
+<meta name="description" content="Pour le profiling rapide d'une application PHP, XHProf est une excellente extension. Elle permet en quelques secondes de détecter les fuites de mémoire." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+<meta name="robots" content="INDEX,FOLLOW" />
+<link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
+</head>
+<body>
+<header>
+<div id="header-content">
+<h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+<p>Développeur Magento indépendant depuis 2009</p>
+<nav><a href="https://www.magentix.fr/">Accueil</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+</div>
+</header>
+<main>
+<div id="main-content">
 <p><a href="https://www.magentix.fr/blog.html">Billets</a> : Contrôler la performance du code PHP avec l'outil de profiling XHProf</p>
-<hr/>
-
+<hr />
 <h2>Contrôler la performance du code PHP avec l'outil de profiling XHProf</h2>
-
 <p class="author"><span>Par Matthieu le 17/10/2019</span></p>
-
-<p>
-    <em>XHProf est une extension PHP qui ne sert qu'à faire du profiling. Elle a été créée par Facebook puis donnée à la communauté OpenSource en 2009. Bien qu'aujourd'hui l'extension ne soit plus maintenue par Facebook, des forks assurent les évolutions (compatibilité avec les dernières versions de PHP).</em>
-</p>
-
+<p><em>XHProf est une extension PHP qui ne sert qu'à faire du profiling. Elle a été créée par Facebook puis donnée à la communauté OpenSource en 2009. Bien qu'aujourd'hui l'extension ne soit plus maintenue par Facebook, des forks assurent les évolutions (compatibilité avec les dernières versions de PHP).</em></p>
 <hr />
 <p>Pour le profiling rapide d'un projet, <strong>XHProf</strong> est une excellente extension. Elle permet en quelques secondes de détecter les fuites de mémoire, avec un impact sur les temps d'exécution de l'application extrêmement faible.</p>
 <p>Cet article explique comment implémenter <strong>XHProf</strong> pour votre application PHP.</p>
 <p><img alt="Xhprof Callgraph" height="200" src="https://www.magentix.fr/media/blog/articles/xhprof-graph.png" width="1000" /></p>
 <h3>Installer l'extension PHP</h3>
 <p>Nous installons l'extension pour PHP 7 maintenue par <strong>Tideways</strong>.</p>
-<pre><code class="language-bash">git clone &quot;https://github.com/tideways/php-xhprof-extension.git&quot;
+<pre><code class="language-bash">git clone "https://github.com/tideways/php-xhprof-extension.git"
 cd php-xhprof-extension
 phpize
 ./configure
@@ -57,7 +49,7 @@ make
 sudo make install
 </code></pre>
 <p>On active ensuite l'extension, à adapter selon la version de PHP en place (ici php 7.2).</p>
-<pre><code class="language-bash">echo &quot;extension=tideways_xhprof.so&quot; | sudo tee -a /etc/php/7.2/mods-available/xhprof.ini
+<pre><code class="language-bash">echo "extension=tideways_xhprof.so" | sudo tee -a /etc/php/7.2/mods-available/xhprof.ini
 </code></pre>
 <p>PHP standard :</p>
 <pre><code class="language-bash">sudo phpenmod -v 7.2 xhprof
@@ -118,7 +110,7 @@ Existing runs:
 $data = tideways_xhprof_disable();
 $namespace = 'myapp';
 file_put_contents(
-    sys_get_temp_dir() . &quot;/&quot; . uniqid() . &quot;.&quot; . $namespace . &quot;.xhprof&quot;, // /tmp/xxxxxxxxxxxxx.myapp.xhprof
+    sys_get_temp_dir() . "/" . uniqid() . "." . $namespace . ".xhprof", // /tmp/xxxxxxxxxxxxx.myapp.xhprof
     serialize($data)
 );
 </code></pre>
@@ -128,19 +120,17 @@ file_put_contents(
 <p>En ouvrant de nouveau <em>http://localhost.xhprof/?dir=/tmp</em>, vous disposez maintenant du run :</p>
 <p><img alt="Xhprof Runs" height="104" src="https://www.magentix.fr/media/blog/articles/xhprof-runs.png" width="439" /></p>
 <p>Sélectionnez le run correspondant, l'analyse peut alors débuter...</p>
-<p class="contact">
-    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
-</p>
-            </div>
-        </main>
-        <footer>
-            <div id="footer-content">
-                <p><strong>Magentix</strong> © 2009 / 2022</p>
-                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
-                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
-            </div>
-        </footer>
-        <script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
-        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
-    </body>
+<p class="contact"><strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span></p>
+</div>
+</main>
+<footer>
+<div id="footer-content">
+<p><strong>Magentix</strong> © 2009 / 2022</p>
+<p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> • <a href="/blog.html">Billets</a></nav>
+</div>
+</footer>
+<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script> 
+<script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+</body>
 </html>

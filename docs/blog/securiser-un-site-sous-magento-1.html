@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
   __    __     ______     ______     ______     __   __     ______    __     __  __
  /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
@@ -7,42 +8,33 @@
    \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Magento : sécuriser un site sous Magento 1</title>
-        <meta name="description" content="Voici plusieurs solutions pour sécuriser votre plateforme développé avec Magento 1. Ces techniques permettent de pérenniser le site e-commerce au delà de la date de fin de vie annoncée pour juin 2020." />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
-        <meta name="robots" content="INDEX,FOLLOW" />
-        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
-    </head>
-    <body>
-        <header>
-            <div id="header-content">
-                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
-                <p>Développeur Magento indépendant depuis 2009</p>
-                <nav>
-                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
-                    <a href="https://www.magentix.fr/blog.html">Billets</a>
-                </nav>
-            </div>
-        </header>
-        <main>
-            <div id="main-content">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Magento : sécuriser un site sous Magento 1</title>
+<meta name="description" content="Voici plusieurs solutions pour sécuriser votre plateforme développé avec Magento 1. Ces techniques permettent de pérenniser le site e-commerce au delà de la date de fin de vie annoncée pour juin 2020." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+<meta name="robots" content="INDEX,FOLLOW" />
+<link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
+</head>
+<body>
+<header>
+<div id="header-content">
+<h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+<p>Développeur Magento indépendant depuis 2009</p>
+<nav><a href="https://www.magentix.fr/">Accueil</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+</div>
+</header>
+<main>
+<div id="main-content">
 <p><a href="https://www.magentix.fr/blog.html">Billets</a> : Sécuriser un site sous Magento 1</p>
-<hr/>
-
+<hr />
 <h2>Sécuriser un site sous Magento 1</h2>
-
 <p class="author"><span>Par Matthieu le 12/02/2020</span></p>
-
-<p>
-    <em>Voici plusieurs solutions pour sécuriser votre plateforme développée avec Magento 1. Cela ne couvre évidemment pas les risques à 100% mais est recommandé pour pérenniser le site e-commerce au delà de la date de fin de vie annoncée pour juin 2020.</em>
-</p>
-
+<p><em>Voici plusieurs solutions pour sécuriser votre plateforme développée avec Magento 1. Cela ne couvre évidemment pas les risques à 100% mais est recommandé pour pérenniser le site e-commerce au delà de la date de fin de vie annoncée pour juin 2020.</em></p>
 <hr />
 <p><strong>Magento 1</strong> restera dans l'histoire comme une solution e-commerce exceptionnelle : une communauté Française et internationale très active et dynamique (conférences, blogs, forums...), un panel de fonctionnalités natives impressionnant, des milliers de modules développés et mis à disposition par des développeurs du monde entier. Magento a déchaîné les passions pendant plus de 10 ans.</p>
 <p>Tout le monde en parle depuis plusieurs années, cette date fatidique où Magento 1 deviendra un <strong>produit EOL</strong> (End Of Life). On se sert souvent de cette date pour mettre une certaine pression sur les commerçants, j'ai pu lire de tout et de n'importe quoi sur les réseaux, dans des communiqués ou des blogs.</p>
@@ -148,7 +140,7 @@ RewriteRule .* - [F,L]
 <h3 id="p6">6. Ajouter aux entêtes HTTP un Content Security Policy</h3>
 <p>Les CSP permettent d'éviter l'exploitation de failles XSS en contrôlant les ressources externes et internes que vous utilisez. Par exemple :</p>
 <pre><code class="language-apache">&lt;IfModule mod_headers.c&gt;
-Header set Content-Security-Policy &quot;default-src 'self' www.youtube.com fonts.gstatic.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' www.googletagmanager.com www.google-analytics.com maps.googleapis.com; img-src 'self' www.google-analytics.com maps.gstatic.com maps.googleapis.com data:; base-uri 'self'&quot;
+Header set Content-Security-Policy "default-src 'self' www.youtube.com fonts.gstatic.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' www.googletagmanager.com www.google-analytics.com maps.googleapis.com; img-src 'self' www.google-analytics.com maps.gstatic.com maps.googleapis.com data:; base-uri 'self'"
 &lt;/IfModule&gt;
 </code></pre>
 <p>Cet exemple n'autorise aux navigateurs que les resources externes en provenance de <strong>Google analytics</strong>, <strong>Google Fonts</strong>, <strong>Youtube</strong> et <strong>Google Maps</strong>. Il convient évidemment de l'adapter à vos besoins. N'hésitez pas à vous documenter sur les CSP : <a href="https://www.magentix.fr/blog/strategie-de-securite-du-contenu-content-security-policy.html">Utiliser une stratégie de sécurité du contenu (Content Security Policy)</a>.</p>
@@ -197,7 +189,7 @@ RewriteRule .* - [F,L]
 <p>Les bots viennent scanner l'existence des routes natives (<strong>/contacts</strong>, <strong>/customer/account/login</strong>...).</p>
 <p>Les modifier est très rapide mais il faudra <strong>contrôler tous les liens de votre site</strong>, surtout ceux saisis en dur (pages CMS, blocs...).</p>
 <p>Depuis le fichier <strong>config.xml</strong> d'un module dédié, ajoutez les noeuds suivants (surcharge des frontName natifs) :</p>
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+<pre><code class="language-xml">&lt;?xml version="1.0"?&gt;
 &lt;config&gt;
     ...
     &lt;frontend&gt;
@@ -249,14 +241,14 @@ const SESSION_NAMESPACE = 'frontend'; // Par exemple : navigation
 <h3 id="p12">12. Déplacer les dossiers js, skin et media dans un sous dossier</h3>
 <p>Les bots scannent très souvent les dossiers <strong>skin</strong>, <strong>media</strong> et <strong>js</strong> à la recherche de fichiers connus pour leur vulnérabilité. Les déplacer réglera immédiatement le problème.</p>
 <p>Dans le fichier <strong>app/etc/config.xml</strong>, modifiez les chemins suivants :</p>
-<pre><code class="language-xml">&lt;media&gt;&lbrace;&lbrace;root_dir&rbrace;&rbrace;/media&lt;/media&gt;
-&lt;upload&gt;&lbrace;&lbrace;root_dir&rbrace;&rbrace;/media/upload&lt;/upload&gt;
-&lt;skin&gt;&lbrace;&lbrace;root_dir&rbrace;&rbrace;/skin&lt;/skin&gt;
+<pre><code class="language-xml">&lt;media&gt;{{root_dir}}/media&lt;/media&gt;
+&lt;upload&gt;{{root_dir}}/media/upload&lt;/upload&gt;
+&lt;skin&gt;{{root_dir}}/skin&lt;/skin&gt;
 </code></pre>
 <p>Avec le dossier de votre choix (ici <strong>pub</strong>) :</p>
-<pre><code class="language-xml">&lt;media&gt;&lbrace;&lbrace;root_dir&rbrace;&rbrace;/pub/media&lt;/media&gt;
-&lt;upload&gt;&lbrace;&lbrace;root_dir&rbrace;&rbrace;/pub/media/upload&lt;/upload&gt;
-&lt;skin&gt;&lbrace;&lbrace;root_dir&rbrace;&rbrace;/pub/skin&lt;/skin&gt;
+<pre><code class="language-xml">&lt;media&gt;{{root_dir}}/pub/media&lt;/media&gt;
+&lt;upload&gt;{{root_dir}}/pub/media/upload&lt;/upload&gt;
+&lt;skin&gt;{{root_dir}}/pub/skin&lt;/skin&gt;
 </code></pre>
 <p>Copiez le fichier :</p>
 <ul>
@@ -290,12 +282,12 @@ $this-&gt;_data['skin_dir'] = $this-&gt;_data['base_dir'] . DS . 'pub/skin';
 /** @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-$installer-&gt;setConfigData('web/unsecure/base_skin_url', '&lbrace;&lbrace;unsecure_base_url&rbrace;&rbrace;pub/skin/');
-$installer-&gt;setConfigData('web/unsecure/base_media_url', '&lbrace;&lbrace;unsecure_base_url&rbrace;&rbrace;pub/media/');
-$installer-&gt;setConfigData('web/unsecure/base_js_url', '&lbrace;&lbrace;unsecure_base_url&rbrace;&rbrace;pub/js/');
-$installer-&gt;setConfigData('web/secure/base_skin_url', '&lbrace;&lbrace;secure_base_url&rbrace;&rbrace;pub/skin/');
-$installer-&gt;setConfigData('web/secure/base_media_url', '&lbrace;&lbrace;secure_base_url&rbrace;&rbrace;pub/media/');
-$installer-&gt;setConfigData('web/secure/base_js_url', '&lbrace;&lbrace;secure_base_url&rbrace;&rbrace;pub/js/');
+$installer-&gt;setConfigData('web/unsecure/base_skin_url', '{{unsecure_base_url}}pub/skin/');
+$installer-&gt;setConfigData('web/unsecure/base_media_url', '{{unsecure_base_url}}pub/media/');
+$installer-&gt;setConfigData('web/unsecure/base_js_url', '{{unsecure_base_url}}pub/js/');
+$installer-&gt;setConfigData('web/secure/base_skin_url', '{{secure_base_url}}pub/skin/');
+$installer-&gt;setConfigData('web/secure/base_media_url', '{{secure_base_url}}pub/media/');
+$installer-&gt;setConfigData('web/secure/base_js_url', '{{secure_base_url}}pub/js/');
 </code></pre>
 <p>Pour finir, dans le fichier <strong>.htaccess</strong> à la racine de Magento, modifiez la ligne suivante :</p>
 <pre><code class="language-apache">RewriteCond %{REQUEST_URI} !^/(media|skin|js)/
@@ -308,7 +300,7 @@ $installer-&gt;setConfigData('web/secure/base_js_url', '&lbrace;&lbrace;secure_b
 <h3 id="p13">13. Déplacer les variables Javascript</h3>
 <p>Les bots analysent parfois le contenu de la page à la recherche de code connu. Les variables JS (Mage.Cookies.path, optionalZipCountries, Translator) trahissent Magento.</p>
 <p>L'idée est de déplacer ces variables JS dans un fichier script "dynamique" :</p>
-<pre><code class="language-html">&lt;script type=&quot;text/javascript&quot; src=&quot;https://.../dynamic/script.js&quot;&gt;&lt;/script&gt;
+<pre><code class="language-html">&lt;script type="text/javascript" src="https://.../dynamic/script.js"&gt;&lt;/script&gt;
 </code></pre>
 <p>J'entends par <strong>dynamique</strong> que le fichier est composé de blocs ne contenant que du JS et généré via l'action d'un contrôleur, le téléchargement du fichier est forcé (pas de cache navigateur). Nous pourrions également utiliser le cache navigateur mais avec un système de versionning lors de mises à jour (script.js?v=1.0).</p>
 <pre><code class="language-php">public function indexAction()
@@ -316,7 +308,7 @@ $installer-&gt;setConfigData('web/secure/base_js_url', '&lbrace;&lbrace;secure_b
     /** @var Mage_Core_Model_Date $date */
     $date = Mage::getModel('core/date');
     /** @var string $gmtDate */
-    $gmtDate = $date-&gt;date(&quot;D, d M Y H:i:s&quot;) . ' GMT';
+    $gmtDate = $date-&gt;date("D, d M Y H:i:s") . ' GMT';
 
     $this-&gt;getResponse()-&gt;setHeader('Content-Type', 'application/javascript');
     $this-&gt;getResponse()-&gt;setHeader('Last-Modified', $gmtDate, true);
@@ -338,7 +330,7 @@ $installer-&gt;setConfigData('web/secure/base_js_url', '&lbrace;&lbrace;secure_b
 </blockquote>
 <p><img alt="Cookie" height="200" src="https://www.magentix.fr/media/blog/articles/cookie.png" width="350" /></p>
 <p>Une simple surcharge de la classe <strong>Mage_Core_Model_Cookie</strong> permet de corriger ce problème :</p>
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;config&gt;
     &lt;modules&gt;
         &lt;Magentix_SecureCookie&gt;
@@ -387,19 +379,17 @@ class Magentix_SecureCookie_Model_Cookie extends Mage_Core_Model_Cookie
     }
 }
 </code></pre>
-<p class="contact">
-    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
-</p>
-            </div>
-        </main>
-        <footer>
-            <div id="footer-content">
-                <p><strong>Magentix</strong> © 2009 / 2022</p>
-                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
-                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
-            </div>
-        </footer>
-        <script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
-        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
-    </body>
+<p class="contact"><strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span></p>
+</div>
+</main>
+<footer>
+<div id="footer-content">
+<p><strong>Magentix</strong> © 2009 / 2022</p>
+<p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> • <a href="/blog.html">Billets</a></nav>
+</div>
+</footer>
+<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script> 
+<script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+</body>
 </html>

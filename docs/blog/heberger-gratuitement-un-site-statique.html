@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
   __    __     ______     ______     ______     __   __     ______    __     __  __
  /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
@@ -7,42 +8,33 @@
    \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Publier gratuitement un site statique, quelle solution choisir ?</title>
-        <meta name="description" content="Comparatif entre Github, Gitlab, Netlify, Vercel et Render pour le déploiement gratuit d'un site statique : focus sur la configuration et les temps de réponse (TTFB)." />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
-        <meta name="robots" content="INDEX,FOLLOW" />
-        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
-    </head>
-    <body>
-        <header>
-            <div id="header-content">
-                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
-                <p>Développeur Magento indépendant depuis 2009</p>
-                <nav>
-                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
-                    <a href="https://www.magentix.fr/blog.html">Billets</a>
-                </nav>
-            </div>
-        </header>
-        <main>
-            <div id="main-content">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Publier gratuitement un site statique, quelle solution choisir ?</title>
+<meta name="description" content="Comparatif entre Github, Gitlab, Netlify, Vercel et Render pour le déploiement gratuit d'un site statique : focus sur la configuration et les temps de réponse (TTFB)." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+<meta name="robots" content="INDEX,FOLLOW" />
+<link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
+</head>
+<body>
+<header>
+<div id="header-content">
+<h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+<p>Développeur Magento indépendant depuis 2009</p>
+<nav><a href="https://www.magentix.fr/">Accueil</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+</div>
+</header>
+<main>
+<div id="main-content">
 <p><a href="https://www.magentix.fr/blog.html">Billets</a> : Publier gratuitement un site statique, quelle solution choisir ?</p>
-<hr/>
-
+<hr />
 <h2>Publier gratuitement un site statique, quelle solution choisir ?</h2>
-
 <p class="author"><span>Par Matthieu le 22/10/2021</span></p>
-
-<p>
-    <em>Il existe de nombreux avantages à créer un site statique. L'un d'entre eux concerne l'hébergement. Une fois le site généré, il est possible de l'héberger facilement n'importe où. Et pour un site personnel de taille modeste, cela peut ne rien coûter.</em>
-</p>
-
+<p><em>Il existe de nombreux avantages à créer un site statique. L'un d'entre eux concerne l'hébergement. Une fois le site généré, il est possible de l'héberger facilement n'importe où. Et pour un site personnel de taille modeste, cela peut ne rien coûter.</em></p>
 <hr />
 <p><img alt="Datacenter" height="250" src="https://www.magentix.fr/media/blog/articles/datacenter.jpg" width="800" /></p>
 <p>Il n'est pas rare avec les solutions de déploiement automatisé de sites statiques de trouver des offres gratuites. Ce sont souvent des offres d'appel, limitées, pour vendre ensuite une solution plus complète.</p>
@@ -52,7 +44,6 @@
 <p>Je vois beaucoup de sites Web dont le contenu change très rarement, servi par un backend qui est potentiellement appelé à chaque visite : quel gâchis de ressources ! (...) L'autre intérêt d'un site statique c'est sa capacité à être migré en cas de soucis d'hébergement : n'importe serveur Web fera l'affaire si vous maîtrisez le nom de domaine. Sans parler de la monter en charge : sans BDD il devient très facile de déployer un site sur un réseau CDN.</p>
 </blockquote>
 <aside><a href="https://twitter.com/ArnaudLigny/status/1447146996960215041">Lire le thread complet</a></aside>
-
 <p>Je me suis intéressé aux offres gratuites des solutions d'hébergement sur un CDN.</p>
 <h2>Sélection des solutions</h2>
 <p>Je n'ai pas utilisé les services de build des solutions de déploiement. Je génère le site statique localement et pousse le résultat sur Github. Il ne reste plus qu'à trouver un espace sur le web pour partager les fichiers.</p>
@@ -116,7 +107,6 @@
   - find public -type f -regex '.*\.\(html\|js\|css\)$' -exec gzip -f -k {} \;
 </code></pre>
 <aside>.gitlab-ci.yml</aside>
-
 <hr />
 <ul>
 <li class="compare positive">Pas d'outil supplémentaire</li>
@@ -157,13 +147,13 @@
 <p>L'interface est épurée, la configuration du site très facile (clone du dépôt, ajout du CNAME).</p>
 <p>Il est tout à fait possible de modifier les en-têtes HTTP via un fichier <code>vercel.json</code> à la racine du projet (nécessite un déploiement avec vercel CLI).</p>
 <pre><code class="language-json">{
-  &quot;headers&quot;: [
+  "headers": [
     {
-      &quot;source&quot;: &quot;/(.*)&quot;,
-      &quot;headers&quot; : [
+      "source": "/(.*)",
+      "headers" : [
         {
-          &quot;key&quot; : &quot;X-Frame-Options&quot;,
-          &quot;value&quot; : &quot;DENY&quot;
+          "key" : "X-Frame-Options",
+          "value" : "DENY"
         }
       ]
     }
@@ -199,19 +189,16 @@
 <p>Pour finir <strong>Gitlab Pages</strong> avec un temps de réponse très mauvais, suivi de <strong>Render</strong> avec un temps de réponse moyen et l'obligation de renseigner une carte bancaire.</p>
 <p><img alt="Temps de réponse moyen hébergement" height="600" src="https://www.magentix.fr/media/blog/articles/static-website-tools-ttfb.jpg" width="850" /></p>
 <p>Il est possible que les offres ne restent pas gratuites indéfiniment ou que les solutions disparaissent un jour. Ce fût par exemple le cas de <strong>fast.io</strong>, qui a tout simplement mis fin à son service de déploiement de sites statiques. Si cela devait arriver, il serait tout de même très facile et rapide de changer de solution.</p>
-<p class="contact">
-    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
-</p>
-            </div>
-        </main>
-        <footer>
-            <div id="footer-content">
-                <p><strong>Magentix</strong> © 2009 / 2022</p>
-                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
-                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
-            </div>
-        </footer>
-        
-        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
-    </body>
+<p class="contact"><strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span></p>
+</div>
+</main>
+<footer>
+<div id="footer-content">
+<p><strong>Magentix</strong> © 2009 / 2022</p>
+<p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> • <a href="/blog.html">Billets</a></nav>
+</div>
+</footer>
+<script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+</body>
 </html>

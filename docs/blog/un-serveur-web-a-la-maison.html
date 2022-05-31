@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
   __    __     ______     ______     ______     __   __     ______    __     __  __
  /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
@@ -7,42 +8,33 @@
    \/_/  \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ \/_/     \/_/    \/_/   \/_/\/_/
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Installer un serveur web à la maison</title>
-        <meta name="description" content="Ce billet expose les différentes étapes pour la mise en place d'un serveur Web à la maison : installation de l'OS, d'Apache et la configuration de la box." />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
-        <meta name="robots" content="INDEX,FOLLOW" />
-        <link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
-        <link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
-    </head>
-    <body>
-        <header>
-            <div id="header-content">
-                <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
-                <p>Développeur Magento indépendant depuis 2009</p>
-                <nav>
-                    <a href="https://www.magentix.fr/">Accueil</a> &bull;
-                    <a href="https://www.magentix.fr/blog.html">Billets</a>
-                </nav>
-            </div>
-        </header>
-        <main>
-            <div id="main-content">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Installer un serveur web à la maison</title>
+<meta name="description" content="Ce billet expose les différentes étapes pour la mise en place d'un serveur Web à la maison : installation de l'OS, d'Apache et la configuration de la box." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' cdn.magentix.fr; base-uri 'self'" />
+<meta name="robots" content="INDEX,FOLLOW" />
+<link rel="stylesheet" href="https://www.magentix.fr/css/style.css" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-regular.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-bold.woff2" crossorigin="anonymous" />
+<link rel="preload" as="font" href="https://www.magentix.fr/fonts/liberation-sans-italic.woff2" crossorigin="anonymous" />
+</head>
+<body>
+<header>
+<div id="header-content">
+<h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
+<p>Développeur Magento indépendant depuis 2009</p>
+<nav><a href="https://www.magentix.fr/">Accueil</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+</div>
+</header>
+<main>
+<div id="main-content">
 <p><a href="https://www.magentix.fr/blog.html">Billets</a> : Un serveur web à la maison</p>
-<hr/>
-
+<hr />
 <h2>Un serveur web à la maison</h2>
-
 <p class="author"><span>Par Matthieu le 23/06/2021</span></p>
-
-<p>
-    <em>Si vous disposez de la fibre et d'une freebox, vous pouvez installer votre propre serveur web et héberger facilement toutes vos applications à la maison. Ce billet expose les différentes étapes pour l'installation et la configuration du serveur.</em>
-</p>
-
+<p><em>Si vous disposez de la fibre et d'une freebox, vous pouvez installer votre propre serveur web et héberger facilement toutes vos applications à la maison. Ce billet expose les différentes étapes pour l'installation et la configuration du serveur.</em></p>
 <hr />
 <p class="info">Cet article détaille l'installation complète d'un serveur Web avec <strong>Apache</strong> sous <strong>Debian</strong> derrière une connexion fibrée <strong>Free</strong>. Il peut être adapté avec n'importe quel système (Ubuntu, Fedora, FreeBSD...) et n'importe quel serveur (Nginx, node.js, Tomcat, Lighttpd...).</p>
 <h3 id="p0">Sommaire</h3>
@@ -86,7 +78,6 @@
 <p>Niveau temps de réponse, c'est très bon, même excellent. Mieux que chez beaucoup d'hébergeurs.</p>
 <p><img alt="TTBF Freebox vs Netlify" src="https://www.magentix.fr/media/blog/articles/freebox-fibre-vs-netlify.png" /></p>
 <aside>Freebox FTTH vs Netlify</aside>
-
 <p>Ce graphique met en évidence le temps de latence pour des requêtes vers une <strong>Freebox FTTH</strong> (à gauche), puis <strong>Netlify</strong> (à droite). Les sondes sont situées à Roubaix et Londres. Chez Netlify c'est beaucoup plus cahotique.</p>
 <h3 id="p4">Quelle machine ?</h3>
 <p>C'est un vaste sujet... Cela dépend de ce que l'on souhaite héberger sur le serveur. Dans le passé, j'ai toujours eu tendance à prendre des machines surdimensionnées par rapport à l'usage que j'en avais. <em>"On ne sait jamais, ça peut servir"</em>. C'est une erreur. De l'argent dépensé inutilement.</p>
@@ -223,8 +214,7 @@ sda           8:0    0  14,5G   0 disk
 <pre><code class="language-bash">337+0 enregistrements lus
 337+0 enregistrements écrits
 353370112 bytes (353 MB, 337 MiB) copied, 29,0891 s, 12,1 MB/s
-</code></pre>
-</section>
+</code></pre></section>
 <p><strong>La clé USB est prête</strong>, on la branche sur le futur serveur.</p>
 <h3 id="p7">Installation du système d'exploitation</h3>
 <p>Au démarrage du système, au splash screen, on active rapidement la touche pour l'accès au setup. La touche diffère selon les constructeurs : <kbd>Esc</kbd>, <kbd>Suppr</kbd>, <kbd>F2</kbd>, <kbd>F10</kbd>... En général la touche est indiquée. Pour le <strong>Mele Quieter2</strong> c'est <kbd>Suppr</kbd>.</p>
@@ -284,7 +274,6 @@ nano /etc/network/interfaces
 <pre><code class="language-bash">iface enp2s0 inet dhcp
 </code></pre>
 <aside>L'interface est ici enp2s0, diffère selon les systèmes</aside>
-
 <p>On remplace avec une IP fixe en dehors de la plage d'adresses DHCP de la box. J'ai choisi <strong>192.168.1.60</strong>.</p>
 <pre><code># This file describes the network interfaces available on your system
 # and how to activate them. For more information, see interfaces(5).
@@ -305,7 +294,6 @@ iface enp2s0 inet static
     broadcast 192.168.1.255
 </code></pre>
 <aside>/etc/network/interfaces</aside>
-
 <p>On peut redémarrer :</p>
 <pre><code class="language-bash">/etc/init.d/networking restart
 </code></pre>
@@ -361,10 +349,10 @@ AddDefaultCharset utf-8
 &lt;/Directory&gt;
 
 &lt;IfModule mod_headers.c&gt;
-    Header set Content-Security-Policy &quot;default-src 'self'; style-src 'self' 'unsafe-inline'; base-uri 'self';&quot;
-    Header set X-XSS-Protection &quot;1; mode=block&quot;
-    Header set X-Content-Type-Options: &quot;nosniff&quot;
-    Header set X-Frame-Options: &quot;sameorigin&quot;
+    Header set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; base-uri 'self';"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Content-Type-Options: "nosniff"
+    Header set X-Frame-Options: "sameorigin"
 &lt;/IfModule&gt;
 
 &lt;IfModule mod_ssl.c&gt;
@@ -372,7 +360,6 @@ AddDefaultCharset utf-8
 &lt;/IfModule&gt;
 </code></pre>
 <aside>/etc/apache2/conf-available/custom.conf</aside>
-
 <pre><code class="language-bash">a2enconf custom
 service apache2 restart
 </code></pre>
@@ -412,7 +399,7 @@ service apache2 restart
 <p>Je considère que le nom de domaine est <code>example.com</code>.</p>
 <p>Ajoutons dans un premier temps une page à la racine du futur site <code>/var/www/example</code> :</p>
 <pre><code class="language-bash">mkdir /var/www/example
-echo &quot;Hello World!&quot; &gt; /var/www/example/index.html
+echo "Hello World!" &gt; /var/www/example/index.html
 </code></pre>
 <p>On indique un nouvel host dans <code>/etc/hosts</code> :</p>
 <pre><code>127.0.0.1       localhost
@@ -425,7 +412,6 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 </code></pre>
 <aside>/etc/hosts</aside>
-
 <p>On ajoute ensuite le fichier vhost Apache dans <code>/etc/apache2/sites-available</code>. Je nomme le fichier <code>example.com.conf</code>.</p>
 <pre><code class="language-apache">&lt;VirtualHost *:80&gt;
     ServerAdmin webmaster@localhost
@@ -446,7 +432,6 @@ ff02::2 ip6-allrouters
 &lt;/VirtualHost&gt;
 </code></pre>
 <aside>/etc/apache2/sites-available/example.com.conf</aside>
-
 <p>Pour finir on active la configuration :</p>
 <pre><code class="language-bash">a2ensite example.com
 service apache2 restart
@@ -456,7 +441,6 @@ service apache2 restart
 <p>L'accès à la zone DNS du domaine diffère selon les bureaux d'enregistrement. Vous la trouverez certainement en sélectionnant votre nom de domaine, puis sur une action du type <em>"Modifier la zone DNS"</em>.</p>
 <p><img alt="Zone DNS chez Ionos" src="https://www.magentix.fr/media/blog/articles/dns-ionos.png" /></p>
 <aside>Exemple de configuration de zone DNS chez Ionos</aside>
-
 <p>Les enregistrements qui nous intéressent sont ceux de <strong>type A</strong> (vous trouverez certainement des enregistrements de type AAAA dédiés à l'IPv6 et MX pour le serveur de messagerie).</p>
 <p>Il y a autant d'enregistrements de type A qu'il existe de sous domaine. Le nom d'hôte <strong>www</strong> est un sous domaine.</p>
 <p>Dans la majorité des cas, on ajoute un enregistrement pour le domaine principal (<code>example.com</code>) et le sous domaine www (<code>www.example.com</code>). C'est ensuite le serveur (Apache dans notre cas) qui se charge de rediriger l'un vers l'autre selon l'adresse que vous souhaitez exploiter).</p>
@@ -473,7 +457,6 @@ service apache2 restart
 &lt;/VirtualHost&gt;
 </code></pre>
 <aside>/etc/apache2/sites-available/example.com.conf</aside>
-
 <pre><code class="language-apache"># www.example.com.conf
 
 &lt;VirtualHost *:80&gt;
@@ -495,7 +478,6 @@ service apache2 restart
 &lt;/VirtualHost&gt;
 </code></pre>
 <aside>/etc/apache2/sites-available/www.example.com.conf</aside>
-
 <h3 id="p13">Certificat SSL Let's Encrypt</h3>
 <p>Notre site n'est actuellement pas sécurisé. C'est aujourd'hui indispensable.</p>
 <p>La génération d'un certificat SSL Let's Encrypt s'effectue très simplement avec <strong>certbot</strong>.</p>
@@ -529,23 +511,20 @@ Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
 -rw-r--r-- 1 root root 385 mai   27 17:17 www.example.com-le-ssl.conf
 </code></pre>
 <aside>/etc/apache2/sites-available</aside>
-
 <p>Le site est maintenant accessible à l'adresse <code>https://example.com</code> (ou <code>https://www.example.com</code>).</p>
 <p><img alt="Site Internet sécurisé dans le navigateur" src="https://www.magentix.fr/media/blog/articles/site-secure.png" /></p>
 <p class="toolbar"><a href="#p0">Sommaire</a></p>
-<p class="contact">
-    <strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
-</p>
-            </div>
-        </main>
-        <footer>
-            <div id="footer-content">
-                <p><strong>Magentix</strong> © 2009 / 2022</p>
-                <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
-                <nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="/blog.html">Billets</a></nav>
-            </div>
-        </footer>
-        <script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
-        <script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
-    </body>
+<p class="contact"><strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span></p>
+</div>
+</main>
+<footer>
+<div id="footer-content">
+<p><strong>Magentix</strong> © 2009 / 2022</p>
+<p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
+<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> • <a href="/blog.html">Billets</a></nav>
+</div>
+</footer>
+<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script> 
+<script type="text/javascript" src="https://www.magentix.fr/js/app.js"></script>
+</body>
 </html>
