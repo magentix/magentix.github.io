@@ -8,6 +8,8 @@
   "last": "template/block/blog/last.html",
   "last.link": "template/block/blog/last/link.html",
   "highlight": "",
+  "analytics.local": "",
+  "analytics": "template/block/analytics.html",
 
   "robots": "INDEX,FOLLOW",
   "author": "Matthieu"
