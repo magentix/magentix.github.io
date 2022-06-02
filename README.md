@@ -28,9 +28,9 @@ Other files are licensed under simplified BSD license (see [LICENSE](LICENCE) fo
 - [Markdown](https://pypi.org/project/Markdown/)
 - [pymdown-extensions](https://pypi.org/project/pymdown-extensions/)
 
- ```
+```
 pip install rcssmin jsmin pytidylib Markdown pymdown-extensions
- ```
+```
 
 ## Github Pages
 
@@ -61,3 +61,4 @@ mklink /d prod ..\docs
 cd ..
 python tools/crawler.py
 ```
+
