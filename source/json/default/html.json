@@ -1,16 +1,24 @@
 {
   "template": "template/default.html",
 
+  "tag": "template/block/tag.html",
+  "head": "template/block/head.html",
+  "header": "template/block/header.html",
+  "menu": "template/block/menu.html",
+  "main": "template/block/main.html",
+  "footer": "template/block/footer.html",
+
   "article": "template/block/blog/article.html",
-  "post.breadcrumb": "template/block/blog/post/breadcrumb.html",
-  "post.head": "template/block/blog/post/head.html",
-  "post.footer": "template/block/blog/post/footer.html",
+
   "last": "template/block/blog/last.html",
   "last.link": "template/block/blog/last/link.html",
-  "highlight": "",
-  "analytics.local": "",
+
+  "highlight": false,
+
+  "analytics.local": false,
   "analytics": "template/block/analytics.html",
 
+  "lang": "fr",
   "robots": "INDEX,FOLLOW",
-  "author": "Matthieu"
+  "welcome": "Développeur Magento indépendant depuis 2009"
 }

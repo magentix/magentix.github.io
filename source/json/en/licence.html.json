@@ -1,8 +1,10 @@
 {
-  "template": "template/licence.html",
   "content": "page/en/licence.md",
+  "menu": false,
 
   "meta_title": "Magentix Software Licence",
   "meta_description": "Magentix Software Licence for Magentix Extensions",
-  "robots": "NOINDEX,NOFOLLOW"
+  "robots": "NOINDEX,FOLLOW",
+  "lang": "en",
+  "welcome": "SOFTWARE LICENCE AGREEMENT"
 }

@@ -1,7 +1,5 @@
 {
-  "template": "template/post.html",
   "content": "page/blog/un-serveur-web-a-la-maison.md",
-  "highlight": "template/block/highlight.html",
 
   "meta_title": "Installer un serveur web à la maison",
   "meta_description": "Ce billet expose les différentes étapes pour la mise en place d'un serveur Web à la maison : installation de l'OS, d'Apache et la configuration de la box.",

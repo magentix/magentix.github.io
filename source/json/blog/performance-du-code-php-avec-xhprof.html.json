@@ -1,7 +1,5 @@
 {
-  "template": "template/post.html",
   "content": "page/blog/performance-du-code-php-avec-xhprof.md",
-  "highlight": "template/block/highlight.html",
 
   "meta_title": "XHProf : profiling et performance du code PHP",
   "meta_description": "Pour le profiling rapide d'une application PHP, XHProf est une excellente extension. Elle permet en quelques secondes de détecter les fuites de mémoire.",

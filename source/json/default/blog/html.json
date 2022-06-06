@@ -1,0 +1,11 @@
+{
+  "main": "template/block/blog/main.html",
+
+  "post.breadcrumb": "template/block/blog/post/breadcrumb.html",
+  "post.header": "template/block/blog/post/header.html",
+  "post.footer": "template/block/blog/post/footer.html",
+
+  "highlight": "template/block/highlight.html",
+
+  "author": "Matthieu"
+}

@@ -21,7 +21,7 @@ Other files are licensed under simplified BSD license (see [LICENSE](LICENCE) fo
 ## Requirements
 
 - Python >= 3.5
-- StaPy >= 1.9.2
+- StaPy >= 1.9.3
 - [rcssmin](https://pypi.org/project/rcssmin/)
 - [jsmin](https://pypi.org/project/jsmin/)
 - [pytidylib](https://pypi.org/project/pytidylib/)

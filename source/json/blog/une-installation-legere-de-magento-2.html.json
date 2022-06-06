@@ -1,7 +1,5 @@
 {
-  "template": "template/post.html",
   "content": "page/blog/une-installation-legere-de-magento-2.md",
-  "highlight": "template/block/highlight.html",
 
   "meta_title": "Une installation légère de Magento 2",
   "meta_description": "Magento 2 est proposé de base avec un nombre de modules extrêmement élevé. Beaucoup de ces modules peuvent être supprimés.",

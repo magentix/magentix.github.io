@@ -1,7 +1,5 @@
 {
-  "template": "template/post.html",
   "content": "page/blog/analyser-les-requetes-sql-avec-les-logs-mysql.md",
-  "highlight": "template/block/highlight.html",
 
   "meta_title": "Logs MySQL : analyser les requêtes SQL d'une page Web",
   "meta_description": "Lors d'une analyse des performances d'un site, les requêtes SQL doivent être contrôlées. Rien de plus simple et de plus fiable que d'activer les logs MySQL.",
