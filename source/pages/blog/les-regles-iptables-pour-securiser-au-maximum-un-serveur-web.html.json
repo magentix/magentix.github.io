@@ -1,5 +1,5 @@
 {
-  "content": "page/blog/les-regles-iptables-pour-securiser-au-maximum-un-serveur-web.md",
+  "content": "content/blog/les-regles-iptables-pour-securiser-au-maximum-un-serveur-web.md",
 
   "meta_title": "iptables : les règles pour sécuriser au maximum un serveur Web",
   "meta_description": "Comment bloquer avec iptables l'ensemble du traffic INPUT sur tous les ports sauf 80 (http) et 443 (https).",

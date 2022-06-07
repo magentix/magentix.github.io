@@ -1,5 +1,5 @@
 {
-  "content": "page/blog/stapy-generateur-de-site-statique.md",
+  "content": "content/blog/stapy-generateur-de-site-statique.md",
 
   "meta_title": "Le générateur de site statique StaPy",
   "meta_description": "StaPy est un mini générateur de site statique (SSG) développé en Python. Il est axé sur la simplicité et la portabilité.",

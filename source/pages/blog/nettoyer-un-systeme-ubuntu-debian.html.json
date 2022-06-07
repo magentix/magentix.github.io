@@ -1,5 +1,5 @@
 {
-  "content": "page/blog/nettoyer-un-systeme-ubuntu-debian.md",
+  "content": "content/blog/nettoyer-un-systeme-ubuntu-debian.md",
 
   "meta_title": "Nettoyage de printemps d'un système Ubuntu / Debian",
   "meta_description": "Les caches, les logs ou encore des fichiers obsolètes peuvent alourdir inutilement les disques durs : un nettoyage complet s'impose.",

@@ -1,5 +1,5 @@
 {
-  "content": "page/blog/heberger-gratuitement-un-site-statique.md",
+  "content": "content/blog/heberger-gratuitement-un-site-statique.md",
 
   "meta_title": "Publier gratuitement un site statique, quelle solution choisir ?",
   "meta_description": "Comparatif entre Github, Gitlab, Netlify, Vercel et Render pour le déploiement gratuit d'un site statique : focus sur la configuration et les temps de réponse (TTFB).",
