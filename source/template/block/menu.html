@@ -1,4 +1,3 @@
 <nav>
-    <a href="{{ url }}">Accueil</a> &bull;
-    <a href="{{ url }}blog.html">Billets</a>
-</nav>
+    {% menu.link ~ tags:menu menu.position:asc 0:10 %}
+</nav

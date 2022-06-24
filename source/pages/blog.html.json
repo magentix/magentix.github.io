@@ -5,5 +5,9 @@
   "meta_description": "Articles en relation avec la performance des sites, le développement Web, la sécurité ou l'administration serveur",
   "title": "Billets",
 
-  "tags": ["sitemap"]
+  "tags": ["sitemap", "menu"],
+
+  "menu.title": "Billets",
+  "menu.position": 20,
+  "menu.separator": ""
 }

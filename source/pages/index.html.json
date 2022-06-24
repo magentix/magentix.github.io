@@ -4,5 +4,9 @@
   "meta_title": "Développeur Magento indépendant depuis 2009",
   "meta_description": "Magentix est une société en conseil et développement Magento depuis plus de 10 ans. Elle commercialise également les modules Colissimo, Mondial Relay et DPD pour Magento.",
 
-  "tags": ["sitemap"]
+  "tags": ["sitemap", "menu"],
+
+  "menu.title": "Accueil",
+  "menu.position": 10,
+  "menu.separator": "&bull;"
 }

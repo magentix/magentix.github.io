@@ -5,6 +5,7 @@
   "head": "template/block/head.html",
   "header": "template/block/header.html",
   "menu": "template/block/menu.html",
+  "menu.link": "template/block/menu/link.html",
   "main": "template/block/main.html",
   "footer": "template/block/footer.html",
 
