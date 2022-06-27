@@ -1,24 +1,22 @@
 """
 Copyright (c) 2022, Magentix
 This code is licensed under simplified BSD license (see LICENSE for details)
-StaPy HtmlTidy Plugin - Version 1.0.0
-
-Requirements:
-- pytidylib
+StaPy HtmlTidy Plugin - Version 1.1.0
 """
-from tidylib import tidy_document
-import os
+import re
 
 
 def after_content_parsed(content, args: dict) -> str:
-    if _get_page_extension(args['path']) != 'html':
+    if ((args['file_system']).get_file_extension(args['path'])) != 'html':
         return content
-    document, errors = tidy_document(content, options={'indent': False, 'output-xhtml': True, 'wrap': 0})
-    return document
-
-
-def _get_page_extension(file: str) -> str:
-    name, extension = os.path.splitext(file)
-    if not extension:
-        extension = ''
-    return extension.replace('.', '')
+    cleaned = ''
+    is_preformatted = False
+    for line in content.split('\n'):
+        if not is_preformatted and (re.search(r'<pre(.*)>', line, flags=re.IGNORECASE) or re.search(r'<!--', line)):
+            is_preformatted = True
+        if re.search(r'</pre>', line, flags=re.IGNORECASE) or re.search(r'-->', line):
+            is_preformatted = False
+        if not is_preformatted and not line.strip():
+            continue
+        cleaned += (line if is_preformatted else line.strip()) + '\n'
+    return cleaned

@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <!--
   __    __     ______     ______     ______     __   __     ______    __     __  __
  /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
@@ -25,16 +24,21 @@
 <div id="header-content">
 <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
 <p>Développeur Magento indépendant depuis 2009</p>
-<nav><a href="https://www.magentix.fr/">Accueil</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+<nav>
+<a href="https://www.magentix.fr/">Accueil</a> &bull;
+<a href="https://www.magentix.fr/blog.html">Billets</a>
+</nav>
 </div>
 </header>
 <main>
 <div id="main-content">
 <p><a href="https://www.magentix.fr/blog.html">Billets</a> : Un serveur web à la maison</p>
-<hr />
+<hr/>
 <h2>Un serveur web à la maison</h2>
 <p class="author"><span>Par Matthieu le 23/06/2021</span></p>
-<p><em>Si vous disposez de la fibre et d'une freebox, vous pouvez installer votre propre serveur web et héberger facilement toutes vos applications à la maison. Ce billet expose les différentes étapes pour l'installation et la configuration du serveur.</em></p>
+<p>
+<em>Si vous disposez de la fibre et d'une freebox, vous pouvez installer votre propre serveur web et héberger facilement toutes vos applications à la maison. Ce billet expose les différentes étapes pour l'installation et la configuration du serveur.</em>
+</p>
 <hr />
 <p class="info">Cet article détaille l'installation complète d'un serveur Web avec <strong>Apache</strong> sous <strong>Debian</strong> derrière une connexion fibrée <strong>Free</strong>. Il peut être adapté avec n'importe quel système (Ubuntu, Fedora, FreeBSD...) et n'importe quel serveur (Nginx, node.js, Tomcat, Lighttpd...).</p>
 <h3 id="p0">Sommaire</h3>
@@ -214,7 +218,8 @@ sda           8:0    0  14,5G   0 disk
 <pre><code class="language-bash">337+0 enregistrements lus
 337+0 enregistrements écrits
 353370112 bytes (353 MB, 337 MiB) copied, 29,0891 s, 12,1 MB/s
-</code></pre></section>
+</code></pre>
+</section>
 <p><strong>La clé USB est prête</strong>, on la branche sur le futur serveur.</p>
 <h3 id="p7">Installation du système d'exploitation</h3>
 <p>Au démarrage du système, au splash screen, on active rapidement la touche pour l'accès au setup. La touche diffère selon les constructeurs : <kbd>Esc</kbd>, <kbd>Suppr</kbd>, <kbd>F2</kbd>, <kbd>F10</kbd>... En général la touche est indiquée. Pour le <strong>Mele Quieter2</strong> c'est <kbd>Suppr</kbd>.</p>
@@ -349,10 +354,10 @@ AddDefaultCharset utf-8
 &lt;/Directory&gt;
 
 &lt;IfModule mod_headers.c&gt;
-    Header set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; base-uri 'self';"
-    Header set X-XSS-Protection "1; mode=block"
-    Header set X-Content-Type-Options: "nosniff"
-    Header set X-Frame-Options: "sameorigin"
+    Header set Content-Security-Policy &quot;default-src 'self'; style-src 'self' 'unsafe-inline'; base-uri 'self';&quot;
+    Header set X-XSS-Protection &quot;1; mode=block&quot;
+    Header set X-Content-Type-Options: &quot;nosniff&quot;
+    Header set X-Frame-Options: &quot;sameorigin&quot;
 &lt;/IfModule&gt;
 
 &lt;IfModule mod_ssl.c&gt;
@@ -399,7 +404,7 @@ service apache2 restart
 <p>Je considère que le nom de domaine est <code>example.com</code>.</p>
 <p>Ajoutons dans un premier temps une page à la racine du futur site <code>/var/www/example</code> :</p>
 <pre><code class="language-bash">mkdir /var/www/example
-echo "Hello World!" &gt; /var/www/example/index.html
+echo &quot;Hello World!&quot; &gt; /var/www/example/index.html
 </code></pre>
 <p>On indique un nouvel host dans <code>/etc/hosts</code> :</p>
 <pre><code>127.0.0.1       localhost
@@ -514,17 +519,19 @@ Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
 <p>Le site est maintenant accessible à l'adresse <code>https://example.com</code> (ou <code>https://www.example.com</code>).</p>
 <p><img alt="Site Internet sécurisé dans le navigateur" src="https://www.magentix.fr/media/blog/articles/site-secure.png" /></p>
 <p class="toolbar"><a href="#p0">Sommaire</a></p>
-<p class="contact"><strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span></p>
+<p class="contact">
+<strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
+</p>
 </div>
 </main>
 <footer>
 <div id="footer-content">
 <p><strong>Magentix</strong> © 2009 / 2022</p>
 <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
-<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
 </div>
 </footer>
-<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script> 
+<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
 <script type="text/javascript" src="https://www.magentix.fr/js/ack.js"></script>
 </body>
 </html>

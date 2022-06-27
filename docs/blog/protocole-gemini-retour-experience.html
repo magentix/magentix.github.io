@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <!--
   __    __     ______     ______     ______     __   __     ______    __     __  __
  /\ "-./  \   /\  __ \   /\  ___\   /\  ___\   /\ "-.\ \   /\__  _\  /\ \   /\_\_\_\
@@ -25,7 +24,10 @@
 <div id="header-content">
 <h1><a href="https://www.magentix.fr/"><img src="https://www.magentix.fr/media/magentix.png" alt="magentix" width="232" height="60" /></a></h1>
 <p>Développeur Magento indépendant depuis 2009</p>
-<nav><a href="https://www.magentix.fr/">Accueil</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+<nav>
+<a href="https://www.magentix.fr/">Accueil</a> &bull;
+<a href="https://www.magentix.fr/blog.html">Billets</a>
+</nav>
 </div>
 </header>
 <main>
@@ -34,7 +36,9 @@
 <hr />
 <h2>Protocole Gemini : retour d'expérience</h2>
 <p class="author"><span>Par Matthieu le 07/02/2022</span></p>
-<p><em>Gemini est un protocole dédié à la diffusion de contenu. Une alternative à HTTP imaginé pour être simple et respectueux de la vie privée. L'idée a du sens mais le protocole souffre de quelques défauts...</em></p>
+<p>
+<em>Gemini est un protocole dédié à la diffusion de contenu. Une alternative à HTTP imaginé pour être simple et respectueux de la vie privée. L'idée a du sens mais le protocole souffre de quelques défauts...</em>
+</p>
 <hr />
 <p>Pour bien comprendre la philosophie de <strong>Gemini</strong>, comparons le avec <strong>HTTP</strong>.</p>
 <h3>HTTP vs Gemini</h3>
@@ -64,7 +68,8 @@ X-What-I-Want: Bar
     &lt;h1&gt;Welcome!&lt;/h1&gt;
     &lt;p&gt;This is a page&lt;/p&gt;
 &lt;/body&gt;
-</code></pre></section>
+</code></pre>
+</section>
 <h4>Gemini</h4>
 <section>
 <p><strong>Requête :</strong></p>
@@ -75,7 +80,8 @@ X-What-I-Want: Bar
 # Welcome !
 
 This is a page
-</code></pre></section>
+</code></pre>
+</section>
 <h3>Philosophie</h3>
 <p>Gemini se veut simple, léger, rapide, mais surtout... fermé. Il a pour unique vocation de servir du texte dans un format Markdown simplifié appelé <a href="https://gemini.circumlunar.space/docs/gemtext.gmi">Gemtext</a>. La requête et l'en-tête de réponse sont sur une seule ligne, empêchant toute extensibilité. Il est impossible avec le protocole Gemini de créer quelque chose qui s'apparente à un cookie. Pas de session ni de traçage des internautes.</p>
 <p>C'est une réponse extrême aux dérives du web. Gemini est parfaitement présenté par <a href="http://ploum.net/">Ploum</a> dans l'article <a href="https://ploum.net/gemini-le-protocole-du-slow-web/">Gemini, le protocole du slow web</a>.</p>
@@ -107,15 +113,15 @@ This is a page
 <pre><code class="language-bash">openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
 </code></pre>
 <p>On ouvre enfin une connexion TCP sur le port 1965 via ncat :</p>
-<pre><code class="language-bash">while true ; do echo -e "20 text/gemini\r\nHello!" | ncat -lvnp 1965 --ssl --ssl-key key.pem --ssl-cert cert.pem ; done
+<pre><code class="language-bash">while true ; do echo -e &quot;20 text/gemini\r\nHello!&quot; | ncat -lvnp 1965 --ssl --ssl-key key.pem --ssl-cert cert.pem ; done
 </code></pre>
 <p>L'accès au serveur via n'importe quel client Gemini (par exemple <a href="https://github.com/skyjake/lagrange">Lagrange</a> ou <a href="https://play.google.com/store/apps/details?id=ca.snoe.deedum&amp;hl=fr&amp;gl=US">deedum</a> sur Android) affiche :</p>
 <pre><code>Hello!
 </code></pre>
 <p>On peut également transmettre une requête en ligne de commande avec <strong>ncat</strong> ou <strong>openssl</strong> :</p>
-<pre><code class="language-bash">echo "gemini://127.0.0.1/" | ncat --ssl 127.0.0.1 1965
+<pre><code class="language-bash">echo &quot;gemini://127.0.0.1/&quot; | ncat --ssl 127.0.0.1 1965
 </code></pre>
-<pre><code class="language-bash">echo "gemini://127.0.0.1/" | openssl s_client -connect 127.0.0.1:1965 -crlf -quiet -ign_eof 2&gt; /dev/null
+<pre><code class="language-bash">echo &quot;gemini://127.0.0.1/&quot; | openssl s_client -connect 127.0.0.1:1965 -crlf -quiet -ign_eof 2&gt; /dev/null
 </code></pre>
 <p>Dans cet exemple la requête n'a aucune importance, la réponse est toujours la même.</p>
 <h4>Requête</h4>
@@ -126,7 +132,7 @@ This is a page
 <li><strong>path</strong> : chemin de la page</li>
 </ul>
 <p>Par exemple : <code>gemini://example.com/index.gmi</code></p>
-<pre><code class="language-bash">echo "gemini://magentix.space/index.gmi" | ncat --ssl magentix.space 1965
+<pre><code class="language-bash">echo &quot;gemini://magentix.space/index.gmi&quot; | ncat --ssl magentix.space 1965
 </code></pre>
 <h4>En-tête de réponse</h4>
 <p>Les codes de statut sont sur 2 digits, il y en a 18 au total (le <em>11 SENSITIVE INPUT</em> est cependant sur la sellette car non approprié au concept). On retiendra les statuts suivants :</p>
@@ -194,7 +200,7 @@ while (true) {
 function getContent(array $url): string
 {
     if (($url['scheme'] ?? '') !== 'gemini') {
-        return "59 bad request\r\n";
+        return &quot;59 bad request\r\n&quot;;
     }
 
     if (!str_ends_with($path = $url['path'] ?? '/index.gmi', '.gmi')) {
@@ -202,10 +208,10 @@ function getContent(array $url): string
     }
 
     if (!file_exists($file = ROOT . 'capsule' . str_replace('../', '', $path))) {
-        return "51 Not found\r\n";
+        return &quot;51 Not found\r\n&quot;;
     }
 
-    return "20 text/gemini\r\n" . file_get_contents($file);
+    return &quot;20 text/gemini\r\n&quot; . file_get_contents($file);
 }
 </code></pre>
 <aside>server.php</aside>
@@ -240,17 +246,19 @@ Start your new amazing capsule.
 <li><a href="https://geminiquickst.art/">Gemini Quickstart!</a></li>
 <li><a href="https://gemini.circumlunar.space/docs/">Gemini protocol documentation</a></li>
 </ul>
-<p class="contact"><strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span></p>
+<p class="contact">
+<strong>Une question ?</strong> <span>Contactez-moi sur <a href="https://twitter.com/_magentix">Twitter</a></span>
+</p>
 </div>
 </main>
 <footer>
 <div id="footer-content">
 <p><strong>Magentix</strong> © 2009 / 2022</p>
 <p><small>Réalisé avec <a href="https://www.stapy.net">StaPy</a></small></p>
-<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> • <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
+<nav><a href="https://www.magentix.fr/mentions.html">Mentions légales</a> &bull; <a href="https://www.magentix.fr/blog.html">Billets</a></nav>
 </div>
 </footer>
-<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script> 
+<script type="text/javascript" src="https://www.magentix.fr/js/highlight.js"></script>
 <script type="text/javascript" src="https://www.magentix.fr/js/ack.js"></script>
 </body>
 </html>

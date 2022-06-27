@@ -244,26 +244,26 @@ nano /etc/apache2/sites-available/mattermost.example.com.conf
 
 ```apache
 <VirtualHost *:80>
-ServerAdmin webmaster@localhost
-ServerName mattermost.example.com
+    ServerAdmin webmaster@localhost
+    ServerName mattermost.example.com
 
-ProxyPreserveHost On
+    ProxyPreserveHost On
 
-RewriteEngine On
-RewriteCond %{REQUEST_URI} /api/v[0-9]+/(users/)?websocket [NC]
-RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]
-RewriteCond %{HTTP:CONNECTION} \bUpgrade\b [NC]
-RewriteRule .* ws://127.0.0.1:8065%{REQUEST_URI} [P,QSA,L]
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} /api/v[0-9]+/(users/)?websocket [NC]
+    RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]
+    RewriteCond %{HTTP:CONNECTION} \bUpgrade\b [NC]
+    RewriteRule .* ws://127.0.0.1:8065%{REQUEST_URI} [P,QSA,L]
 
-<Location />
-Require all granted
-ProxyPass http://127.0.0.1:8065/
-ProxyPassReverse http://127.0.0.1:8065/
-ProxyPassReverseCookieDomain 127.0.0.1 mattermost.example.com
-</Location>
+    <Location />
+        Require all granted
+        ProxyPass http://127.0.0.1:8065/
+        ProxyPassReverse http://127.0.0.1:8065/
+        ProxyPassReverseCookieDomain 127.0.0.1 mattermost.example.com
+    </Location>
 
-RewriteCond %{SERVER_NAME} =mattermost.example.com
-RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+    RewriteCond %{SERVER_NAME} =mattermost.example.com
+    RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 </VirtualHost>
 ```
 
