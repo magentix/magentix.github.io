@@ -8,6 +8,5 @@
   "tags": ["sitemap", "menu"],
 
   "menu.title": "Billets",
-  "menu.position": 20,
-  "menu.separator": ""
+  "menu.position": 20
 }

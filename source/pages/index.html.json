@@ -7,6 +7,5 @@
   "tags": ["sitemap", "menu"],
 
   "menu.title": "Accueil",
-  "menu.position": 10,
-  "menu.separator": "&bull;"
+  "menu.position": 10
 }
