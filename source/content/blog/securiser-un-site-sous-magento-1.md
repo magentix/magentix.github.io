@@ -419,7 +419,9 @@ Une simple surcharge de la classe **Mage_Core_Model_Cookie** permet de corriger 
 </config>
 ```
 
-Nous indiquons que le cookie doit être sécurisé et ajoutons la valeur **strict** pour l'attribut **sameSite** :
+Nous indiquons que le cookie doit être sécurisé et ajoutons la valeur **strict** pour l'attribut **sameSite**.
+
+**Note :** si le client est redirigé vers une plateforme bancaire pour le paiement, utilisez plutôt la valeur **lax**.
 
 ```php
 <?php

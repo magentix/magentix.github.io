@@ -352,7 +352,8 @@ $installer-&gt;setConfigData('web/secure/base_js_url', '&lbrace;&lbrace;secure_b
     &lt;/global&gt;
 &lt;/config&gt;
 </code></pre>
-<p>Nous indiquons que le cookie doit être sécurisé et ajoutons la valeur <strong>strict</strong> pour l'attribut <strong>sameSite</strong> :</p>
+<p>Nous indiquons que le cookie doit être sécurisé et ajoutons la valeur <strong>strict</strong> pour l'attribut <strong>sameSite</strong>.</p>
+<p><strong>Note :</strong> si le client est redirigé vers une plateforme bancaire pour le paiement, utilisez plutôt la valeur <strong>lax</strong>.</p>
 <pre><code class="language-php">&lt;?php
 
 class Magentix_SecureCookie_Model_Cookie extends Mage_Core_Model_Cookie
